@@ -11,12 +11,16 @@ type FooterProps = {
 export function Footer({ footer, profile }: FooterProps) {
   return (
     <footer className={styles.footer}>
-      <span>
-        {profile.name} / {footer}
-      </span>
-      <div>
-        <Link href="/privacy">Privacidad</Link>
-        <Link href="/terms">Términos</Link>
+      <div className={styles.footerCopy}>
+        <strong>{profile.name}</strong>
+        <span>{footer}</span>
+      </div>
+      <div className={styles.footerActions}>
+        <div className={styles.footerLegal}>
+          <Link href="/privacy">Privacidad</Link>
+          <Link href="/terms">Términos</Link>
+        </div>
+        <div className={styles.footerSocial}>
         <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <GitBranch size={18} />
         </a>
@@ -26,6 +30,7 @@ export function Footer({ footer, profile }: FooterProps) {
         <a href={`mailto:${profile.email}`} aria-label="Email">
           <Mail size={18} />
         </a>
+        </div>
       </div>
     </footer>
   );

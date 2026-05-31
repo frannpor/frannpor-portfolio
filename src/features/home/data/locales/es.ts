@@ -329,5 +329,5 @@ export const es: PortfolioContent = {
       success: "Mensaje enviado. Te respondo apenas pueda.",
     },
   },
-  footer: "Francisco Porciel / disponible para trabajar / 2026",
+  footer: "Disponible para trabajar / 2026",
 };

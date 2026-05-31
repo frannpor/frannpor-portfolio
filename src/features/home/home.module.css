@@ -194,7 +194,9 @@
 .primaryLink,
 .quietLink,
 .projectActions,
-.footer div {
+.footerActions,
+.footerLegal,
+.footerSocial {
   display: flex;
   align-items: center;
 }
@@ -1318,7 +1320,7 @@
 .contextGrid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 14px;
+  gap: 18px;
 }
 
 .contextCard {
@@ -1326,7 +1328,7 @@
   display: flex;
   grid-column: span 4;
   flex-direction: column;
-  min-height: 380px;
+  min-height: 460px;
   overflow: hidden;
   padding: 18px;
   border: 1px solid var(--line);
@@ -1338,9 +1340,9 @@
 .contextCardFeatured {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: minmax(0, 1.32fr) minmax(280px, 0.68fr);
-  gap: 18px;
-  min-height: 430px;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.45fr);
+  gap: 22px;
+  min-height: 540px;
 }
 
 .contextCard::before {
@@ -1348,7 +1350,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(8, 10, 13, 0.04) 12%, rgba(8, 10, 13, 0.9) 72%);
+  background: linear-gradient(180deg, rgba(8, 10, 13, 0.02) 20%, rgba(8, 10, 13, 0.72) 86%);
   content: "";
 }
 
@@ -1361,17 +1363,17 @@
 .contextVisual {
   position: relative;
   z-index: 1;
-  min-height: 210px;
+  min-height: 260px;
   overflow: hidden;
   padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  background: var(--panel-strong);
+  background: #eef3f8;
   cursor: zoom-in;
 }
 
 .contextCard:not(.contextCardFeatured) .contextVisual {
-  min-height: 190px;
+  min-height: 250px;
   margin: -18px -18px 18px;
   border-top: 0;
   border-right: 0;
@@ -1382,14 +1384,15 @@
 .contextCardFeatured .contextVisual {
   grid-row: 1 / span 4;
   height: 100%;
-  min-height: 390px;
+  min-height: 500px;
 }
 
 .contextVisual img,
 .projectImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   filter: saturate(1.06) contrast(1.04);
   transition: transform 260ms ease, opacity 260ms ease;
 }
@@ -1545,18 +1548,19 @@
 
 .projectGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 22px;
 }
 
 .projectCard {
   --project-accent: #0d1b2a;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 420px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+  gap: 22px;
+  min-height: 500px;
   overflow: hidden;
-  padding: 18px;
+  padding: 20px;
   border: 1px solid rgba(217, 226, 238, 0.16);
   border-radius: var(--radius);
   background:
@@ -1633,8 +1637,9 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: end;
-  min-height: 230px;
-  margin-bottom: 18px;
+  grid-row: 1 / span 5;
+  min-height: 460px;
+  margin-bottom: 0;
   padding: 16px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1647,7 +1652,7 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(8, 10, 13, 0.02), rgba(8, 10, 13, 0.82)),
+    linear-gradient(180deg, rgba(8, 10, 13, 0.01), rgba(8, 10, 13, 0.46)),
     radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 52%);
   content: "";
 }
@@ -1670,13 +1675,13 @@
 
 .projectCardWeplay .projectVisual::after {
   background:
-    linear-gradient(180deg, rgba(8, 10, 13, 0.02), rgba(8, 10, 13, 0.64)),
+    linear-gradient(180deg, rgba(8, 10, 13, 0.01), rgba(8, 10, 13, 0.44)),
     linear-gradient(90deg, rgba(34, 211, 238, 0.2), transparent 38%, rgba(139, 92, 246, 0.18));
 }
 
 .projectCardCsa .projectVisual::after {
   background:
-    linear-gradient(180deg, rgba(8, 10, 13, 0.02), rgba(8, 10, 13, 0.7)),
+    linear-gradient(180deg, rgba(8, 10, 13, 0.01), rgba(8, 10, 13, 0.48)),
     linear-gradient(90deg, rgba(248, 113, 113, 0.22), transparent 42%, rgba(244, 201, 93, 0.12));
 }
 
@@ -1693,7 +1698,7 @@
 }
 
 .projectImage img {
-  opacity: 0.76;
+  opacity: 0.95;
 }
 
 .projectCardWeplay .projectImage img {
@@ -1796,6 +1801,7 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
+  align-self: end;
 }
 
 .projectHead p,
@@ -1820,11 +1826,11 @@
 }
 
 .projectSummary {
-  margin: 16px 0;
+  margin: 0;
 }
 
 .projectSignal {
-  margin: auto 0 18px;
+  margin: 0;
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
@@ -1838,7 +1844,12 @@
 .projectActions {
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  align-self: end;
+  margin-top: 0;
+}
+
+.projectCard > .chipsCompact {
+  align-self: start;
 }
 
 .chips,
@@ -2118,7 +2129,7 @@
   display: flex;
   justify-content: space-between;
   gap: 18px;
-  align-items: center;
+  align-items: flex-start;
   padding: 24px 0 44px;
   border-top: 1px solid var(--line);
   color: var(--muted);
@@ -2126,20 +2137,48 @@
   font-size: 0.82rem;
 }
 
-.footer div {
+.footerCopy {
+  display: grid;
+  gap: 6px;
+}
+
+.footerCopy strong {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.footerCopy span {
+  color: var(--muted);
+}
+
+.footerActions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px 14px;
+}
+
+.footerLegal,
+.footerSocial {
   gap: 10px;
 }
 
 .footer a {
-  display: grid;
-  place-items: center;
-  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
   height: 44px;
+  padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   color: var(--text);
   background: var(--panel-soft);
   transition: color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.footerSocial a {
+  width: 44px;
+  padding: 0;
 }
 
 .footer a:hover {
@@ -2557,6 +2596,16 @@
   .contextCardFeatured .contextVisual {
     grid-row: auto;
     min-height: 300px;
+  }
+
+  .projectCard {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .projectVisual {
+    grid-row: auto;
+    min-height: 360px;
   }
 }
 
@@ -3124,6 +3173,7 @@
 
   .projectCard {
     padding: 14px;
+    gap: 16px;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
       rgba(10, 14, 20, 0.54);
@@ -3178,6 +3228,10 @@
     align-self: end;
     font-size: 2.5rem;
     opacity: 0.84;
+  }
+
+  .projectActions {
+    margin-top: 0;
   }
 }
 
@@ -3254,6 +3308,15 @@
   .footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .footerActions {
+    justify-content: flex-start;
+  }
+
+  .footerLegal,
+  .footerSocial {
+    flex-wrap: wrap;
   }
 
   .projectVisual {

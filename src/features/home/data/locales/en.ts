@@ -318,5 +318,5 @@ export const en: PortfolioContent = {
       success: "Message sent. I will reply as soon as I can.",
     },
   },
-  footer: "Francisco Porciel / available for work / 2026",
+  footer: "Available for work / 2026",
 };
