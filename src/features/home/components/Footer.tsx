@@ -1,4 +1,5 @@
 import { GitBranch, Link2, Mail } from "lucide-react";
+import Link from "next/link";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";
 
@@ -14,6 +15,8 @@ export function Footer({ footer, profile }: FooterProps) {
         {profile.name} / {footer}
       </span>
       <div>
+        <Link href="/privacy">Privacidad</Link>
+        <Link href="/terms">Términos</Link>
         <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <GitBranch size={18} />
         </a>
