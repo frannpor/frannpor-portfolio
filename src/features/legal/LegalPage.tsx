@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, FileText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CheckCircle2, FileText, LockKeyhole, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/shared/config/site";
+import { LanguageProvider, usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
+import type { Locale } from "@/features/home/data/portfolio";
+import { SystemHeader } from "@/features/system/SystemHeader";
 import styles from "./legal.module.css";
 
 type LegalSection = {
@@ -9,41 +14,75 @@ type LegalSection = {
 };
 
 type LegalPageProps = {
-  title: string;
-  description: string;
-  updatedAt: string;
-  sections: LegalSection[];
+  content: Record<Locale, {
+    title: string;
+    description: string;
+    updatedAt: string;
+    meta: {
+      updated: string;
+      oauth: string;
+      publicDocument: string;
+      cardTitle: string;
+      cardDescription: string;
+      index: string;
+      notice: string;
+      back: string;
+      legalLabel: string;
+    };
+    sections: LegalSection[];
+  }>;
 };
 
-export function LegalPage({ title, description, updatedAt, sections }: LegalPageProps) {
+export function LegalPage({ content }: LegalPageProps) {
+  return (
+    <LanguageProvider>
+      <LegalPageContent content={content} />
+    </LanguageProvider>
+  );
+}
+
+function LegalPageContent({ content }: LegalPageProps) {
   const { profile } = siteConfig;
+  const { locale } = usePortfolioContent();
+  const copy = content[locale];
 
   return (
-    <main className={styles.shell}>
+    <>
+      <SystemHeader />
+      <main className={styles.shell}>
       <section className={styles.hero}>
         <div className={styles.header}>
           <Link className={styles.backLink} href="/">
             <ArrowLeft size={18} aria-hidden="true" />
-            Portfolio
+            {copy.meta.back}
           </Link>
-          <p className={styles.kicker}>Legal / {profile.handle}</p>
-          <h1>{title}</h1>
-          <p className={styles.description}>{description}</p>
+          <p className={styles.kicker}>{copy.meta.legalLabel} / {profile.handle}</p>
+          <h1>{copy.title}</h1>
+          <p className={styles.description}>{copy.description}</p>
           <div className={styles.metaRow}>
             <span>
               <FileText size={15} />
-              Última actualización: {updatedAt}
+              {copy.meta.updated}: {copy.updatedAt}
             </span>
             <span>
               <ShieldCheck size={15} />
-              Google OAuth ready
+              {copy.meta.oauth}
+            </span>
+            <span>
+              <LockKeyhole size={15} />
+              {copy.meta.publicDocument}
             </span>
           </div>
         </div>
         <div className={styles.heroCard} aria-hidden="true">
-          <span>policy.md</span>
-          <strong>{sections.length}</strong>
-          <p>secciones públicas, claras y enlazables.</p>
+          <div className={styles.windowBar}>
+            <i />
+            <i />
+            <i />
+            <span>{copy.meta.cardTitle}</span>
+          </div>
+          <strong>{copy.sections.length}</strong>
+          <p>{copy.meta.cardDescription}</p>
           <i />
           <i />
           <i />
@@ -51,9 +90,9 @@ export function LegalPage({ title, description, updatedAt, sections }: LegalPage
       </section>
 
       <div className={styles.contentGrid}>
-        <aside className={styles.index} aria-label="Índice de documento">
-          <span>Índice</span>
-          {sections.map((section, index) => (
+        <aside className={styles.index} aria-label={copy.meta.index}>
+          <span>{copy.meta.index}</span>
+          {copy.sections.map((section, index) => (
             <a key={section.title} href={`#${slugify(section.title)}`}>
               <small>{String(index + 1).padStart(2, "0")}</small>
               {section.title}
@@ -64,11 +103,9 @@ export function LegalPage({ title, description, updatedAt, sections }: LegalPage
         <article className={styles.document}>
           <div className={styles.notice}>
             <CheckCircle2 size={18} />
-            <p>
-              Documento público para usuarios, revisores y servicios de autenticación. El texto debe mantenerse alineado con el uso real de datos del proyecto.
-            </p>
+            <p>{copy.meta.notice}</p>
           </div>
-          {sections.map((section, index) => (
+          {copy.sections.map((section, index) => (
             <section id={slugify(section.title)} key={section.title}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h2>{section.title}</h2>
@@ -85,6 +122,7 @@ export function LegalPage({ title, description, updatedAt, sections }: LegalPage
         <a href={`mailto:${profile.email}`}>{profile.email}</a>
       </footer>
     </main>
+    </>
   );
 }
 

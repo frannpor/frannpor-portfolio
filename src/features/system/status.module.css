@@ -1,64 +1,72 @@
 .shell {
-  display: grid;
-  min-height: 100dvh;
-  place-items: center;
   width: min(var(--page-width), calc(100% - 32px));
+  min-height: 100dvh;
   margin: 0 auto;
-  padding: 56px 0;
+  padding: 112px 0 64px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  min-height: 48px;
+  margin-bottom: clamp(28px, 7vw, 76px);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.topbar a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--cyan);
+  background: rgba(255, 255, 255, 0.045);
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.topbar a:hover,
+.topbar a:focus-visible {
+  border-color: rgba(34, 211, 238, 0.34);
+  background: rgba(34, 211, 238, 0.075);
+  transform: translateY(-1px);
 }
 
 .panel {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
-  gap: clamp(26px, 5vw, 70px);
-  align-items: stretch;
-  width: min(1060px, 100%);
-  min-height: 620px;
-  overflow: hidden;
-  padding: clamp(24px, 5vw, 54px);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(circle at 88% 14%, rgba(242, 155, 117, 0.12), transparent 20rem),
-    radial-gradient(circle at 10% 18%, rgba(34, 211, 238, 0.11), transparent 24rem),
-    rgba(8, 12, 18, 0.76);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-.panel::before,
-.panel::after {
-  position: absolute;
-  pointer-events: none;
-  content: "";
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.5fr);
+  gap: clamp(28px, 8vw, 96px);
+  align-items: end;
+  min-height: min(520px, calc(100dvh - 230px));
 }
 
 .panel::before {
-  inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(circle at 48% 48%, black, transparent 74%);
+  position: absolute;
+  top: -72px;
+  right: -10vw;
+  z-index: 0;
+  width: min(520px, 70vw);
+  height: min(520px, 70vw);
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.09), transparent 68%);
+  content: "";
 }
 
-.panel::after {
-  top: 54px;
-  bottom: 54px;
-  left: 50%;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.28), transparent);
-}
-
-.visual,
-.copy {
+.copy,
+.visual {
   position: relative;
   z-index: 1;
 }
 
 .copy {
   display: grid;
-  align-content: center;
   justify-items: start;
 }
 
@@ -72,16 +80,16 @@
 }
 
 .copy h1 {
-  max-width: 660px;
+  max-width: 760px;
   margin: 0;
-  font-size: clamp(3.6rem, 8vw, 6.5rem);
+  font-size: clamp(3rem, 7vw, 5.9rem);
   font-weight: 950;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: 0;
 }
 
 .copy > p:not(.kicker) {
-  max-width: 590px;
+  max-width: 620px;
   margin: 24px 0 0;
   color: var(--soft);
   font-size: 1.08rem;
@@ -135,33 +143,62 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.quickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: min(620px, 100%);
+  margin-top: 24px;
+}
+
+.quickLinks a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  min-width: 0;
+  padding: 0 11px;
+  border: 1px solid rgba(217, 226, 238, 0.11);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.quickLinks a:hover,
+.quickLinks a:focus-visible {
+  border-color: rgba(34, 211, 238, 0.24);
+  color: var(--text);
+  background: rgba(34, 211, 238, 0.06);
+}
+
 .visual {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  overflow: hidden;
-  border: 1px solid rgba(217, 226, 238, 0.18);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(circle at 26% 18%, rgba(34, 211, 238, 0.24), transparent 14rem),
-    #05080c;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 24px 70px rgba(0, 0, 0, 0.34);
+  gap: 14px;
+  align-self: stretch;
+  align-content: end;
+  padding-left: clamp(18px, 3vw, 34px);
+  border-left: 1px solid var(--line);
 }
 
 .windowBar {
   display: flex;
   gap: 8px;
   align-items: center;
-  min-height: 44px;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.045);
+  min-height: 32px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 850;
 }
 
 .windowBar span {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
 }
 
@@ -172,24 +209,27 @@
 .windowBar strong {
   margin-left: 6px;
   color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
 }
 
 .codeBlock {
   display: grid;
-  align-content: center;
-  padding: clamp(22px, 4vw, 36px);
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    rgba(10, 14, 20, 0.58);
 }
 
 .codeBlock > span {
   color: transparent;
-  background: linear-gradient(120deg, #fff, var(--cyan) 48%, var(--orange));
+  background: linear-gradient(120deg, var(--text), var(--cyan), var(--orange));
   background-clip: text;
   font-family: var(--font-mono);
-  font-size: clamp(6rem, 14vw, 10rem);
+  font-size: clamp(3.6rem, 8vw, 5rem);
   font-weight: 950;
-  line-height: 0.82;
+  line-height: 0.9;
 }
 
 .codeBlock p {
@@ -198,64 +238,54 @@
   align-items: center;
   width: max-content;
   max-width: 100%;
-  margin: 18px 0 10px;
-  padding: 8px 10px;
-  border: 1px solid rgba(34, 211, 238, 0.2);
-  border-radius: var(--radius-sm);
+  margin: 0 0 8px;
   color: var(--cyan);
-  background: rgba(34, 211, 238, 0.065);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 850;
 }
 
 .codeBlock i {
   display: block;
-  height: 10px;
-  margin-top: 10px;
+  height: 8px;
   border-radius: 999px;
   background: rgba(217, 226, 238, 0.12);
 }
 
 .codeBlock i:nth-of-type(1) {
-  width: 86%;
-  background: rgba(34, 211, 238, 0.28);
+  width: 82%;
+  background: rgba(34, 211, 238, 0.24);
 }
 
 .codeBlock i:nth-of-type(2) {
-  width: 58%;
+  width: 56%;
 }
 
 .codeBlock i:nth-of-type(3) {
-  width: 72%;
-  background: rgba(242, 155, 117, 0.18);
+  width: 68%;
+  background: rgba(242, 155, 117, 0.16);
 }
 
 .statusGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  padding: 14px;
-  border-top: 1px solid var(--line);
 }
 
 .statusGrid span {
-  min-height: 42px;
-  padding: 12px 10px;
-  border: 1px solid var(--line);
+  min-height: 38px;
+  padding: 10px 11px;
+  border: 1px solid rgba(217, 226, 238, 0.1);
   border-radius: var(--radius-sm);
   color: var(--soft);
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(255, 255, 255, 0.035);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 850;
-  text-align: center;
 }
 
 @media (max-width: 900px) {
   .shell {
     width: min(100% - 22px, var(--page-width));
-    padding: 24px 0;
   }
 
   .panel {
@@ -263,31 +293,29 @@
     min-height: auto;
   }
 
-  .panel::after {
-    display: none;
-  }
-
   .visual {
-    min-height: 330px;
+    align-self: auto;
+    padding-top: 22px;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
   }
 }
 
 @media (max-width: 620px) {
-  .panel {
-    padding: 18px;
+  .shell {
+    padding-top: 92px;
   }
 
   .copy h1 {
-    font-size: clamp(3rem, 16vw, 4.6rem);
+    font-size: clamp(2.7rem, 14vw, 4.2rem);
   }
 
   .actions,
   .primaryAction,
-  .secondaryAction {
+  .secondaryAction,
+  .quickLinks,
+  .quickLinks a {
     width: 100%;
-  }
-
-  .statusGrid {
-    grid-template-columns: 1fr;
   }
 }
