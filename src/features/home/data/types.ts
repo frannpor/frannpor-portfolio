@@ -105,6 +105,7 @@ export type ContactCopy = {
   eyebrow: string;
   title: string;
   description: string;
+  emailLine: string;
   fitTitle: string;
   fitItems: string[];
   rhythmTitle: string;
@@ -171,5 +172,9 @@ export type PortfolioContent = {
   projects: Project[];
   stack: StackGroup[];
   contact: ContactCopy;
+  footerLegal: {
+    privacy: string;
+    terms: string;
+  };
   footer: string;
 };

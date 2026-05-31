@@ -37,7 +37,7 @@ function HomeContent() {
         <ProjectsSection projects={copy.projects} section={copy.sections.projects} />
         <StackSection section={copy.sections.stack} stack={copy.stack} />
         <ContactSection contact={copy.contact} profile={copy.profile} />
-        <Footer footer={copy.footer} profile={copy.profile} />
+        <Footer footer={copy.footer} footerLegal={copy.footerLegal} profile={copy.profile} />
       </div>
     </main>
   );

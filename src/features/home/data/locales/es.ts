@@ -304,6 +304,7 @@ export const es: PortfolioContent = {
     eyebrow: "Contacto",
     title: "Contame qué están construyendo",
     description: "Si hay algo en lo que puedo sumar, lo vemos juntos.",
+    emailLine: "o escribime a",
     fitTitle: "Me va bien en",
     fitItems: [
       "Productos con lógica de negocio real",
@@ -328,6 +329,10 @@ export const es: PortfolioContent = {
       dryRunSuccess: "Mensaje validado. Falta configurar RESEND_API_KEY y CONTACT_TO_EMAIL.",
       success: "Mensaje enviado. Te respondo apenas pueda.",
     },
+  },
+  footerLegal: {
+    privacy: "Privacidad",
+    terms: "Términos",
   },
   footer: "Disponible para trabajar / 2026",
 };

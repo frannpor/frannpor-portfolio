@@ -131,7 +131,7 @@ export function SiteHeader({ languageSwitch, locale, navigation, onLocaleChange,
         <Image src="/brand/franpor-color.ico" alt="" width={36} height={36} priority />
         <span>{profile.handle}</span>
       </a>
-      <nav className={styles.desktopNav} aria-label="Portfolio sections">
+      <nav className={styles.desktopNav} aria-label={locale === "es" ? "Secciones del portfolio" : "Portfolio sections"}>
         {navigation.map((item) => (
           <a key={item.href} href={item.href} aria-current={activeHref === item.href ? "page" : undefined}>
             {item.label}
@@ -157,7 +157,7 @@ export function SiteHeader({ languageSwitch, locale, navigation, onLocaleChange,
           <span>current</span>
           <strong>{navigation.find((item) => item.href === activeHref)?.label ?? navigation[0]?.label}</strong>
         </div>
-        <nav className={styles.mobileNav} aria-label="Mobile portfolio sections">
+        <nav className={styles.mobileNav} aria-label={locale === "es" ? "Secciones del portfolio en mobile" : "Mobile portfolio sections"}>
           {navigation.map((item, index) => (
             <a
               key={item.href}

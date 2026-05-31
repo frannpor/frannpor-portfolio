@@ -5,10 +5,11 @@ import styles from "@/features/home/home.module.css";
 
 type FooterProps = {
   footer: string;
+  footerLegal: PortfolioContent["footerLegal"];
   profile: PortfolioContent["profile"];
 };
 
-export function Footer({ footer, profile }: FooterProps) {
+export function Footer({ footer, footerLegal, profile }: FooterProps) {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerCopy}>
@@ -17,19 +18,19 @@ export function Footer({ footer, profile }: FooterProps) {
       </div>
       <div className={styles.footerActions}>
         <div className={styles.footerLegal}>
-          <Link href="/privacy">Privacidad</Link>
-          <Link href="/terms">Términos</Link>
+          <Link href="/privacy">{footerLegal.privacy}</Link>
+          <Link href="/terms">{footerLegal.terms}</Link>
         </div>
         <div className={styles.footerSocial}>
-        <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <GitBranch size={18} />
-        </a>
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <Link2 size={18} />
-        </a>
-        <a href={`mailto:${profile.email}`} aria-label="Email">
-          <Mail size={18} />
-        </a>
+          <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <GitBranch size={18} />
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <Link2 size={18} />
+          </a>
+          <a href={`mailto:${profile.email}`} aria-label="Email">
+            <Mail size={18} />
+          </a>
         </div>
       </div>
     </footer>

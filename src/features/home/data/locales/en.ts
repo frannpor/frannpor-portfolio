@@ -301,6 +301,7 @@ export const en: PortfolioContent = {
     eyebrow: "Contact",
     title: "Tell me what you are building",
     description: "I care about understanding the problem first. If there is a place where I can help, we can look at it together.",
+    emailLine: "or write me at",
     fitTitle: "Good fit",
     fitItems: ["Products with real business logic", "Backend with weight, not only endpoints", "Systems where data has structure"],
     rhythmTitle: "How I start",
@@ -317,6 +318,10 @@ export const en: PortfolioContent = {
       dryRunSuccess: "Message validated. RESEND_API_KEY and CONTACT_TO_EMAIL are missing.",
       success: "Message sent. I will reply as soon as I can.",
     },
+  },
+  footerLegal: {
+    privacy: "Privacy",
+    terms: "Terms",
   },
   footer: "Available for work / 2026",
 };

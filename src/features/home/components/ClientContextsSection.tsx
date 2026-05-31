@@ -25,9 +25,17 @@ export function ClientContextsSection({ contexts, section }: ClientContextsSecti
       <div className={styles.contextGrid}>
         {contexts.map((context, index) => {
           const Icon = context.icon;
+          const cardClassName = [
+            styles.contextCard,
+            index === 0 ? styles.contextCardFeatured : "",
+            index === 1 || index === 2 ? styles.contextCardHalf : "",
+            index === 3 ? styles.contextCardWide : "",
+          ]
+            .filter(Boolean)
+            .join(" ");
 
           return (
-            <article className={`${styles.contextCard} ${index === 0 ? styles.contextCardFeatured : ""}`} key={context.name}>
+            <article className={cardClassName} key={context.name}>
               {context.visual ? (
                 <ScreenshotPreview
                   alt={context.visual.alt}

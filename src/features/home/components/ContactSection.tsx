@@ -19,7 +19,7 @@ export function ContactSection({ contact, profile }: ContactSectionProps) {
         <h2>{contact.title}</h2>
         <p>{contact.description}</p>
         <a className={styles.emailLine} href={`mailto:${profile.email}`}>
-          o escribime a {profile.email}
+          {contact.emailLine} {profile.email}
         </a>
       </div>
       <ContactForm form={contact.form} />
