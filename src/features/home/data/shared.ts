@@ -3,7 +3,7 @@ export const sharedProfile = {
   handle: "franpor",
   title: "Full Stack Developer",
   location: "Lobos, Buenos Aires",
-  email: "frannporciel@gmail.com",
+  email: "porcielfranciscoramon@gmail.com",
   github: "https://github.com/frannpor",
   linkedin: "https://www.linkedin.com/in/frannpor",
   cv: "/Francisco_Porciel_CV_2026.docx",
