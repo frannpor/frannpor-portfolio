@@ -16,7 +16,7 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
           eyebrow: "Algo falló",
           title: "La página no terminó de cargar bien.",
           description:
-            "Puede ser algo temporal del navegador, del deploy o de una integración. Probá de nuevo y, si vuelve a pasar, escribime con el link.",
+            "Probá de nuevo. Si vuelve a pasar, escribime con el enlace para que pueda revisarlo.",
           primaryLabel: "Volver al inicio",
           secondaryLabel: "Reintentar",
           routeRecovery: "error temporal",
@@ -31,7 +31,7 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
           eyebrow: "Something failed",
           title: "The page did not finish loading properly.",
           description:
-            "It may be a temporary browser, deployment, or integration issue. Try again and, if it keeps happening, send me the link.",
+            "Try again. If it keeps happening, send me the link so I can look into it.",
           primaryLabel: "Back home",
           secondaryLabel: "Retry",
           routeRecovery: "temporary error",

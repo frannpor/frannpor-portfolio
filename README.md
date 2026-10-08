@@ -2,7 +2,7 @@
 
 Personal bilingual portfolio built with Next.js 15, TypeScript and App Router.
 
-The project is structured to show the same thing the UI says: scoped decisions, explicit data, separated sections, bilingual copy, and a contact path that can become real email without rewriting the app.
+The portfolio presents client work, professional experience and personal projects in Spanish and English. It includes localized PDF and Word CV downloads, an interactive portrait, project galleries and a contact form.
 
 ## Scripts
 
@@ -27,15 +27,23 @@ src/types                Local type declarations
 
 ## Contact Email
 
-The contact form works in dry-run mode by default. To send real email, configure:
+Without email configuration, the contact form retains the message and offers direct email contact. To send real email, configure:
 
 ```bash
 RESEND_API_KEY=
-CONTACT_TO_EMAIL=
+CONTACT_TO_EMAIL=porcielfranciscoramon@gmail.com
 CONTACT_FROM_EMAIL="Portfolio <onboarding@resend.dev>"
 ```
 
 See `.env.example`.
+
+## Interaction and content
+
+- The language switch preserves form input and respects reduced-motion preferences.
+- The portrait supports pointer dragging, tap effects and keyboard interaction. Floating text stays within the portrait area.
+- Project galleries lock background scrolling, support Escape and restore focus on close.
+- Privacy and terms content remains in source. Public access is disabled by `publicLegalPages` in `src/features/legal/visibility.ts`; those routes return 404.
+- Current CVs are stored in `public/` as PDF and DOCX files for both languages.
 
 ## Render Deploy
 
