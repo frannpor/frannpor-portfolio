@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 import {
   defaultLocale,
   portfolioContent,
@@ -15,7 +16,10 @@ type LanguageContextValue = {
 };
 
 const STORAGE_KEY = "franpor-portfolio-locale";
+let memoryLocale: Locale = defaultLocale;
 const LOCALE_EVENT = "franpor-portfolio-locale-change";
+let localeTransition: ViewTransition | undefined;
+let pendingLocale: Locale | undefined;
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
@@ -30,9 +34,9 @@ function getStoredLocale(): Locale {
 
   try {
     const savedLocale = window.localStorage.getItem(STORAGE_KEY);
-    return isLocale(savedLocale) ? savedLocale : defaultLocale;
+    return isLocale(savedLocale) ? savedLocale : memoryLocale;
   } catch {
-    return defaultLocale;
+    return memoryLocale;
   }
 }
 
@@ -47,6 +51,7 @@ function subscribeToLocale(listener: () => void) {
 }
 
 function setStoredLocale(locale: Locale) {
+  memoryLocale = locale;
   try {
     window.localStorage.setItem(STORAGE_KEY, locale);
   } catch {
@@ -54,6 +59,28 @@ function setStoredLocale(locale: Locale) {
   }
 
   window.dispatchEvent(new Event(LOCALE_EVENT));
+}
+
+function changeLocale(locale: Locale) {
+  if (locale === (pendingLocale ?? getStoredLocale())) return;
+  localeTransition?.skipTransition();
+  pendingLocale = locale;
+  const apply = () => {
+    if (pendingLocale === locale) flushSync(() => setStoredLocale(locale));
+  };
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced || typeof document.startViewTransition !== "function") {
+    apply();
+    pendingLocale = undefined;
+    localeTransition = undefined;
+    if (!reduced) document.querySelector("main")?.animate([{ opacity: .55, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 260, easing: "ease-out" });
+    return;
+  }
+  const transition = document.startViewTransition(apply);
+  localeTransition = transition;
+  void transition.finished.catch(() => {}).finally(() => {
+    if (localeTransition === transition) { localeTransition = undefined; pendingLocale = undefined; }
+  });
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -66,7 +93,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const value = useMemo<LanguageContextValue>(
     () => ({
       locale,
-      setLocale: setStoredLocale,
+      setLocale: changeLocale,
       copy: portfolioContent[locale],
     }),
     [locale],

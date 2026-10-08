@@ -98,9 +98,15 @@ a {
 }
 
 ::selection {
-  color: #061014;
-  background: var(--cyan);
+  color: #101210;
+  background: #cefa69;
 }
+
+/* A short crossfade preserves the page and form state when language changes. */
+::view-transition-old(root) { animation: localeOut 180ms ease both; }
+::view-transition-new(root) { animation: localeIn 280ms cubic-bezier(.16,1,.3,1) both; }
+@keyframes localeOut { to { opacity: 0; } }
+@keyframes localeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 ::-webkit-scrollbar {
   width: 6px;

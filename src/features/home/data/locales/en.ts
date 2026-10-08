@@ -1,14 +1,12 @@
 import {
   Blocks,
   Bot,
-  BrainCircuit,
   BriefcaseBusiness,
   Code2,
   Database,
-  FileJson2,
-  Gamepad2,
   GitBranch,
   Leaf,
+  MessagesSquare,
   Network,
   PanelsTopLeft,
   Radio,
@@ -24,10 +22,9 @@ import type { PortfolioContent } from "@/features/home/data/types";
 export const en: PortfolioContent = {
   profile: {
     ...sharedProfile,
-    cv: "/Francisco_Porciel_CV_2026.docx",
-    tagline: "I work better when the problem is actually complex.",
-    intro:
-      "I like systems with value: permissions, reports, integrations, data that depends on other data. Before writing code, I need to understand what I am touching and why it matters.",
+    cv: "/Francisco_Porciel_CV_2026.pdf",
+    tagline: "Interfaces, backend and integrations.",
+    intro: "I build web applications and work with clients to define what they need. I care about how an interface feels to use and how the system works behind it: data, integrations and day-to-day operations. I also use AI tools throughout my development process.",
   },
   languageSwitch: {
     label: "Change language",
@@ -35,14 +32,27 @@ export const en: PortfolioContent = {
     en: "EN",
   },
   navigation: [
-    { label: "Profile", href: "#profile" },
-    { label: "Method", href: "#systems" },
-    { label: "Work", href: "#work" },
-    { label: "Screens", href: "#contexts" },
-    { label: "Projects", href: "#projects" },
-    { label: "Stack", href: "#stack" },
-    { label: "Contact", href: "#contact" },
-  ],
+  {
+    "label": "Work",
+    "href": "#contexts"
+  },
+  {
+    "label": "Approach",
+    "href": "#systems"
+  },
+  {
+    "label": "Experience",
+    "href": "#work"
+  },
+  {
+    "label": "Projects",
+    "href": "#projects"
+  },
+  {
+    "label": "Contact",
+    "href": "#contact"
+  }
+],
   hero: {
     actions: {
       contact: "Contact",
@@ -50,42 +60,64 @@ export const en: PortfolioContent = {
       github: "GitHub",
       linkedin: "LinkedIn",
     },
-    panelTitle: "scope-map.ts",
+    panelTitle: "From context to delivery",
     panelLinks: {
       github: "GitHub",
       linkedin: "LinkedIn",
     },
-    commandLines: ["read_context()", "define_scope()", "model_data()", "validate_flows()", "finish_delivery()"],
+    commandLines: [
+  "Listen to the client",
+  "Design the experience",
+  "Build the system",
+  "Validate with evidence",
+  "Deliver and improve"
+],
     metrics: [
-      { label: "Now", value: "Brace Developers", detail: "Full Stack Developer" },
-      { label: "Focus", value: "Domain and data", detail: "Product, backend, flows" },
-      { label: "Style", value: "Think first", detail: "Scope, contracts, execution" },
-      { label: "English", value: "Technical B2", detail: "Docs, meetings, code" },
-    ],
+  {
+    "label": "Now",
+    "value": "Brace Developers",
+    "detail": "Full Stack Developer"
+  },
+  {
+    "label": "Product",
+    "value": "UI + Backend",
+    "detail": "People, flows and data"
+  },
+  {
+    "label": "Method",
+    "value": "Responsible AI",
+    "detail": "Research, build, validate"
+  },
+  {
+    "label": "English",
+    "value": "B2",
+    "detail": "Technical communication"
+  }
+],
   },
   sections: {
     principles: {
-      eyebrow: "Work philosophy",
-      title: "Clear systems, readable decisions",
-      description: "Before writing code, I need to understand the logic of the problem: what changes, what stays stable, who uses each part and how far it makes sense to go.",
+      eyebrow: "How I work",
+      title: "How I approach the work",
+      description: "I like to understand the business and talk to the people using the system. That helps me decide what to build and how to build it.",
       icon: ShieldCheck,
     },
     experience: {
       eyebrow: "Experience",
-      title: "Where I worked and what I did",
-      description: "Products with real users, business logic, integrations and decisions with weight.",
+      title: "Experience",
+      description: "My work with development teams and client projects.",
       icon: BriefcaseBusiness,
     },
     contexts: {
-      eyebrow: "Work visuals",
-      title: "Systems I worked on",
-      description: "Screenshots from production products, with real users and business logic behind them.",
+      eyebrow: "Selected work",
+      title: "Projects and clients",
+      description: "A selection of projects I contributed to, along with some of my own work.",
       icon: Network,
     },
     projects: {
       eyebrow: "Own projects",
-      title: "Things I built because I wanted to understand them better",
-      description: "Projects to test complete ideas: product, architecture, my own decisions and things I wanted to make tangible.",
+      title: "Personal projects",
+      description: "I also build ideas that interest me outside of work.",
       icon: Code2,
     },
     stack: {
@@ -97,62 +129,101 @@ export const en: PortfolioContent = {
   },
   principles: [
     {
-      title: "First I understand the scope",
-      description: "If I do not understand which part of the system changes, I am not ready to start.",
+      title: "Understand the need",
+      description: "I talk with the client, learn how they work and define what the system needs to do.",
+      icon: MessagesSquare,
+    },
+    {
+      title: "Care for the interface",
+      description: "I work on navigation, forms and states so each task is easy to follow.",
+      icon: PanelsTopLeft,
+    },
+    {
+      title: "Connect the parts",
+      description: "I build frontend, backend and integrations, taking care of data and permissions.",
+      icon: Workflow,
+    },
+    {
+      title: "Review the work",
+      description: "I test changes, review code and fix issues that come up when using the application.",
       icon: ShieldCheck,
-    },
-    {
-      title: "Then I mark contracts",
-      description: "What crosses layers needs shape. Types, DTOs, validations, clear responses.",
-      icon: FileJson2,
-    },
-    {
-      title: "Logic should not hide",
-      description: "Permissions, states and reports should not be lost inside components.",
-      icon: ServerCog,
-    },
-    {
-      title: "AI helps, it does not decide",
-      description: "I use it to read faster, explore options and review. The decisions are still mine.",
-      icon: BrainCircuit,
     },
   ],
   agenticWorkflow: {
     eyebrow: "AI as a tool",
-    title: "Agentic AI speeds up execution; judgment stays in the business logic",
+    title: "Using AI responsibly.",
     description:
-      "I use it to turn context into actionable work: scope analysis, cost-benefit tradeoffs, prompt iteration, epics, user stories, tickets, prototypes and CI/CD-ready implementation flows. What I do not delegate is the core judgment: understanding the business logic, communicating with client and team, and deciding what is worth building.",
-    steps: [
-      "Context and scope",
-      "Business tradeoffs",
-      "Iterated prompts",
-      "Epics, stories and tickets",
-      "Prototype, CI/CD and delivery",
-    ],
+      "I use it to review code, explore alternatives and help with implementation. I define what I need, review its suggestions and test the result before adding it to the project.",
+    steps: ["Understand the context", "Explore alternatives", "Implement", "Review and test"],
   },
   experience: [
     {
       role: "Full Stack Developer",
       company: "Brace Developers",
       period: "Oct 2025 - Present",
-      context: "Internal and operational products for real clients. Frontend when needed, backend when it matters.",
+      context: "Full stack development for clients in different industries, working with the Brace Developers team.",
       icon: BriefcaseBusiness,
       logo: {
         src: "/showcase/bracedevelopers_logo.jpg",
         alt: "Brace Developers logo.",
       },
-      highlights: [
-        "Payment flows, account statements, reports, exports, bulk uploads, authentication and external integrations.",
-        "The starting point was always understanding the business flow before touching code.",
-        "I use AI to research, explore and review without delegating technical decisions.",
-      ],
+      highlights: ["Interfaces, APIs and databases using React, Next.js, NestJS and PostgreSQL.", "Client collaboration, requirements definition and usability improvements.", "Role-based permissions, multi-tenant applications and integrations with external APIs and AI.", "AWS services, deployments, code review and CI/CD workflows."],
       stack: ["TypeScript", "React", "NestJS", "TypeORM", "PostgreSQL", "AWS"],
     },
+{
+  "role": "Full Stack Developer",
+  "company": "Firenze",
+  "period": "2026",
+  "context": "Digital storefront and branch operations for an ice cream shop and café.",
+  "icon": ShoppingCart,
+  "logo": {
+    "src": "/showcase/firenze-logo.png",
+    "alt": "Firenze logo."
+  },
+  "highlights": ["Storefront and management console for catalog, orders and branch operations.", "Infrastructure as code with AWS CDK and CloudFormation; ECS/EC2 containers, RDS and S3/SQS services.", "IAM permissions, secrets management, observability and GitHub Actions deployment workflows.", "OpenAPI contracts, an Android app and receipt printing; preparation of WhatsApp and Mercado Pago integrations."],
+  "stack": ["Next.js", "NestJS", "PostgreSQL", "AWS CDK", "Docker", "OpenAPI", "Android"]
+},
+{
+  "role": "Full Stack Developer · Internship",
+  "company": "Robolytics",
+  "period": "Jul 2025 - Nov 2025",
+  "context": "Pricing platform with scraping, data ingestion and microservices.",
+  "icon": Database,
+  "highlights": [
+    "Three NestJS services with direct PostgreSQL clients, schemas and migrations without an ORM.",
+    "Puppeteer and Playwright scraping, LLM normalization and configurable source management.",
+    "Next.js frontend, Ant Design and Recharts; CI/CD collaboration with GitLab and GitHub."
+  ],
+  "stack": [
+    "NestJS",
+    "Next.js",
+    "PostgreSQL",
+    "Puppeteer",
+    "Playwright"
+  ]
+},
+{
+  "role": "Full Stack Developer",
+  "company": "Nisaley",
+  "period": "Dec 2024 - Jan 2025",
+  "context": "E-commerce MVP with catalog and checkout.",
+  "icon": ShoppingCart,
+  "highlights": [
+    "Functional MVP in under six weeks with products, Mercado Pago, QR codes and S3 images.",
+    "TanStack Query queries and cache, Zustand state and Drizzle authentication."
+  ],
+  "stack": [
+    "Next.js",
+    "tRPC",
+    "Drizzle",
+    "AWS S3"
+  ]
+},
     {
       role: "Backend Developer",
       company: "Trabajo en Digital",
       period: "Mar 2024 - Sep 2024",
-      context: "Backend for a job platform. Data, endpoints, stability.",
+      context: "Backend development for job listings and applications, focused on validation, queries and stability.",
       icon: Database,
       logo: {
         src: "/showcase/trabajoendigital_logo.jpg",
@@ -175,50 +246,63 @@ export const en: PortfolioContent = {
         src: "/showcase/henryok_logo.jpg",
         alt: "Henry logo.",
       },
-      highlights: ["Pair programming, technical questions and problem solving.", "Helping groups without turning everything into theory."],
+      highlights: ["Pair programming, technical questions and problem solving.", "Helping students understand problems and solve them independently."],
       stack: ["JavaScript", "React", "Node.js", "Mentoring"],
     },
   ],
   clientContexts: [
     {
-      name: "Llano Envíos / PLY",
-      url: "https://llanoenvios.com/",
-      type: "Operational logistics",
-      description: "Logistics system for guides, routes, reports and operational documents. The priority was making the flow clear for daily users.",
+      name: "PLY",
+      url: "https://www.ply-tech.com/",
+      type: "Logistics SaaS · Brace Developers",
+      description: "A logistics SaaS platform evolved from Llano Envíos. I worked on interfaces, backend services and daily operations features, with support for multiple organizations.",
       icon: Truck,
-      tags: ["Routes", "Reports", "Documents"],
+      tags: ["SaaS", "Multi-tenant", "Full stack"],
       linkLabel: "Public site",
       logo: {
-        src: "/showcase/llano-envios-logo.png",
-        alt: "Llano Envíos logo.",
+        src: "/showcase/ply-logo.svg",
+        alt: "PLY logo.",
       },
       visual: {
-        src: "/screenshots/llano.png",
-        alt: "Llano Envíos screenshot used as professional work context.",
+        src: "/screenshots/ply.jpg",
+        alt: "Public PLY page, a logistics SaaS platform.",
       },
     },
     {
       name: "Avateen",
-      type: "Clinical product",
-      description: "Clinical product with roles, access control, forms and audit. Also an AI engine orchestrated with privacy and response quality control.",
+      type: "Mental health · Brace Developers",
+      description: "I contributed to frontend and backend development for a mental health support platform. My work includes user flows, permissions and integrations with external services.",
       icon: PanelsTopLeft,
-      tags: ["Roles", "Audit", "Scope"],
+      tags: ["Frontend", "Backend", "Integrations"],
       logo: {
         src: "/showcase/avateen-logo.svg",
         alt: "Avateen logo.",
       },
-      visual: {
-        src: "/screenshots/avateen.png",
-        alt: "Avateen screenshot used as professional work context.",
-      },
     },
+{
+  "name": "Firenze",
+  "url": "https://heladeriafirenze.com/",
+  "type": "Commerce + branch operations",
+  "description": "A storefront and management system for an ice cream shop and café. I built the catalog, ordering and branch operations features, along with the backend and AWS infrastructure.",
+  "icon": ShoppingCart,
+  "tags": ["UI/UX", "Backend", "AWS"],
+  "linkLabel": "Visit storefront",
+  "logo": {
+    "src": "/showcase/firenze-logo.png",
+    "alt": "Firenze logo."
+  },
+  "visual": {
+    "src": "/screenshots/firenze.jpg",
+    "alt": "Public screenshot of the Firenze storefront."
+  }
+},
     {
       name: "EIA Campo Guamal",
       url: "https://eiacampoguamal.com/",
       type: "Public site + CMS",
-      description: "Public site with content administration through PayloadCMS. The key was keeping editing, publishing and navigation simple and fast.",
+      description: "A website with content management through PayloadCMS. I contributed to the frontend and CMS integration.",
       icon: Leaf,
-      tags: ["CMS", "Content", "Publishing"],
+      tags: ["Frontend", "CMS", "Content"],
       linkLabel: "Public site",
       logo: {
         src: "/showcase/guamal-logo.png",
@@ -233,9 +317,9 @@ export const en: PortfolioContent = {
       name: "Incolflex",
       url: "https://www.incolflex.co/",
       type: "E-commerce and admin",
-      description: "E-commerce with catalog, product, banner, stock and image administration. Internal configuration directly affects the public and customer-facing experience.",
+      description: "I worked on catalog, product, banner and stock features for the storefront and its administration.",
       icon: ShoppingCart,
-      tags: ["Catalog", "Admin", "Banners"],
+      tags: ["E-commerce", "Catalog", "Administration"],
       linkLabel: "Public site",
       logo: {
         src: "/showcase/incolflex-logo.svg",
@@ -249,32 +333,12 @@ export const en: PortfolioContent = {
   ],
   projects: [
     {
-      name: "Cartas Sin Asco",
-      eyebrow: "Multiplayer game / Argentine CAH version",
-      meta: "Personal product",
-      summary: "An Argentine +18 version of Cards Against Humanity, playable in real time from mobile or web. Designing the frontend and modeling rooms, turns and match mechanics was a great experience.",
-      signalLabel: "Technical decision",
-      signal: "Rooms, players, WebSocket and shared contracts between mobile, web and API from a single place.",
-      initials: "CSA",
-      logo: {
-        src: "/showcase/csa-logo.jpg",
-        alt: "Cartas Sin Asco logo.",
-      },
-      image: {
-        src: "/screenshots/csa.png",
-        alt: "Cartas Sin Asco screenshot, a multiplayer card game.",
-      },
-      icon: Gamepad2,
-      stack: ["Expo", "NestJS", "Socket.IO", "TypeORM", "Next.js"],
-      links: [{ label: "Write me to know more", href: `mailto:${sharedProfile.email}`, kind: "contact" }],
-    },
-    {
       name: "WePlay",
       eyebrow: "Gaming platform / community",
-      meta: "Personal product",
-      summary: "Platform for gaming communities with rooms, roles and real-time state. Lobby management, rooms and different player profiles connected in real time, with voice-related flows through SSE + tRPC.",
+      meta: "Personal project · Paused",
+      summary: "WePlay comes from something I’ve always enjoyed: meeting people through games. I want to build a place to find teammates, share games and learn together, welcoming different personalities and levels of experience.",
       signalLabel: "Technical decision",
-      signal: "tRPC, RBAC, Drizzle, Redis and S3. An exercise in defining boundaries before building.",
+      signal: "I built rooms and participant management with PostgreSQL and tRPC, real-time synchronization with SSE and Redis, Auth.js authentication and LiveKit voice. It is currently paused, and I plan to return to it.",
       initials: "WP",
       logo: {
         src: "/showcase/weplay-logo.svg",
@@ -285,7 +349,7 @@ export const en: PortfolioContent = {
         alt: "WePlay screenshot, a gaming and community platform.",
       },
       icon: Radio,
-      stack: ["Next.js", "tRPC", "Drizzle", "Redis", "AWS S3"],
+      stack: ["Next.js", "tRPC", "Drizzle", "Redis", "LiveKit", "AWS S3"],
       links: [{ label: "Write me to know more", href: `mailto:${sharedProfile.email}`, kind: "contact" }],
     },
   ],
@@ -294,18 +358,19 @@ export const en: PortfolioContent = {
     { label: "Frontend", icon: Blocks, items: ["React", "Next.js", "Tailwind", "CSS Modules", "Radix UI"] },
     { label: "Backend", icon: ServerCog, items: ["Node.js", "NestJS", "tRPC", "REST", "Socket.IO", "JWT"] },
     { label: "Data", icon: Database, items: ["PostgreSQL", "TypeORM", "Drizzle", "Redis"] },
-    { label: "Cloud", icon: GitBranch, items: ["AWS S3", "Lambda", "RDS", "Docker", "GitHub Actions"] },
+    { label: "Infrastructure", icon: GitBranch, items: ["AWS CDK", "CloudFormation", "ECS / EC2", "ECR", "RDS", "S3", "SQS", "CloudFront", "Cognito"] },
+    { label: "Delivery & operations", icon: Workflow, items: ["Docker", "GitHub Actions / OIDC", "GitLab CI", "IAM", "Secrets Manager", "CloudWatch", "Cloudflare"] },
     { label: "Automation", icon: Bot, items: ["Claude", "OpenAI", "Agents", "Playwright", "Puppeteer"] },
   ],
   contact: {
     eyebrow: "Contact",
-    title: "Tell me what you are building",
-    description: "I care about understanding the problem first. If there is a place where I can help, we can look at it together.",
+    title: "Have a project in mind?",
+    description: "We can talk about your idea or a job opportunity. I’m interested in continuing to build applications and taking part in product decisions.",
     emailLine: "or write me at",
     fitTitle: "Good fit",
-    fitItems: ["Products with real business logic", "Backend with weight, not only endpoints", "Systems where data has structure"],
+    fitItems: ["Products with real business logic", "End-to-end development", "Clear interfaces and product decisions"],
     rhythmTitle: "How I start",
-    rhythmItems: ["Understand the problem first", "Define scope before estimating", "Build well, not only fast"],
+    rhythmItems: ["Understand the problem first", "Define scope before estimating", "Validate, deliver and improve"],
     form: {
       name: "Name",
       email: "Email",
@@ -315,7 +380,7 @@ export const en: PortfolioContent = {
       submitting: "Sending",
       sending: "Sending...",
       genericError: "Something went wrong. Try again in a moment.",
-      dryRunSuccess: "Message validated. RESEND_API_KEY and CONTACT_TO_EMAIL are missing.",
+      dryRunSuccess: "This form does not send messages yet. Please use the email shown in this section.",
       success: "Message sent. I will reply as soon as I can.",
     },
   },
