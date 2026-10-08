@@ -9,7 +9,7 @@ export default function NotFound() {
           eyebrow: "Página perdida",
           title: "Esta página no está donde debería.",
           description:
-            "Puede que el link esté viejo, mal copiado o apuntando a algo que todavía no publiqué. El resto del portfolio sigue en pie.",
+            "El enlace puede haber cambiado o estar mal copiado. Volvé al inicio para ver mi trabajo o escribime si necesitás algo.",
           primaryLabel: "Volver al inicio",
           secondaryLabel: "Ir a contacto",
           routeRecovery: "enlace roto",
@@ -24,7 +24,7 @@ export default function NotFound() {
           eyebrow: "Lost page",
           title: "This page is not where it should be.",
           description:
-            "The link may be old, mistyped, or pointing to something I have not published yet. The rest of the portfolio is still up.",
+            "The link may have changed or been mistyped. Head home to explore my work, or get in touch if you need something.",
           primaryLabel: "Back home",
           secondaryLabel: "Go to contact",
           routeRecovery: "broken link",

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { publicLegalPages } from "@/features/legal/visibility";
 import { LegalPage } from "@/features/legal/LegalPage";
 import { siteConfig } from "@/shared/config/site";
 
@@ -7,22 +9,24 @@ const appNameEn = "Francisco Porciel Portfolio and personal projects";
 const { profile } = siteConfig;
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: "Condiciones de servicio - Francisco Porciel",
   description:
     "Condiciones de servicio para el portfolio y proyectos personales de Francisco Porciel.",
 };
 
 export default function TermsPage() {
+  if (!publicLegalPages) notFound();
   return (
     <LegalPage
       content={{
         es: {
           title: "Condiciones de servicio",
-          description: `Estas condiciones aplican al uso de ${appName}, incluyendo páginas públicas, formularios y proyectos personales con autenticación.`,
-          updatedAt: "31 de mayo de 2026",
+          description: `Estas condiciones aplican al uso de ${appName}, incluyendo páginas públicas y el formulario de contacto. Los productos de clientes enlazados se rigen por sus propios términos y acuerdos.`,
+          updatedAt: "8 de octubre de 2026",
           meta: {
             updated: "Última actualización",
-            oauth: "Google incluido",
+            oauth: "Portfolio y contacto",
             publicDocument: "Consulta pública",
             cardTitle: "terms.md",
             cardDescription: "uso permitido, límites y contacto.",
@@ -43,7 +47,7 @@ export default function TermsPage() {
             {
               title: "Cuentas y autenticación",
               body: [
-                "Algunos proyectos personales pueden permitir inicio de sesión con Google u otros proveedores. Sos responsable de mantener segura tu cuenta y de revisar los permisos que aceptás conceder.",
+                "El portfolio no requiere una cuenta. Algunos proyectos personales pueden permitir inicio de sesión con Google u otros proveedores; estos términos solo los cubren si se vinculan expresamente a esta página. Sos responsable de mantener segura tu cuenta y de revisar los permisos que aceptás conceder.",
                 "Puedo limitar, suspender o revocar acceso si detecto abuso, uso no autorizado, riesgos de seguridad o incumplimiento de estas condiciones.",
               ],
             },
@@ -80,11 +84,11 @@ export default function TermsPage() {
         },
         en: {
           title: "Terms of Service",
-          description: `These terms apply to the use of ${appNameEn}, including public pages, forms, and personal projects with authentication.`,
-          updatedAt: "May 31, 2026",
+          description: `These terms apply to the use of ${appNameEn}, including public pages and the contact form. Linked client products are governed by their own terms and agreements.`,
+          updatedAt: "October 8, 2026",
           meta: {
             updated: "Last updated",
-            oauth: "Google included",
+            oauth: "Portfolio and contact",
             publicDocument: "Public reference",
             cardTitle: "terms.md",
             cardDescription: "allowed use, limits, and contact.",
@@ -105,7 +109,7 @@ export default function TermsPage() {
             {
               title: "Accounts and authentication",
               body: [
-                "Some personal projects may allow sign-in with Google or other providers. You are responsible for keeping your account secure and reviewing the permissions you choose to grant.",
+                "The portfolio does not require an account. Some personal projects may allow sign-in with Google or other providers; these terms only cover them if they explicitly link to this page. You are responsible for keeping your account secure and reviewing the permissions you choose to grant.",
                 "I may limit, suspend, or revoke access if I detect abuse, unauthorized use, security risks, or a violation of these terms.",
               ],
             },

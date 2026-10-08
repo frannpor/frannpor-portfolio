@@ -2,18 +2,18 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Francisco Porciel - Full Stack Developer",
+  title: "Francisco Porciel | Full Stack Developer",
   description:
-    "Portfolio bilingue de Francisco Porciel: Full Stack Developer enfocado en producto, backend, contratos tipados, automatizacion y sistemas con reglas reales.",
+    "Portfolio de Francisco Porciel, desarrollador Full Stack. Aplicaciones web, interfaces, backend e infraestructura AWS. Experiencia, proyectos y CV en español e inglés.",
   authors: [{ name: "Francisco Porciel" }],
   icons: {
     icon: "/brand/franpor-color.ico",
     shortcut: "/brand/franpor-color.ico",
   },
   openGraph: {
-    title: "Francisco Porciel - Full Stack Developer",
+    title: "Francisco Porciel | Full Stack Developer",
     description:
-      "Portfolio de Francisco Porciel: TypeScript, React, Next.js, NestJS, PostgreSQL, automatizacion y criterio de producto.",
+      "Aplicaciones web, interfaces, backend e infraestructura AWS. Conocé mi experiencia, mis proyectos y mi forma de trabajar.",
     type: "website",
   },
 };

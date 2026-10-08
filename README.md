@@ -2,7 +2,7 @@
 
 Personal bilingual portfolio built with Next.js 15, TypeScript and App Router.
 
-The project is structured to show the same thing the UI says: scoped decisions, explicit data, separated sections, bilingual copy, and a contact path that can become real email without rewriting the app.
+The portfolio presents client work, professional experience and personal projects in Spanish and English. It includes localized PDF and Word CV downloads, an interactive portrait, project galleries and a contact form.
 
 ## Scripts
 
@@ -27,35 +27,31 @@ src/types                Local type declarations
 
 ## Contact Email
 
-The contact form works in dry-run mode by default. To send real email, configure:
+Without email configuration, the contact form retains the message and offers direct email contact. To send real email, configure:
 
 ```bash
 RESEND_API_KEY=
-CONTACT_TO_EMAIL=
+CONTACT_TO_EMAIL=porcielfranciscoramon@gmail.com
 CONTACT_FROM_EMAIL="Portfolio <onboarding@resend.dev>"
 ```
 
 See `.env.example`.
 
-## Render Deploy
+## Interaction and content
 
-This app uses Next.js App Router and an API route for the contact form, so deploy it on Render as a **Web Service** when email sending should work.
+- The language switch preserves form input and respects reduced-motion preferences.
+- The portrait supports pointer dragging, tap effects and keyboard interaction. Floating text stays within the portrait area.
+- Project galleries lock background scrolling, support Escape and restore focus on close.
+- Privacy and terms content remains in source. Public access is disabled by `publicLegalPages` in `src/features/legal/visibility.ts`; those routes return 404.
+- Current CVs are stored in `public/` as PDF and DOCX files for both languages.
 
-Recommended Render settings:
+## Production deployment
 
-```txt
-Language: Node
-Build Command: npm ci && npm run build
-Start Command: npm run start
-```
+The live site at https://www.frannpor-dev.com/ is hosted on AWS Amplify in `sa-east-1`, with CloudFront serving the custom domain. The GitHub repository has an active Amplify webhook for push events.
 
-Runtime:
+Publish changes through a pull request into `main`, then verify the updated content and CV downloads on the custom domain after Amplify finishes building.
 
-```txt
-NODE_VERSION=22.16.0
-```
-
-The repository also includes `.node-version`, so Render can pick the same runtime from source control. Node 14 is not supported by the current dependency stack.
+The app uses Next.js App Router and a server API route for contact submissions. Keep server rendering and API route support enabled in the hosting configuration. The repository pins Node 22.16.0 in `.node-version`.
 
 Required environment variables for real email:
 
@@ -70,4 +66,4 @@ Optional:
 CONTACT_FROM_EMAIL="Portfolio <onboarding@resend.dev>"
 ```
 
-If the project is deployed as a Render **Static Site**, the portfolio can render as static output only if the server API route is not needed. The contact form endpoint requires a Node server.
+When email delivery is not configured, visitors can contact the same address directly using the email link. The form never reports a successful delivery for dry-run responses.

@@ -1,14 +1,12 @@
 import {
   Blocks,
   Bot,
-  BrainCircuit,
   BriefcaseBusiness,
   Code2,
   Database,
-  FileJson2,
-  Gamepad2,
   GitBranch,
   Leaf,
+  MessagesSquare,
   Network,
   PanelsTopLeft,
   Radio,
@@ -24,10 +22,9 @@ import type { PortfolioContent } from "@/features/home/data/types";
 export const es: PortfolioContent = {
   profile: {
     ...sharedProfile,
-    cv: "/Francisco_Porciel_CV_2026_ES.docx",
-    tagline: "Trabajo mejor cuando el problema es complicado de verdad.",
-    intro:
-      "Me gustan los sistemas que tienen valor: permisos, reportes, integraciones, datos que dependen de otros datos. Antes de escribir código necesito entender qué estoy tocando y por qué importa.",
+    cv: "/Francisco_Porciel_CV_2026_ES.pdf",
+    tagline: "Interfaces, backend e integraciones.",
+    intro: "Desarrollo aplicaciones web y trabajo con clientes para definir lo que necesitan. Me interesa cómo se usa una interfaz y cómo funciona el sistema detrás: los datos, las integraciones y la operación. Hoy también uso herramientas de IA en mi proceso de desarrollo.",
   },
   languageSwitch: {
     label: "Cambiar idioma",
@@ -35,14 +32,27 @@ export const es: PortfolioContent = {
     en: "EN",
   },
   navigation: [
-    { label: "Perfil", href: "#profile" },
-    { label: "Método", href: "#systems" },
-    { label: "Trabajo", href: "#work" },
-    { label: "Capturas", href: "#contexts" },
-    { label: "Proyectos", href: "#projects" },
-    { label: "Stack", href: "#stack" },
-    { label: "Contacto", href: "#contact" },
-  ],
+  {
+    "label": "Trabajo",
+    "href": "#contexts"
+  },
+  {
+    "label": "Cómo trabajo",
+    "href": "#systems"
+  },
+  {
+    "label": "Experiencia",
+    "href": "#work"
+  },
+  {
+    "label": "Proyectos",
+    "href": "#projects"
+  },
+  {
+    "label": "Contacto",
+    "href": "#contact"
+  }
+],
   hero: {
     actions: {
       contact: "Contacto",
@@ -50,42 +60,64 @@ export const es: PortfolioContent = {
       github: "GitHub",
       linkedin: "LinkedIn",
     },
-    panelTitle: "scope-map.ts",
+    panelTitle: "Del contexto a la entrega",
     panelLinks: {
       github: "GitHub",
       linkedin: "LinkedIn",
     },
-    commandLines: ["leer_contexto()", "definir_alcance()", "modelar_datos()", "validar_flujos()", "cerrar_entrega()"],
+    commandLines: [
+  "Escuchar al cliente",
+  "Diseñar la experiencia",
+  "Construir el sistema",
+  "Validar con evidencia",
+  "Entregar y mejorar"
+],
     metrics: [
-      { label: "Actual", value: "Brace Developers", detail: "Full Stack Developer" },
-      { label: "Foco", value: "Dominio y datos", detail: "Producto, backend, flujos" },
-      { label: "Forma", value: "Pensar antes", detail: "Scope, contratos, ejecución" },
-      { label: "Inglés", value: "B2 técnico", detail: "Documentación, reuniones, código" },
-    ],
+  {
+    "label": "Actual",
+    "value": "Brace Developers",
+    "detail": "Full Stack Developer"
+  },
+  {
+    "label": "Producto",
+    "value": "UI + Backend",
+    "detail": "Personas, flujos y datos"
+  },
+  {
+    "label": "Método",
+    "value": "IA con responsabilidad",
+    "detail": "Investigar, construir, validar"
+  },
+  {
+    "label": "Inglés",
+    "value": "B2",
+    "detail": "Comunicación técnica"
+  }
+],
   },
   sections: {
     principles: {
-      eyebrow: "Filosofía de trabajo",
-      title: "Sistemas claros, decisiones entendibles",
-      description: "Antes de escribir código necesito entender la lógica del problema. Qué cambia, qué se conserva, quién usa cada cosa y hasta dónde conviene llegar.",
+      eyebrow: "Cómo trabajo",
+      title: "Mi forma de trabajar",
+      description: "Me gusta entender cómo funciona el negocio y hablar con las personas que usan el sistema. Eso me ayuda a decidir qué construir y cómo hacerlo.",
       icon: ShieldCheck,
     },
     experience: {
       eyebrow: "Experiencia",
-      title: "Dónde estuve y qué hice",
-      description: "Productos con usuarios reales, lógica de negocio, integraciones y decisiones con peso.",
+      title: "Experiencia",
+      description: "Mi recorrido en equipos de desarrollo y proyectos para clientes.",
       icon: BriefcaseBusiness,
     },
     contexts: {
-      eyebrow: "Trabajo visual",
-      title: "Sistemas en los que participé",
-      description: "Capturas de productos en producción, con usuarios reales y lógica de negocio detrás.",
+      eyebrow: "Trabajo seleccionado",
+      title: "Proyectos y clientes",
+      description: "Una selección de trabajos en los que participé, junto con algunos desarrollos propios.",
       icon: Network,
     },
     projects: {
       eyebrow: "Proyectos propios",
-      title: "Cosas que armé porque quería entenderlas mejor",
-      description: "Proyectos para probar ideas completas: producto, arquitectura, decisiones propias y creaciones que queria tangibilizar.",
+      title: "Proyectos personales",
+      description: "También desarrollo ideas que me interesan por fuera del trabajo.",
       icon: Code2,
     },
     stack: {
@@ -97,62 +129,101 @@ export const es: PortfolioContent = {
   },
   principles: [
     {
-      title: "Primero entiendo el alcance",
-      description: "Si no entiendo qué parte del sistema cambia, todavía no empiezo.",
+      title: "Entender lo que hace falta",
+      description: "Converso con el cliente, reviso cómo trabaja y definimos qué necesita el sistema.",
+      icon: MessagesSquare,
+    },
+    {
+      title: "Cuidar la interfaz",
+      description: "Trabajo en la navegación, los formularios y los estados para que cada tarea sea fácil de seguir.",
+      icon: PanelsTopLeft,
+    },
+    {
+      title: "Conectar las partes",
+      description: "Desarrollo frontend, backend e integraciones, cuidando los datos y los permisos.",
+      icon: Workflow,
+    },
+    {
+      title: "Revisar lo que entrego",
+      description: "Pruebo los cambios, reviso el código y corrijo lo que aparece al usar la aplicación.",
       icon: ShieldCheck,
-    },
-    {
-      title: "Después marco contratos",
-      description: "Lo que cruza capas necesita forma. Tipos, DTOs, validaciones, respuestas claras.",
-      icon: FileJson2,
-    },
-    {
-      title: "La lógica se analiza y se centraliza",
-      description: "Permisos, estados y reportes no deberían vivir perdidos entre componentes.",
-      icon: ServerCog,
-    },
-    {
-      title: "AI ayuda, no decide",
-      description: "La uso para leer más rápido, explorar opciones y revisar. Las decisiones siguen siendo mías.",
-      icon: BrainCircuit,
     },
   ],
   agenticWorkflow: {
     eyebrow: "IA como herramienta",
-    title: "La IA agéntica acelera ejecución; el criterio sigue en el negocio",
+    title: "IA con responsabilidad.",
     description:
-      "La uso para convertir contexto en trabajo accionable: analizar alcance, costo-beneficio y prioridades; retroalimentar prompts; estructurar épicas, historias de usuario y tickets; prototipar; y preparar implementaciones con CI/CD. Lo central se delega; entender la lógica del negocio, conversar con cliente y equipo, y decidir qué conviene construir.",
-    steps: [
-      "Contexto y alcance",
-      "Negocio y costo-beneficio",
-      "Prompts iterados",
-      "Épicas, historias y tickets",
-      "Prototipo, CI/CD y entrega",
-    ],
+      "La uso para revisar código, explorar alternativas y avanzar con implementaciones. Defino lo que necesito, reviso lo que propone y pruebo el resultado antes de incorporarlo al proyecto.",
+    steps: ["Entender el contexto", "Probar alternativas", "Implementar", "Revisar y probar"],
   },
   experience: [
     {
       role: "Full Stack Developer",
       company: "Brace Developers",
       period: "Oct 2025 - Actualidad",
-      context: "Productos internos y operativos para clientes reales. Frontend cuando hace falta, backend cuando importa.",
+      context: "Desarrollo full stack para clientes de distintos sectores, trabajando con el equipo de Brace Developers.",
       icon: BriefcaseBusiness,
       logo: {
         src: "/showcase/bracedevelopers_logo.jpg",
         alt: "Logo de Brace Developers.",
       },
-      highlights: [
-        "Trabajé en flujos de pagos, estados de cuenta, reportes, exportaciones, cargas masivas, autenticación e integraciones con servicios externos.",
-        "El punto de partida siempre fue entender el flujo de negocio antes de tocar el código.",
-        "Uso AI para investigar, explorar y revisar sin delegar las decisiones técnicas.",
-      ],
+      highlights: ["Interfaces, APIs y bases de datos con React, Next.js, NestJS y PostgreSQL.", "Contacto con clientes, definición de requerimientos y mejoras en la experiencia de uso.", "Permisos por rol, aplicaciones multi-tenant e integraciones con APIs e IA.", "Trabajo con servicios AWS, despliegues, revisión de código y CI/CD."],
       stack: ["TypeScript", "React", "NestJS", "TypeORM", "PostgreSQL", "AWS"],
     },
+{
+  "role": "Full Stack Developer",
+  "company": "Firenze",
+  "period": "2026",
+  "context": "Tienda digital y operación de heladería y cafetería por sucursal.",
+  "icon": ShoppingCart,
+  "logo": {
+    "src": "/showcase/firenze-logo.png",
+    "alt": "Logo de Firenze."
+  },
+  "highlights": ["Tienda y consola de gestión para catálogo, pedidos y operación por sucursal.", "Infraestructura como código con AWS CDK y CloudFormation; contenedores ECS/EC2, RDS y servicios S3/SQS.", "Permisos IAM, gestión de secretos, observabilidad y flujos de despliegue con GitHub Actions.", "Contratos OpenAPI, aplicación Android e impresión de tickets; preparación de integraciones con WhatsApp y Mercado Pago."],
+  "stack": ["Next.js", "NestJS", "PostgreSQL", "AWS CDK", "Docker", "OpenAPI", "Android"]
+},
+{
+  "role": "Full Stack Developer · Pasantía",
+  "company": "Robolytics",
+  "period": "Jul 2025 - Nov 2025",
+  "context": "Plataforma de pricing con scraping, ingesta de datos y microservicios.",
+  "icon": Database,
+  "highlights": [
+    "Tres servicios NestJS con PostgreSQL directo, esquemas y migraciones sin ORM.",
+    "Scraping con Puppeteer y Playwright, normalización mediante LLM y gestión configurable de fuentes.",
+    "Frontend Next.js, Ant Design y Recharts; colaboración en CI/CD con GitLab y GitHub."
+  ],
+  "stack": [
+    "NestJS",
+    "Next.js",
+    "PostgreSQL",
+    "Puppeteer",
+    "Playwright"
+  ]
+},
+{
+  "role": "Full Stack Developer",
+  "company": "Nisaley",
+  "period": "Dic 2024 - Ene 2025",
+  "context": "MVP de e-commerce con catálogo y checkout.",
+  "icon": ShoppingCart,
+  "highlights": [
+    "MVP funcional en menos de seis semanas con productos, Mercado Pago, QR e imágenes en S3.",
+    "Consultas y caché con TanStack Query, estado con Zustand y autenticación con Drizzle."
+  ],
+  "stack": [
+    "Next.js",
+    "tRPC",
+    "Drizzle",
+    "AWS S3"
+  ]
+},
     {
       role: "Backend Developer",
       company: "Trabajo en Digital",
       period: "Mar 2024 - Sep 2024",
-      context: "Backend para una plataforma laboral. Foco en datos, estabilidad y endpoints que funcionaran bien.",
+      context: "Desarrollo backend para publicaciones de empleo y postulaciones, con foco en validaciones, consultas y estabilidad.",
       icon: Database,
       logo: {
         src: "/showcase/trabajoendigital_logo.jpg",
@@ -177,51 +248,64 @@ export const es: PortfolioContent = {
       },
       highlights: [
         "Pair programming, resolución de dudas y debugging en tiempo real.",
-        "Ayudar a desbloquear sin dar la respuesta masticada. Que entiendan, no que copien.",
+        "Acompañamiento para que los estudiantes pudieran entender el problema y resolverlo con autonomía.",
       ],
       stack: ["JavaScript", "React", "Node.js", "Mentoring"],
     },
   ],
   clientContexts: [
     {
-      name: "Llano Envíos / PLY",
-      url: "https://llanoenvios.com/",
-      type: "Logística operacional",
-      description: "Sistema de logística para gestionar guías, rutas, reportes y documentos operativos. La prioridad era que el flujo sea claro para quienes lo usan todos los días.",
+      name: "PLY",
+      url: "https://www.ply-tech.com/",
+      type: "SaaS logístico · Brace Developers",
+      description: "Plataforma SaaS logística, evolucionada desde Llano Envíos. Trabajé en interfaces, backend y funciones para la operación diaria, con soporte para múltiples organizaciones.",
       icon: Truck,
-      tags: ["Rutas", "Reportes", "Documentos"],
+      tags: ["SaaS", "Multi-tenant", "Full stack"],
       linkLabel: "Sitio público",
       logo: {
-        src: "/showcase/llano-envios-logo.png",
-        alt: "Logo de Llano Envíos.",
+        src: "/showcase/ply-logo.svg",
+        alt: "Logo de PLY.",
       },
       visual: {
-        src: "/screenshots/llano.png",
-        alt: "Captura de Llano Envíos usada como contexto visual de trabajo profesional.",
+        src: "/screenshots/ply.jpg",
+        alt: "Página pública de PLY, plataforma SaaS logística.",
       },
     },
     {
       name: "Avateen",
-      type: "Producto clínico",
-      description: "Producto clínico con roles, control de acceso, formularios y auditoría. En suma a un motor de inteligencia artificial orquestado y articulado con privacidad y control de calidad de respuestas.",
+      type: "Salud mental · Brace Developers",
+      description: "Participé en frontend y backend de una plataforma de acompañamiento en salud mental. Mi trabajo incluye flujos de usuario, permisos e integraciones con servicios externos.",
       icon: PanelsTopLeft,
-      tags: ["Roles", "Auditoría", "Scope"],
+      tags: ["Frontend", "Backend", "Integraciones"],
       logo: {
         src: "/showcase/avateen-logo.svg",
         alt: "Logo de Avateen.",
       },
-      visual: {
-        src: "/screenshots/avateen.png",
-        alt: "Captura de Avateen usada como contexto visual de trabajo profesional.",
-      },
     },
+{
+  "name": "Firenze",
+  "url": "https://heladeriafirenze.com/",
+  "type": "Comercio + operación por sucursal",
+  "description": "Tienda y sistema de gestión para una heladería y cafetería. Desarrollé el catálogo, los pedidos y la operación por sucursal, junto con el backend y la infraestructura en AWS.",
+  "icon": ShoppingCart,
+  "tags": ["UI/UX", "Backend", "AWS"],
+  "linkLabel": "Ver tienda",
+  "logo": {
+    "src": "/showcase/firenze-logo.png",
+    "alt": "Logo de Firenze."
+  },
+  "visual": {
+    "src": "/screenshots/firenze.jpg",
+    "alt": "Captura pública de la tienda Firenze."
+  }
+},
     {
       name: "EIA Campo Guamal",
       url: "https://eiacampoguamal.com/",
       type: "Sitio público + CMS",
-      description: "Sitio público con administración de contenido mediante PayloadCMS. La clave era mantener edición, publicación y navegación en una estructura simple y rápida.",
+      description: "Sitio web con administración de contenidos mediante PayloadCMS. Participé en el frontend y la integración del gestor de contenidos.",
       icon: Leaf,
-      tags: ["CMS", "Contenido", "Publicación"],
+      tags: ["Frontend", "CMS", "Contenido"],
       linkLabel: "Sitio público",
       logo: {
         src: "/showcase/guamal-logo.png",
@@ -236,9 +320,9 @@ export const es: PortfolioContent = {
       name: "Incolflex",
       url: "https://www.incolflex.co/",
       type: "E-commerce y admin",
-      description: "E-commerce con administración de catálogo, productos, banners, stock, etc. Trabajo donde la configuración interna impacta directo en la experiencia pública y entre clientes.",
+      description: "Trabajé en funciones de catálogo, productos, banners y stock para la tienda y su administración.",
       icon: ShoppingCart,
-      tags: ["Catálogo", "Admin", "Banners"],
+      tags: ["E-commerce", "Catálogo", "Administración"],
       linkLabel: "Sitio público",
       logo: {
         src: "/showcase/incolflex-logo.svg",
@@ -252,32 +336,12 @@ export const es: PortfolioContent = {
   ],
   projects: [
     {
-      name: "Cartas Sin Asco",
-      eyebrow: "Juego multijugador / versión argentina de CAH",
-      meta: "Proyecto personal",
-      summary: "Una versión argentina y +18 de Cards Against Humanity, jugable en tiempo real desde el celular o la web. Diseñar el frontend y modelar bien los rooms, los turnos y la mecánica de partida fueron una gran experiencia.",
-      signalLabel: "Decisión técnica",
-      signal: "Rooms, jugadores, WebSocket y contratos compartidos entre mobile, web y API desde un solo lugar.",
-      initials: "CSA",
-      logo: {
-        src: "/showcase/csa-logo.jpg",
-        alt: "Logo de Cartas Sin Asco.",
-      },
-      image: {
-        src: "/screenshots/csa.png",
-        alt: "Captura de Cartas Sin Asco, juego de cartas multijugador.",
-      },
-      icon: Gamepad2,
-      stack: ["Expo", "NestJS", "Socket.IO", "TypeORM", "Next.js"],
-      links: [{ label: "Escribime para saber más", href: `mailto:${sharedProfile.email}`, kind: "contact" }],
-    },
-    {
       name: "WePlay",
       eyebrow: "Plataforma gaming / comunidad",
-      meta: "Proyecto personal",
-      summary: "Plataforma para comunidades de juegos con salas, roles y estado en tiempo real. Gestión de lobbies, salas y distintos perfiles de jugadores, conectados en tiempo real, transmitiendo voz mediante SSE + tRPC.",
+      meta: "Proyecto personal · En pausa",
+      summary: "WePlay nace de algo que siempre disfruté: conocer gente jugando. Quiero crear un espacio para encontrar compañeros, compartir partidas y aprender juntos, con lugar para distintas formas de ser y niveles de experiencia.",
       signalLabel: "Decisión técnica",
-      signal: "tRPC, RBAC, Drizzle, Redis y S3. Un ejercicio de definir bien los límites antes de construir.",
+      signal: "Desarrollé salas y participantes con PostgreSQL y tRPC, sincronización en tiempo real con SSE y Redis, autenticación con Auth.js y voz con LiveKit. Está en pausa y quiero retomarlo.",
       initials: "WP",
       logo: {
         src: "/showcase/weplay-logo.svg",
@@ -288,7 +352,7 @@ export const es: PortfolioContent = {
         alt: "Captura de WePlay, plataforma gaming y de comunidad.",
       },
       icon: Radio,
-      stack: ["Next.js", "tRPC", "Drizzle", "Redis", "AWS S3"],
+      stack: ["Next.js", "tRPC", "Drizzle", "Redis", "LiveKit", "AWS S3"],
       links: [{ label: "Escribime para saber más", href: `mailto:${sharedProfile.email}`, kind: "contact" }],
     },
   ],
@@ -297,25 +361,26 @@ export const es: PortfolioContent = {
     { label: "Frontend", icon: Blocks, items: ["React", "Next.js", "Tailwind", "CSS Modules", "Radix UI"] },
     { label: "Backend", icon: ServerCog, items: ["Node.js", "NestJS", "tRPC", "REST", "Socket.IO", "JWT"] },
     { label: "Datos", icon: Database, items: ["PostgreSQL", "TypeORM", "Drizzle", "Redis"] },
-    { label: "Cloud", icon: GitBranch, items: ["AWS S3", "Lambda", "RDS", "Docker", "GitHub Actions"] },
+    { label: "Infraestructura", icon: GitBranch, items: ["AWS CDK", "CloudFormation", "ECS / EC2", "ECR", "RDS", "S3", "SQS", "CloudFront", "Cognito"] },
+    { label: "Entrega y operación", icon: Workflow, items: ["Docker", "GitHub Actions / OIDC", "GitLab CI", "IAM", "Secrets Manager", "CloudWatch", "Cloudflare"] },
     { label: "Automatización", icon: Bot, items: ["Claude", "OpenAI", "Agents", "Playwright", "Puppeteer"] },
   ],
   contact: {
     eyebrow: "Contacto",
-    title: "Contame qué están construyendo",
-    description: "Si hay algo en lo que puedo sumar, lo vemos juntos.",
+    title: "¿Tenés un proyecto en mente?",
+    description: "Podemos conversar sobre tu idea o sobre una oportunidad de trabajo. Me interesa seguir desarrollando aplicaciones y participar en las decisiones del producto.",
     emailLine: "o escribime a",
     fitTitle: "Me va bien en",
     fitItems: [
       "Productos con lógica de negocio real",
-      "Backend con peso, no solo endpoints",
-      "Sistemas donde los datos tienen estructura",
+      "Desarrollo de punta a punta",
+      "Interfaces claras y decisiones de producto",
     ],
     rhythmTitle: "Cómo arranco",
     rhythmItems: [
       "Entender el problema primero",
       "Definir el alcance antes de estimar",
-      "Construir bien, no solo rápido",
+      "Validar, entregar y mejorar",
     ],
     form: {
       name: "Nombre",
@@ -326,7 +391,7 @@ export const es: PortfolioContent = {
       submitting: "Enviando",
       sending: "Enviando...",
       genericError: "Algo falló. Probá de nuevo en un momento.",
-      dryRunSuccess: "Mensaje validado. Falta configurar RESEND_API_KEY y CONTACT_TO_EMAIL.",
+      dryRunSuccess: "El formulario todavía no envía mensajes. Escribime al email que aparece en esta sección.",
       success: "Mensaje enviado. Te respondo apenas pueda.",
     },
   },

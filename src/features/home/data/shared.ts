@@ -6,7 +6,7 @@ export const sharedProfile = {
   email: "porcielfranciscoramon@gmail.com",
   github: "https://github.com/frannpor",
   linkedin: "https://www.linkedin.com/in/frannpor",
-  cv: "/Francisco_Porciel_CV_2026.docx",
+  cv: "/Francisco_Porciel_CV_2026.pdf",
 };
 
 export const techMeta = {

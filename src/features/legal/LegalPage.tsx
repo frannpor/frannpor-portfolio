@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, FileText, LockKeyhole, ShieldCheck } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import { siteConfig } from "@/shared/config/site";
 import { LanguageProvider, usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import type { Locale } from "@/features/home/data/portfolio";
 import { SystemHeader } from "@/features/system/SystemHeader";
 import styles from "./legal.module.css";
+import pageStyles from "@/features/home/components/product-portfolio.module.css";
+import { PortfolioFooter, PortfolioMotion } from "@/features/home/components/PortfolioChrome";
 
 type LegalSection = {
   title: string;
@@ -47,7 +49,8 @@ function LegalPageContent({ content }: LegalPageProps) {
   const copy = content[locale];
 
   return (
-    <>
+    <div className={pageStyles.page}>
+      <PortfolioMotion />
       <SystemHeader />
       <main className={styles.shell}>
       <section className={styles.hero}>
@@ -64,28 +67,7 @@ function LegalPageContent({ content }: LegalPageProps) {
               <FileText size={15} />
               {copy.meta.updated}: {copy.updatedAt}
             </span>
-            <span>
-              <ShieldCheck size={15} />
-              {copy.meta.oauth}
-            </span>
-            <span>
-              <LockKeyhole size={15} />
-              {copy.meta.publicDocument}
-            </span>
           </div>
-        </div>
-        <div className={styles.heroCard} aria-hidden="true">
-          <div className={styles.windowBar}>
-            <i />
-            <i />
-            <i />
-            <span>{copy.meta.cardTitle}</span>
-          </div>
-          <strong>{copy.sections.length}</strong>
-          <p>{copy.meta.cardDescription}</p>
-          <i />
-          <i />
-          <i />
         </div>
       </section>
 
@@ -102,7 +84,7 @@ function LegalPageContent({ content }: LegalPageProps) {
 
         <article className={styles.document}>
           <div className={styles.notice}>
-            <CheckCircle2 size={18} />
+
             <p>{copy.meta.notice}</p>
           </div>
           {copy.sections.map((section, index) => (
@@ -117,12 +99,9 @@ function LegalPageContent({ content }: LegalPageProps) {
         </article>
       </div>
 
-      <footer className={styles.footer}>
-        <span>{profile.name}</span>
-        <a href={`mailto:${profile.email}`}>{profile.email}</a>
-      </footer>
     </main>
-    </>
+    <PortfolioFooter homePrefix="/" />
+    </div>
   );
 }
 
