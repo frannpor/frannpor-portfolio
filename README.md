@@ -44,6 +44,7 @@ See `.env.example`.
 - Project galleries lock background scrolling, support Escape and restore focus on close.
 - Privacy and terms content remains in source. Public access is disabled by `publicLegalPages` in `src/features/legal/visibility.ts`; those routes return 404.
 - Current CVs are stored in `public/` as PDF and DOCX files for both languages.
+- Link previews use a 1200 × 630 PNG generated from the existing portrait in `src/app/opengraph-image.tsx`, with absolute Open Graph URLs, a canonical URL and a large Twitter card.
 
 ## Production deployment
 
