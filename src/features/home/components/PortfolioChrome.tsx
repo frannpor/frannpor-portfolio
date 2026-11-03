@@ -1,55 +1,84 @@
 "use client";
+
 import Image from "next/image";
-import { ArrowUpRight, GitBranch, Languages, Menu, X } from "@/shared/icons";
 import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, GitBranch, Menu, X } from "@/shared/icons";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import styles from "./product-portfolio.module.css";
-export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
- const { copy, locale, setLocale } = usePortfolioContent();
- const menuButton = useRef<HTMLButtonElement>(null);
- const [menuOpen, setMenuOpen] = useState(false);
- const es = locale === "es";
- return <>
-    <a className={styles.skip} href={`${homePrefix}#profile`}>{es ? "Ir al contenido" : "Skip to content"}</a>
-    <header className={styles.header} onKeyDown={event => { if (event.key === "Escape") { setMenuOpen(false); menuButton.current?.focus(); } }}>
-      <a href={`${homePrefix}#profile`} className={styles.brand} onClick={() => setMenuOpen(false)}><Image src="/brand/franpor-color.png" alt="" width={44} height={44} className={styles.personalLogo} /><span>franpor<span className={styles.brandDot}>.</span></span></a>
-      <nav id="portfolio-navigation" aria-label={es ? "Navegación principal" : "Main navigation"} className={menuOpen ? styles.navOpen : styles.nav}>
-        {copy.navigation.map(item => <a key={item.href} href={`${homePrefix}${item.href}`} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
-      </nav>
-      <div className={styles.headerActions}>
-        <div className={styles.languages} aria-label={copy.languageSwitch.label}>
-          <Languages size={16} strokeWidth={1.5} aria-hidden="true" />
-          <div className={styles.languageOptions} data-locale={locale}>{(["es","en"] as const).map(value => <button key={value} type="button" aria-label={value === "es" ? "Español" : "English"} title={value === "es" ? "Español" : "English"} aria-pressed={value === locale} onClick={() => { setLocale(value); setMenuOpen(false); }} >{value.toUpperCase()}</button>)}</div>
-        </div>
-        <button ref={menuButton} aria-controls="portfolio-navigation" className={styles.menuToggle} type="button" aria-expanded={menuOpen} aria-label={menuOpen ? (es ? "Cerrar menú" : "Close menu") : (es ? "Abrir menú" : "Open menu")} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
-      </div>
-    </header>
-</>;
-}
-export function PortfolioFooter({ homePrefix = "" }: { homePrefix?: string }) {
- const { copy, locale } = usePortfolioContent();
- const es = locale === "es";
- return (<footer className={styles.footer}><span>© 2026 Francisco Porciel</span><div><a href={copy.profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><GitBranch size={19} /></a><a href={copy.profile.linkedin} target="_blank" rel="noreferrer">LinkedIn<ArrowUpRight size={14} /></a></div><a href={`${homePrefix}#profile`}>{es ? "Volver arriba" : "Back to top"}<ArrowUpRight size={16} /></a></footer>);
+
+/** Tracks which section is under the reading line, for the header and the side map. */
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0] ?? "");
+  const key = ids.join(",");
+  useEffect(() => {
+    const sections = key.split(",").map(id => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) setActive(entry.target.id);
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, [key]);
+  return active;
 }
 
-export function PortfolioMotion() {
- useEffect(() => {
-   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-   if (reduced) return;
-   const nodes = document.querySelectorAll<HTMLElement>("main section[id] > .reveal, main section[id] article, main section[id] > div, main > section > div");
-   const observer = new IntersectionObserver(entries => {
-     for (const entry of entries) if (entry.isIntersecting) {
-       entry.target.setAttribute("data-revealed", "true");
-       observer.unobserve(entry.target);
-     }
-   }, { threshold: .08, rootMargin: "0px 0px -30px 0px" });
-   nodes.forEach((node, index) => {
-     if (node.getBoundingClientRect().top < window.innerHeight - 20) return;
-     node.setAttribute("data-revealed", "false");
-     node.style.setProperty("--reveal-delay", `${(index % 2) * 60}ms`);
-     observer.observe(node);
-   });
-   return () => { observer.disconnect(); nodes.forEach(node => { node.removeAttribute("data-revealed"); node.style.removeProperty("--reveal-delay"); }); };
- }, []);
- return null;
+export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
+  const { copy, locale, setLocale } = usePortfolioContent();
+  const { ui } = copy;
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const active = useActiveSection(copy.navigation.map(item => item.href.slice(1)));
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); menuButton.current?.focus(); }
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [menuOpen]);
+
+  return <>
+    <a className={styles.skip} href={`${homePrefix}#profile`}>{ui.skipToContent}</a>
+    <header className={styles.header} data-open={menuOpen}>
+      <div className={styles.headerInner}>
+        <a href={`${homePrefix}#profile`} className={styles.brand} onClick={() => setMenuOpen(false)}>
+          <Image src="/brand/franpor-color.png" alt="" width={36} height={36} priority />
+          <span>{copy.profile.handle}<span className={styles.brandDot}>.</span></span>
+        </a>
+        <nav id="portfolio-navigation" aria-label={ui.navigationLabel} className={styles.nav}>
+          {copy.navigation.map(item => <a key={item.href} href={`${homePrefix}${item.href}`} aria-current={!homePrefix && active === item.href.slice(1) ? "location" : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
+        </nav>
+        <div className={styles.languages} role="group" aria-label={copy.languageSwitch.label}>
+          {(["es", "en"] as const).map(value => <button key={value} type="button" lang={value} aria-label={ui.languageNames[value]} aria-pressed={value === locale} onClick={() => { setLocale(value); setMenuOpen(false); }}>{copy.languageSwitch[value]}</button>)}
+        </div>
+        <button ref={menuButton} aria-controls="portfolio-navigation" className={styles.menuToggle} type="button" aria-expanded={menuOpen} aria-label={menuOpen ? ui.menuClose : ui.menuOpen} onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
+      </div>
+      <span className={styles.progress} aria-hidden="true" />
+    </header>
+  </>;
+}
+
+/** Dots along the right edge on wide screens; names appear only on hover or focus. */
+export function SectionMap() {
+  const { copy } = usePortfolioContent();
+  const stops = [{ href: "#profile", label: copy.ui.sectionMap.top }, ...copy.navigation];
+  const active = useActiveSection(stops.map(stop => stop.href.slice(1)));
+  return <nav className={styles.sectionMap} aria-label={copy.ui.sectionMap.label}>
+    {stops.map(stop => <a key={stop.href} href={stop.href} aria-label={stop.label} aria-current={active === stop.href.slice(1) ? "location" : undefined}><span aria-hidden="true">{stop.label}</span></a>)}
+  </nav>;
+}
+
+export function PortfolioFooter({ homePrefix = "" }: { homePrefix?: string }) {
+  const { copy } = usePortfolioContent();
+  return <footer className={styles.footer}>
+    <div className={styles.footerInner}>
+      <span>© 2026 {copy.profile.name} · {copy.ui.footer.place}</span>
+      <div className={styles.footerLinks}>
+        <a href={copy.profile.github} target="_blank" rel="noreferrer" aria-label={copy.hero.actions.github}><GitBranch size={19} /></a>
+        <a href={copy.profile.linkedin} target="_blank" rel="noreferrer">{copy.hero.actions.linkedin}<ArrowUpRight size={14} /></a>
+        <a href={`${homePrefix}#profile`}>{copy.ui.footer.backToTop}<ArrowUpRight size={14} /></a>
+      </div>
+    </div>
+  </footer>;
 }

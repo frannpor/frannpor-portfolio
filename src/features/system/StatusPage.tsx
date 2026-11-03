@@ -7,7 +7,7 @@ import type { Locale } from "@/features/home/data/portfolio";
 import { SystemHeader } from "@/features/system/SystemHeader";
 import styles from "./status.module.css";
 import pageStyles from "@/features/home/components/product-portfolio.module.css";
-import { PortfolioFooter, PortfolioMotion } from "@/features/home/components/PortfolioChrome";
+import { PortfolioFooter } from "@/features/home/components/PortfolioChrome";
 
 type StatusCopy = {
   eyebrow: string;
@@ -43,7 +43,6 @@ function StatusPageContent({ code, content, onReset }: StatusPageProps) {
   const copy = content[locale];
 
   return <div className={pageStyles.page}>
-    <PortfolioMotion />
     <SystemHeader />
     <main className={styles.shell}>
       <section className={styles.panel} aria-labelledby="status-title">

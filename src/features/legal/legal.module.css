@@ -2,18 +2,18 @@
 .shell { width: min(1200px, calc(100% - 80px)); margin: auto; padding: 55px 0 80px; }
 .hero { padding: 0 0 50px; border-bottom: 1px solid #ffffff25; }
 .backLink { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13px; color: var(--quiet); }
-.kicker { margin: 35px 0 20px; color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: 11px; }
+.kicker { margin: 35px 0 20px; color: var(--amber); font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.15rem; }
 .header h1 { margin: 0 0 25px; font-size: clamp(40px,6vw,76px); line-height: 1.08; font-weight: 500; letter-spacing: -.05em; }
 .description { max-width: 760px; color: var(--quiet); font-size: 16px; line-height: 1.8; }
 .metaRow { display: flex; gap: 15px; margin-top: 28px; font-size: 12px; color: var(--quiet); }
 .metaRow span { display: flex; align-items: center; gap: 8px; }
 .contentGrid { display: grid; grid-template-columns: 270px minmax(0,1fr); gap: 80px; padding-top: 45px; }
 .index { position: sticky; top: 110px; align-self: start; }
-.index > span { display: block; margin-bottom: 20px; font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.index > span { display: block; margin-bottom: 20px; color: var(--amber); font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.15rem; }
 .index a { display: flex; gap: 13px; min-height: 44px; padding: 10px 0; color: var(--quiet); font-size: 12px; line-height: 1.6; }
 .index a:hover { color: var(--accent); }
 .index small { color: var(--accent); }
-.notice { padding: 20px 24px; background: #1b2119; border-left: 2px solid var(--accent); }
+.notice { padding: 20px 24px; background: var(--panel); border-left: 2px solid var(--accent); }
 .notice p { margin: 0; font-size: 14px; line-height: 1.8; color: var(--quiet); }
 .document section { padding: 35px 0; border-bottom: 1px solid #ffffff25; scroll-margin-top: 110px; }
 .document section > span { font-size: 11px; color: var(--accent); }

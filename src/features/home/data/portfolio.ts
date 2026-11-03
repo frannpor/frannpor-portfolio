@@ -14,6 +14,7 @@ export type {
   ImageRef,
   InterfaceCopy,
   ReaderCase,
+  ReaderMark,
   ContactCopy,
   Experience,
   Locale,
