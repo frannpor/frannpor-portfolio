@@ -77,8 +77,11 @@ export function useInteractiveFilterMotion<T extends HTMLElement>(
     let stopFilterAnimation: (() => void) | null = null;
     let stopScaleAnimation: (() => void) | null = null;
 
+    // Channels split for chromatic aberration follow the main displacement at their own ratio.
+    const chroma = Array.from(displacer.parentElement?.querySelectorAll<SVGFEDisplacementMapElement>("[data-chroma]") ?? []);
     const sync = () => {
       displacer.setAttribute("scale", state.displacement.toFixed(2));
+      for (const channel of chroma) channel.setAttribute("scale", (state.displacement * Number(channel.dataset.chroma)).toFixed(2));
       blur.setAttribute("stdDeviation", state.blur.toFixed(2));
       root.style.transform = `scale(${state.scale.toFixed(4)})`;
     };

@@ -1,0 +1,14 @@
+/* The wrapped control keeps its own size, type and focus ring; the glass only adds the surface. */
+.glass.glass { vertical-align: middle; }
+.content.content { padding: 0; font: inherit; letter-spacing: inherit; text-shadow: none; }
+.content :focus-visible { outline-offset: -3px; }
+
+/* Until the maps for the real size exist, a plain blur avoids a frame of stretched refraction. */
+.filter.pending { -webkit-backdrop-filter: blur(3px) saturate(1.3) brightness(1.04); backdrop-filter: blur(3px) saturate(1.3) brightness(1.04); }
+
+/* Actions: the glass is the button's surface, so the wrapped link drops its own fill and border. */
+.action.action { display: inline-flex; border-radius: 999px; }
+.actionContent.actionContent { width: 100%; }
+.actionContent > :is(a, button) { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; border-color: transparent; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.actionContent > :is(a, button):hover { border-color: transparent; background: none; box-shadow: none; }
+.actionContent > :is(a, button):active { transform: none; }

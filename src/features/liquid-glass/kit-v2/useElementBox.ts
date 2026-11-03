@@ -13,9 +13,9 @@ export function useElementBox(ref: React.RefObject<HTMLElement | null>, fallback
     }
 
     const update = () => {
-      const rect = node.getBoundingClientRect();
-      const nextWidth = Math.max(1, Math.round(rect.width || fallbackWidth));
-      const nextHeight = Math.max(1, Math.round(rect.height || fallbackHeight));
+      // Layout size, not the painted rectangle: an ancestor's entrance transform must not shrink the maps.
+      const nextWidth = Math.max(1, Math.round(node.offsetWidth || fallbackWidth));
+      const nextHeight = Math.max(1, Math.round(node.offsetHeight || fallbackHeight));
 
       setBox((current) =>
         current.width === nextWidth && current.height === nextHeight

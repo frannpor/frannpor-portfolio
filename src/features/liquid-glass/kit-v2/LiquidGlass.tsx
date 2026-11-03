@@ -54,6 +54,8 @@ function useLiquidGlassMaps(displacementMap?: string, specularMap?: string) {
 }
 
 function useLiquidGlassDefs({
+  aberration,
+  bezelOnly,
   blur,
   chromaOffset,
   chromaStrength,
@@ -67,6 +69,8 @@ function useLiquidGlassDefs({
   specularMap,
   width,
 }: {
+  aberration: number;
+  bezelOnly: boolean;
   blur: number;
   chromaOffset: number;
   chromaStrength: number;
@@ -82,6 +86,42 @@ function useLiquidGlassDefs({
 }) {
   const displacerRef = useRef<SVGFEDisplacementMapElement>(null);
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
+
+  if (bezelOnly) {
+    // Light pipeline for maps that already encode the bezel: refract, soften, saturate, light the rim.
+    return {
+      blurRef,
+      displacerRef,
+      node: (
+        <svg aria-hidden="true" className={styles.filterSvg} colorInterpolationFilters="sRGB" focusable="false">
+          <defs>
+            <filter id={filterId} x="0" y="0" width="100%" height="100%">
+              <feImage href={displacementMap} x="0" y="0" width={width} height={height} preserveAspectRatio="none" result="displacement_map" />
+              {aberration > 0 ? (
+                <>
+                  {/* Chromatic aberration: each channel bends by a slightly different amount, so colour only splits on the bezel. */}
+                  <feDisplacementMap ref={displacerRef} in="SourceGraphic" in2="displacement_map" scale={displacement} xChannelSelector="R" yChannelSelector="G" result="bent_red" />
+                  <feDisplacementMap data-chroma={1 - aberration} in="SourceGraphic" in2="displacement_map" scale={displacement * (1 - aberration)} xChannelSelector="R" yChannelSelector="G" result="bent_green" />
+                  <feDisplacementMap data-chroma={1 - aberration * 2} in="SourceGraphic" in2="displacement_map" scale={displacement * (1 - aberration * 2)} xChannelSelector="R" yChannelSelector="G" result="bent_blue" />
+                  <feColorMatrix in="bent_red" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red_only" />
+                  <feColorMatrix in="bent_green" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green_only" />
+                  <feColorMatrix in="bent_blue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue_only" />
+                  <feComposite in="red_only" in2="green_only" operator="arithmetic" k2="1" k3="1" result="red_green" />
+                  <feComposite in="red_green" in2="blue_only" operator="arithmetic" k2="1" k3="1" result="displaced" />
+                </>
+              ) : (
+                <feDisplacementMap ref={displacerRef} in="SourceGraphic" in2="displacement_map" scale={displacement} xChannelSelector="R" yChannelSelector="G" result="displaced" />
+              )}
+              <feGaussianBlur ref={blurRef} in="displaced" stdDeviation={blur} result="softened" />
+              <feColorMatrix in="softened" type="saturate" values={saturation.toString()} result="saturated" />
+              <feImage href={specularMap} x="0" y="0" width={width} height={height} preserveAspectRatio="none" result="specular_layer" />
+              <feComposite in="saturated" in2="specular_layer" operator="arithmetic" k1="0" k2="1" k3={Math.min(0.9, 0.35 + specularBlur * 0.2)} k4="0" />
+            </filter>
+          </defs>
+        </svg>
+      ),
+    };
+  }
 
   const node = (
     <svg aria-hidden="true" className={styles.filterSvg} colorInterpolationFilters="sRGB" focusable="false">
@@ -196,8 +236,10 @@ function liquidGlassStyle(
 
 export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
   {
+    aberration = 0,
     as = "div",
     animation,
+    bezelOnly = false,
     background = DEFAULT_BACKGROUND,
     blur = DEFAULT_BLUR,
     brightness = DEFAULT_BRIGHTNESS,
@@ -240,6 +282,8 @@ export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function Li
       animation?.hoverDisplacement === undefined ? undefined : animation.hoverDisplacement * intensityScale;
     const maps = useLiquidGlassMaps(displacementMap, specularMap);
     const defs = useLiquidGlassDefs({
+      aberration,
+      bezelOnly,
       blur,
       chromaOffset,
       chromaStrength,

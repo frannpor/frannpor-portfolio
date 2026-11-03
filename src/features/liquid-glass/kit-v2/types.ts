@@ -31,6 +31,10 @@ export type LiquidGlassTuning = {
   displacementMap?: string;
   specularMap?: string;
   filterId?: string;
+  /** Use a light filter when the maps already encode the bezel and its highlight. */
+  bezelOnly?: boolean;
+  /** 0 to about 0.12: how far red, green and blue separate on the bezel (light filter only). */
+  aberration?: number;
   animation?: LiquidGlassAnimation;
 };
 
