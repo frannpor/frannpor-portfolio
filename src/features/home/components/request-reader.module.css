@@ -1,0 +1,37 @@
+.reader { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); border: 1px solid var(--line); border-radius: 24px; background: var(--panel); overflow: hidden; }
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.title { margin: 0; font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.3rem; line-height: 1.1; color: var(--amber); }
+.tabs { display: flex; max-width: 100%; min-width: 0; gap: 2px; padding: 4px; border-radius: 999px; background: var(--deep); overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { flex: none; min-height: 44px; padding: 0 15px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 500 .9rem/1 var(--font-sans); white-space: nowrap; cursor: pointer; transition: background-color 220ms, color 220ms, transform 260ms cubic-bezier(.34, 1.56, .64, 1); }
+.tabs button:hover { color: var(--text); }
+.tabs button[aria-selected="true"] { background: var(--panel-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-2); }
+.tabs button:active { transform: scale(.95); }
+.tabs button:focus-visible { outline: 2px solid var(--lime); outline-offset: -2px; }
+.panel { min-width: 0; }
+.ask { margin: 0; padding: 24px 22px 6px; font-size: clamp(1.18rem, 2.1vw, 1.5rem); line-height: 1.42; font-weight: 500; color: var(--text); text-wrap: pretty; }
+.ask mark { padding: 0 .08em; margin: 0 -.08em; border-radius: 5px; -webkit-box-decoration-break: clone; box-decoration-break: clone; background: none; color: inherit; transition: background-color 400ms, color 400ms, box-shadow 400ms; }
+.ask mark[data-kind="actor"][data-lit="true"] { background: var(--lime); color: var(--night); }
+.ask mark[data-kind="state"][data-lit="true"] { color: var(--ice); box-shadow: inset 0 -3px 0 var(--ice); }
+.ask mark[data-kind="rule"][data-lit="true"] { color: var(--amber); box-shadow: inset 0 -2px 0 var(--amber); font-style: italic; }
+.out { display: grid; gap: 18px; padding: 16px 22px 20px; }
+.block { min-width: 0; transition: opacity 500ms; }
+.block[data-on="false"] { opacity: .12; }
+.block h4 { margin: 0 0 8px; font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.08rem; line-height: 1.1; color: var(--muted); }
+.actors { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.actors li { padding: 5px 12px; border: 1px solid color-mix(in srgb, var(--lime) 40%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--lime) 14%, transparent); color: var(--lime); font-weight: 600; font-size: .92rem; }
+.states { display: flex; flex-wrap: wrap; gap: 12px 0; margin: 0; padding: 4px 0 0; list-style: none; }
+.states li { position: relative; display: grid; justify-items: start; gap: 7px; padding-right: 22px; }
+.states li::before { content: ""; position: absolute; left: 12px; right: 0; top: 6px; height: 3px; background: var(--ice); opacity: .5; }
+.states li:last-child::before { display: none; }
+.states i { position: relative; z-index: 1; width: 15px; height: 15px; border: 3px solid var(--ice); border-radius: 50%; background: var(--panel); }
+.states span { color: var(--ice); font-size: .9rem; white-space: nowrap; }
+.rules { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.rules li { padding-left: 14px; border-left: 2px solid color-mix(in srgb, var(--amber) 60%, transparent); color: var(--amber); font-size: .96rem; line-height: 1.45; }
+.question { padding: 16px 18px; border: 1px dashed color-mix(in srgb, var(--signal) 70%, transparent); border-radius: 16px; background: color-mix(in srgb, var(--signal) 12%, transparent); }
+.question h4 { color: var(--signal); }
+.question p { margin: 0; font-family: var(--font-display); font-stretch: 96%; font-weight: 700; font-size: 1.16rem; line-height: 1.28; letter-spacing: -.01em; color: var(--text); text-wrap: pretty; }
+.note { margin: 0; padding: 0 22px 18px; color: var(--faint); font-size: .86rem; line-height: 1.5; }
+.note button { min-height: 44px; padding: 0 2px; border: 0; background: none; color: var(--lime); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (max-width: 520px) { .top { padding: 14px; } .ask { padding: 20px 16px 4px; } .out { padding: 14px 16px 18px; } .note { padding: 0 16px 14px; } }
+@media (prefers-reduced-motion: reduce) { .block, .ask mark, .tabs button { transition: none; } }
