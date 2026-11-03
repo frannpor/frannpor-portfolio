@@ -15,7 +15,7 @@ import { ContactForm } from "./ContactForm";
 import { ExperienceRoute } from "./ExperienceRoute";
 import styles from "./product-portfolio.module.css";
 
-const accentStyle = (accent: string) => ({ "--c": accent }) as CSSProperties;
+const accentStyle = (accent: string) => ({ "--c": `color-mix(in srgb, ${accent} 32%, var(--text))` }) as CSSProperties;
 
 function SectionHeading({ section, id }: { section: SectionCopy; id: string }) {
   return <div className={styles.sectionHeading} data-reveal="heading">

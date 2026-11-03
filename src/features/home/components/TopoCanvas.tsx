@@ -18,6 +18,9 @@ export function TopoCanvas({ className }: { className?: string }) {
     const context = element?.getContext("2d");
     if (!element || !context) return;
     const c = context;
+    const palette = getComputedStyle(element);
+    const primary = palette.getPropertyValue("--lime").trim();
+    const secondary = palette.getPropertyValue("--faint").trim();
     const animate = motionAllowed();
     let width = 0;
     let height = 0;
@@ -45,7 +48,8 @@ export function TopoCanvas({ className }: { className?: string }) {
       for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) values[j * cols + i] = field(i * step, j * step);
       for (let level = -1.6, k = 0; level <= 1.6; level += 0.2, k++) {
         c.beginPath();
-        c.strokeStyle = k % 5 === 0 ? "rgba(200,242,80,.28)" : "rgba(140,200,188,.15)";
+        c.strokeStyle = k % 5 === 0 ? primary : secondary;
+        c.globalAlpha = k % 5 === 0 ? .28 : .15;
         c.lineWidth = k % 5 === 0 ? 1.2 : 0.8;
         for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
           const a = values[j * cols + i], b = values[j * cols + i + 1];

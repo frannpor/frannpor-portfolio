@@ -11,13 +11,13 @@
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .chips li { padding: 4px 11px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--muted); font-size: .8rem; line-height: 1.4; }
 .dot { position: relative; z-index: 1; display: block; flex: none; width: 20px; height: 20px; border: 3px solid var(--lime); border-radius: 50%; background: var(--night); transition: background-color var(--t-open) var(--ease), transform var(--t-open) var(--ease-spring), box-shadow var(--t-open) var(--ease); }
-[data-now="true"] > .dot, [data-now="true"] .row > .dot { background: var(--lime); box-shadow: 0 0 0 6px rgba(200, 242, 80, .18); }
+[data-now="true"] > .dot, [data-now="true"] .row > .dot { background: var(--lime); box-shadow: 0 0 0 6px color-mix(in srgb, var(--lime) 18%, transparent); }
 
 /* Wide: horizontal route with a detail panel */
 .horizontal { display: grid; gap: 16px; }
 .track { position: relative; display: grid; grid-template-columns: repeat(var(--count), minmax(0, 1fr)); }
 .line { position: absolute; left: calc(50% / var(--count)); right: calc(50% / var(--count)); top: 21px; height: 3px; border-radius: 3px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--lime) 55%, transparent) 0 10px, transparent 10px 18px); }
-.line span { position: absolute; inset: 0; border-radius: 3px; background: var(--lime); box-shadow: 0 0 12px rgba(200, 242, 80, .45); transform: scaleX(var(--fill, 1)); transform-origin: left; }
+.line span { position: absolute; inset: 0; border-radius: 3px; background: var(--lime); transform: scaleX(var(--fill, 1)); transform-origin: left; }
 .stop { display: grid; justify-items: center; align-content: start; gap: 8px; min-width: 0; min-height: 44px; padding: 12px 6px 14px; border: 0; border-radius: 16px; background: none; color: var(--text); font: inherit; text-align: center; cursor: pointer; transition: background-color var(--t-quick) var(--ease), transform var(--t-open) var(--ease-spring); }
 .stop:hover { color: var(--lime); }
 .stop:hover .dot { box-shadow: 0 0 0 5px color-mix(in srgb, var(--lime) 14%, transparent); }
@@ -30,6 +30,7 @@
 
 .stop[aria-selected="true"] { background: none; }
 .stop[aria-selected="true"] .dot { background: var(--lime); }
+
 .stop[aria-selected="true"] .company { color: var(--lime); }
 .panel { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 20px 44px; padding: clamp(22px, 3vw, 36px); border: 1px solid var(--line); border-radius: 24px; background: var(--panel);  }
 
@@ -42,7 +43,7 @@
 .vertical { position: relative; display: grid; margin: 0; padding: 0; list-style: none; }
 .vertical::before, .vertical::after { content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 3px; border-radius: 3px; }
 .vertical::before { background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--lime) 55%, transparent) 0 10px, transparent 10px 18px); }
-.vertical::after { background: var(--lime); box-shadow: 0 0 12px rgba(200, 242, 80, .4); transform: scaleY(var(--fill, 1)); transform-origin: top; }
+.vertical::after { background: var(--lime); transform: scaleY(var(--fill, 1)); transform-origin: top; }
 .vertical > li { position: relative; border-bottom: 1px solid var(--line); }
 .vertical > li:last-child { border-bottom: 0; }
 .row { display: grid; grid-template-columns: 44px minmax(0, 1fr) 24px; grid-template-areas: "dot when toggle" "dot company toggle" "dot role toggle"; align-items: center; gap: 2px 8px; width: 100%; min-height: 64px; padding: 14px 0; border: 0; background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
@@ -74,5 +75,5 @@
   :global(:root[data-motion="on"]) .horizontal { position: sticky; top: 112px; height: min(640px, calc(100svh - 144px)); align-content: start; }
 }
 
-.panelHead, .panelBody { animation: panelIn var(--t-open) var(--ease); }
+
 @media (min-width: 900px) { .panelHead h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); } .panel { padding: 24px; gap: 28px; } .highlights li { font-size: .92rem; } }
