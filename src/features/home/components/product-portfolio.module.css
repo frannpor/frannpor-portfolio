@@ -372,3 +372,27 @@ button.media:hover .zoom { background: #cefa69; color: var(--ink); }
 }
 @media(max-width:390px) { .principles { grid-template-columns: 1fr; } .principles article + article { border-left: 0; border-top: 1px solid #ffffff1b; } .principles h3 { min-height: unset; } .principles article { gap: 20px; } .contactLinks { grid-template-columns: 1fr; } .contactIntro h2 { font-size: 36px; } }
 @media(prefers-reduced-motion:reduce) { .casePreview,.projectWindow,.principleArrow,.experienceCard { transition: none; } .case:hover .casePreview,.project:hover .projectWindow,.principles article:hover .principleArrow { transform: none; } }
+
+/* Typography: a distinct display face for headings, and one deliberate scale (minor third, ~1.2). */
+.page {
+  --step-0: 15px; --step-1: 18px; --step-2: 22px; --step-3: 27px; --step-4: clamp(31px,3.4vw,39px);
+  --step-5: clamp(40px,4.6vw,56px); --step-6: clamp(48px,6vw,80px); --step-7: clamp(64px,8vw,116px);
+}
+.page :is(h1,h2,h3), .brand { font-family: var(--font-display); }
+.hero h1 { font-size: var(--step-7); letter-spacing: -.045em; line-height: .94; font-weight: 700; }
+.sectionHeading h2 { font-size: var(--step-5); font-weight: 600; letter-spacing: -.035em; line-height: 1.05; }
+.contactIntro h2 { font-size: var(--step-5); font-weight: 600; letter-spacing: -.035em; }
+.featuredCase .caseBody h3, .projectBody h3 { font-size: var(--step-6); font-weight: 600; letter-spacing: -.035em; line-height: 1; }
+.smallCase .caseBody h3, .ai h3 { font-size: var(--step-4); font-weight: 600; letter-spacing: -.03em; }
+.experience h3 { font-size: var(--step-3); font-weight: 600; letter-spacing: -.025em; }
+.principles h3 { font-size: var(--step-2); font-weight: 600; letter-spacing: -.02em; }
+.contactPanelHeading h3 { font-size: var(--step-3); font-weight: 600; letter-spacing: -.02em; }
+.brand { font-weight: 700; letter-spacing: -.03em; }
+@media(max-width:760px) {
+ .hero h1 { font-size: clamp(56px,16vw,88px); }
+ .sectionHeading h2, .contactIntro h2 { font-size: clamp(34px,10vw,44px); }
+ .featuredCase .caseBody h3, .projectBody h3 { font-size: clamp(36px,11vw,48px); }
+ .smallCase .caseBody h3, .ai h3 { font-size: 28px; }
+ .experience h3 { font-size: 24px; }
+ .principles h3 { font-size: 18px; }
+}
