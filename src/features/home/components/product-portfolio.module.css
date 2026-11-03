@@ -57,7 +57,7 @@
 .nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 13px; border-radius: 999px; color: var(--muted); font-size: .94rem; text-decoration: none; transition: color 200ms, background-color 200ms; }
 .nav a:hover, .nav a[aria-current] { color: var(--text); background: var(--panel); }
 .languages { display: flex; padding: 3px; border: 1px solid var(--line-2); border-radius: 999px; }
-.languages button { min-width: 44px; min-height: 38px; padding: 0 10px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 .8rem/1 var(--font-sans); letter-spacing: .02em; transition: background-color 200ms, color 200ms, transform 260ms cubic-bezier(.34, 1.56, .64, 1); }
+.languages button { min-width: 44px; min-height: 44px; padding: 0 10px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 .8rem/1 var(--font-sans); letter-spacing: .02em; transition: background-color 200ms, color 200ms, transform 260ms cubic-bezier(.34, 1.56, .64, 1); }
 .languages button:hover { color: var(--text); }
 .languages button[aria-pressed="true"] { background: var(--lime); color: var(--night); }
 .languages button:active { transform: scale(.92); }
@@ -75,7 +75,7 @@
 /* Side map of sections (wide screens with a mouse) */
 .sectionMap { position: fixed; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; z-index: 35; display: grid; gap: 2px; padding: 8px 4px; border: 1px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--night) 60%, transparent); backdrop-filter: blur(10px); transform: translateY(-50%); }
 .sectionMap::before { content: ""; position: absolute; left: 50%; top: 24px; bottom: 24px; width: 1px; background: repeating-linear-gradient(to bottom, var(--line-2) 0 4px, transparent 4px 8px); }
-.sectionMap a { position: relative; display: grid; place-items: center; width: 36px; height: 36px; }
+.sectionMap a { position: relative; display: grid; place-items: center; width: 44px; height: 44px; }
 .sectionMap a::before { content: ""; width: 12px; height: 12px; border: 2px solid var(--faint); border-radius: 50%; background: var(--night); transition: border-color 300ms, background-color 300ms, transform 400ms cubic-bezier(.34, 1.56, .64, 1); }
 .sectionMap a:hover::before { border-color: var(--text); transform: scale(1.25); }
 .sectionMap a[aria-current]::before { border-color: var(--lime); background: var(--lime); transform: scale(1.2); }
