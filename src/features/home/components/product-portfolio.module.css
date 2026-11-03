@@ -29,7 +29,8 @@
 .page p { margin: 0; }
 .page :where(a) { color: inherit; }
 .page button, .page summary { cursor: pointer; }
-.page :is(a, button, summary, input, textarea, [tabindex]):focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
+/* Form fields draw their own focus border and glow, so the generic ring would double it. */
+.page :is(a, button, summary, [tabindex]):not(input, textarea):focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
 .page img { max-width: 100%; }
 
 .skip { position: fixed; top: 8px; left: 16px; z-index: 200; padding: 12px 16px; border-radius: 999px; color: var(--night); background: var(--lime); font-weight: 600; transform: translateY(-160%); }
