@@ -102,7 +102,7 @@ export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
     <header className={styles.header} data-open={menuOpen}>
       <div className={styles.headerInner}>
         <a href={`${homePrefix}#profile`} className={styles.brand} onClick={() => setMenuOpen(false)}>
-          <Image src="/brand/franpor-color.png" alt="" width={36} height={36} priority />
+          <Image src="/brand/frannpor-clean.webp" alt="" width={36} height={36} priority />
           <span>{copy.profile.handle}<span className={styles.brandDot}>.</span></span>
         </a>
         <nav id="portfolio-navigation" aria-label={ui.navigationLabel} className={styles.nav}>

@@ -3,15 +3,14 @@
 .compass { position: relative; width: 100%; aspect-ratio: 1; isolation: isolate; }
 .ring { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--line-2); font-family: var(--font-display); pointer-events: none; }
 .ring text { font-weight: 700; font-stretch: 110%; }
-.needle { position: absolute; inset: 0; pointer-events: none; transform: rotate(var(--heading, 0deg)); transition: transform 900ms cubic-bezier(.34, 1.45, .5, 1); }
-.needle i { position: absolute; left: 50%; top: 1.2%; width: 12px; height: 12px; margin-left: -6px; background: var(--lime); transform: rotate(45deg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 18%, transparent), 0 0 18px color-mix(in srgb, var(--lime) 55%, transparent); }
+.needle { position: absolute; inset: 0; pointer-events: none; transform: rotate(var(--heading, 0deg)); transition: transform 240ms var(--ease); }
+.needle i { position: absolute; left: 50%; top: 1.2%; width: 12px; height: 12px; margin-left: -6px; background: var(--lime); transform: rotate(45deg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 18%, transparent); }
 .control { position: absolute; inset: 7%; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; perspective: 900px; cursor: grab; touch-action: pan-y pinch-zoom; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
 .control:active { cursor: grabbing; }
 .control:focus-visible { outline: 2px solid var(--lime); outline-offset: 6px; }
 .plane { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
 .floatLayer { position: absolute; inset: 0; transform-style: preserve-3d; }
-.glow { position: absolute; inset: 14%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--lime) 10%, transparent), transparent 70%); transform: translateZ(-30px); }
-.portrait { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; transform: translateZ(50px); filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .5)); transition: transform 220ms cubic-bezier(.34, 1.56, .64, 1); }
+.portrait { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; transform: translateZ(50px); filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .5)); transition: transform 220ms var(--ease); }
 .control:active .portrait { transform: translateZ(40px) scale(.97); }
 .marks { position: absolute; inset: 7%; pointer-events: none; }
 .mark { position: absolute; width: 80px; height: 80px; margin: -40px; color: var(--lime); }
@@ -21,7 +20,7 @@
 .wave { stroke-width: 1; opacity: .4; }
 .ticks { stroke-width: 1.5; opacity: .6; }
 /* The complete SVG moves as one stamp; only the cross stroke draws independently. */
-@keyframes waypointStamp { 0% { opacity: 0; transform: scale(.5); } 22% { opacity: 1; transform: scale(1.12); } 40%, 72% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.2); } }
+@keyframes waypointStamp { 0% { opacity: 0; transform: scale(.5); } 22% { opacity: 1; transform: scale(1); } 40%, 72% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.2); } }
 @keyframes crossDraw { 0% { stroke-dashoffset: 24; } 22%, 100% { stroke-dashoffset: 0; } }
 .hint { margin: 0; max-width: 34ch; color: var(--muted); font-family: var(--font-display); font-style: italic; font-stretch: 70%; font-weight: 500; font-size: 1rem; line-height: 1.25; text-align: center; }
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
