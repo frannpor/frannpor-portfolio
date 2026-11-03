@@ -82,11 +82,7 @@ export function useNightMapMotion() {
       const route = document.querySelector<HTMLElement>("[data-route]");
       if (route) {
         const rr = route.getBoundingClientRect();
-        routeTarget = clamp((vh * 0.62 - rr.top) / rr.height);
-        route.querySelectorAll<HTMLElement>("[data-route-dot]").forEach(dot => {
-          const item = dot.closest<HTMLElement>("li");
-          if (item) item.dataset.past = String(dot.getBoundingClientRect().top < vh * 0.62);
-        });
+        routeTarget = clamp((vh * 0.7 - rr.top) / Math.max(rr.height, vh * 0.4));
       }
     }
 

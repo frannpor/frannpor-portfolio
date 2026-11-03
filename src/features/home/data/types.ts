@@ -141,11 +141,13 @@ export type ReaderMark = "actor" | "state" | "rule";
 
 export type ReaderCase = {
   tab: string;
-  ask: Array<{ text: string; mark?: ReaderMark }>;
+  /** Marked parts carry a short note on why I ask about them. */
+  ask: Array<{ text: string; mark?: ReaderMark; note?: string }>;
   actors: string[];
   states: string[];
   rules: string[];
   question: string;
+  questionNote: string;
 };
 
 export type InterfaceCopy = {
@@ -160,7 +162,6 @@ export type InterfaceCopy = {
   };
   hero: {
     status: string;
-    coordinates: string;
     place: string;
     explore: string;
     downloadCv: string;
@@ -182,10 +183,14 @@ export type InterfaceCopy = {
     };
     note: string;
     replay: string;
+    hint: string;
+    why: string;
     cases: ReaderCase[];
   };
   experience: {
     contribution: string;
+    stopsLabel: string;
+    now: string;
   };
   projects: {
     howBuilt: string;
