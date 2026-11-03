@@ -33,6 +33,13 @@ export type Experience = {
   stack: string[];
 };
 
+export type ImageRef = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
 export type ClientContext = {
   name: string;
   url?: string;
@@ -40,15 +47,14 @@ export type ClientContext = {
   description: string;
   icon: Icon;
   tags: string[];
+  /** Color of the light that marks this project along the route. */
+  accent: string;
+  /** What I built, shown on the featured projects. */
+  points?: string[];
+  stack?: string[];
   linkLabel?: string;
-  logo?: {
-    src: string;
-    alt: string;
-  };
-  visual?: {
-    src: string;
-    alt: string;
-  };
+  logo?: ImageRef;
+  visual?: ImageRef;
 };
 
 export type Project = {
@@ -63,11 +69,16 @@ export type Project = {
     src: string;
     alt: string;
   };
-  image?: {
-    src: string;
-    alt: string;
-  };
+  image?: ImageRef;
   icon: Icon;
+  accent: string;
+  status: {
+    label: string;
+    tone: "active" | "paused";
+  };
+  /** Logo used as artwork when there is no screenshot. */
+  art?: ImageRef;
+  mark?: ImageRef;
   stack: string[];
   links: Array<{
     label: string;
@@ -97,6 +108,8 @@ export type AgenticWorkflow = {
 export type SectionCopy = {
   eyebrow: string;
   title: string;
+  /** Second half of the heading, set in the condensed italic voice. */
+  accent?: string;
   description: string;
   icon: Icon;
 };
@@ -124,7 +137,94 @@ export type ContactCopy = {
   };
 };
 
+export type ReaderMark = "actor" | "state" | "rule";
+
+export type ReaderCase = {
+  tab: string;
+  ask: Array<{ text: string; mark?: ReaderMark }>;
+  actors: string[];
+  states: string[];
+  rules: string[];
+  question: string;
+};
+
+export type InterfaceCopy = {
+  skipToContent: string;
+  navigationLabel: string;
+  menuOpen: string;
+  menuClose: string;
+  languageNames: Record<Locale, string>;
+  sectionMap: {
+    label: string;
+    top: string;
+  };
+  hero: {
+    status: string;
+    coordinates: string;
+    place: string;
+    explore: string;
+    downloadCv: string;
+    portraitLabel: string;
+    portraitHint: string;
+    portraitKeyboard: string;
+  };
+  work: {
+    openScreenshot: string;
+  };
+  reader: {
+    title: string;
+    tabsLabel: string;
+    blocks: {
+      actors: string;
+      states: string;
+      rules: string;
+      question: string;
+    };
+    note: string;
+    replay: string;
+    cases: ReaderCase[];
+  };
+  experience: {
+    contribution: string;
+  };
+  projects: {
+    howBuilt: string;
+    talk: string;
+  };
+  stack: {
+    summary: string;
+  };
+  contact: {
+    heading: string;
+    inbox: string;
+    copy: string;
+    copied: string;
+    copyFailed: string;
+    cvPdf: string;
+    cvWord: string;
+    formTitle: string;
+    formLead: string;
+    optional: string;
+    privacy: string;
+    rateLimited: string;
+    emailInstead: string;
+  };
+  gallery: {
+    eyebrow: string;
+    close: string;
+    previous: string;
+    next: string;
+    choose: string;
+    visit: string;
+  };
+  footer: {
+    place: string;
+    backToTop: string;
+  };
+};
+
 export type PortfolioContent = {
+  ui: InterfaceCopy;
   profile: {
     name: string;
     handle: string;

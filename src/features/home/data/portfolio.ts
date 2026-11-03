@@ -11,6 +11,9 @@ export const defaultLocale: Locale = "es";
 
 export type {
   ClientContext,
+  ImageRef,
+  InterfaceCopy,
+  ReaderCase,
   ContactCopy,
   Experience,
   Locale,
