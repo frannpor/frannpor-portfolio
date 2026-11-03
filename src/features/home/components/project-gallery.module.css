@@ -1,9 +1,9 @@
 
 .dialog { position: fixed; inset: 0; width: min(1220px,calc(100vw - 64px)); max-height: calc(100svh - 48px); margin: auto; padding: 0; border: 1px solid var(--line-2); border-radius: 22px; color: var(--text); background: var(--panel); box-shadow: 0 35px 100px #0008; overflow: auto; overscroll-behavior: contain; }
-.dialog::backdrop { background: color-mix(in srgb, var(--night) 85%, transparent); backdrop-filter: blur(16px); animation: backdropIn 280ms ease both; }
+.dialog::backdrop { background: color-mix(in srgb, var(--night) 85%, transparent); backdrop-filter: blur(16px); animation: backdropIn var(--t-open) var(--ease) both; }
 .dialog[open] { animation: galleryIn var(--t-open) var(--ease) both; }
 .dialog[data-closing=true] { animation: galleryOut var(--t-close) var(--ease-exit) both; }
-.dialog[data-closing=true]::backdrop { animation: backdropOut 180ms ease-in both; }
+.dialog[data-closing=true]::backdrop { animation: backdropOut var(--t-close) var(--ease-exit) both; }
 .sheet { padding: 25px; }
 .header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 0 3px 20px; }
 .eyebrow { color: var(--amber); font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.05rem; }

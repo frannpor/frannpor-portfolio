@@ -18,7 +18,7 @@ export function ProjectGallery({ items, initialIndex, onClose }: { items: Client
   const close = useCallback(() => {
     if (timer.current) return;
     setClosing(true);
-    timer.current = setTimeout(onClose, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 260);
+    timer.current = setTimeout(onClose, parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--t-close")) || 0);
   }, [onClose]);
 
   useEffect(() => {
