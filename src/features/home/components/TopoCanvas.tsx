@@ -24,7 +24,8 @@ export function TopoCanvas({ className }: { className?: string }) {
     let time = 0;
     let frame = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
+    let values = new Float32Array(0);
 
     const field = (x: number, y: number) => {
       x /= 230;
@@ -40,7 +41,7 @@ export function TopoCanvas({ className }: { className?: string }) {
       const step = width < 700 ? 18 : 14;
       const cols = Math.ceil(width / step) + 1;
       const rows = Math.ceil(height / step) + 1;
-      const values = new Float32Array(cols * rows);
+      if (values.length !== cols * rows) values = new Float32Array(cols * rows);
       for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) values[j * cols + i] = field(i * step, j * step);
       for (let level = -1.6, k = 0; level <= 1.6; level += 0.2, k++) {
         c.beginPath();
@@ -53,15 +54,16 @@ export function TopoCanvas({ className }: { className?: string }) {
           const edges = EDGES[index];
           if (!edges) continue;
           const x = i * step, y = j * step;
-          const points = edges.map(edge => {
-            if (edge === 0) return [x + step * (level - a) / (b - a), y];
-            if (edge === 1) return [x + step, y + step * (level - b) / (e - b)];
-            if (edge === 2) return [x + step * (level - d) / (e - d), y + step];
-            return [x, y + step * (level - a) / (d - a)];
-          });
-          for (let q = 0; q + 1 < points.length; q += 2) {
-            c.moveTo(points[q][0], points[q][1]);
-            c.lineTo(points[q + 1][0], points[q + 1][1]);
+          // Same interpolated contours, without per-cell arrays or closures.
+          for (let q = 0; q < edges.length; q++) {
+            const edge = edges[q];
+            let px = x, py = y;
+            if (edge === 0) px += step * (level - a) / (b - a);
+            else if (edge === 1) { px += step; py += step * (level - b) / (e - b); }
+            else if (edge === 2) { px += step * (level - d) / (e - d); py += step; }
+            else py += step * (level - a) / (d - a);
+            if (q % 2 === 0) c.moveTo(px, py);
+            else c.lineTo(px, py);
           }
         }
         c.stroke();
@@ -79,8 +81,10 @@ export function TopoCanvas({ className }: { className?: string }) {
     }
 
     function loop(now: number) {
+      frame = 0;
+      if (!visible || document.hidden) return;
       frame = requestAnimationFrame(loop);
-      if (!visible || document.hidden || now - last < 66) return;
+      if (now - last < 66) return;
       last = now;
       time += 0.006;
       draw();
@@ -91,16 +95,21 @@ export function TopoCanvas({ className }: { className?: string }) {
     resize();
     let viewObserver: IntersectionObserver | undefined;
     if (animate) {
-      viewObserver = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+      viewObserver = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; resume(); });
       viewObserver.observe(element);
-      frame = requestAnimationFrame(loop);
     }
+    function resume() {
+      cancelAnimationFrame(frame);
+      frame = animate && visible && !document.hidden ? requestAnimationFrame(loop) : 0;
+    }
+    document.addEventListener("visibilitychange", resume);
     return () => {
+      document.removeEventListener("visibilitychange", resume);
       cancelAnimationFrame(frame);
       sizeObserver.disconnect();
       viewObserver?.disconnect();
     };
   }, []);
 
-  return <canvas ref={canvas} className={className} aria-hidden="true" />;
+  return <canvas ref={canvas} className={className} data-hero-motion aria-hidden="true" />;
 }

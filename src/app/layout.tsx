@@ -3,8 +3,8 @@ import { Anybody, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 
 // Anybody carries the width axis: expanded for headings, condensed italic for annotations.
-const display = Anybody({ subsets: ["latin"], axes: ["wdth"], style: ["normal", "italic"], variable: "--f-display", display: "swap" });
-const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "swap" });
+const display = Anybody({ subsets: ["latin"], axes: ["wdth"], style: ["normal", "italic"], variable: "--f-display", display: "block", preload: true });
+const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "block", preload: true });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.frannpor-dev.com"),

@@ -34,12 +34,17 @@ export function useNightMapMotion() {
     const enabled = motionAllowed();
     const cleanups: Array<() => void> = [];
     let lastY = window.scrollY;
+    const progressBar = document.querySelector<HTMLElement>("[data-scroll-progress]");
+    const heroParts = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-motion]"));
+    const setValue = (element: HTMLElement, name: string, value: string) => {
+      if (element.style.getPropertyValue(name) !== value) element.style.setProperty(name, value);
+    };
 
     // Progress bar and header visibility work with or without motion.
     function chrome() {
       const y = window.scrollY;
       const max = root.scrollHeight - window.innerHeight;
-      root.style.setProperty("--scroll", max > 0 ? clamp(y / max).toFixed(4) : "0");
+      if (progressBar) setValue(progressBar, "--scroll", max > 0 ? clamp(y / max).toFixed(4) : "0");
       if (!enabled) return;
       if (Math.abs(y - lastY) > 6) {
         const hide = y > lastY && y > window.innerHeight * 0.6;
@@ -64,25 +69,34 @@ export function useNightMapMotion() {
     let tracked = elements();
     let dirty = true;
     let running = false;
-    let routeFill = 0;
-    let routeTarget = 0;
+    let frameId = 0;
+    let geometryDirty = true;
+    const geometry = new Map<HTMLElement, { top: number; height: number }>();
+    function refreshGeometry() {
+      for (const el of tracked) {
+        let top = 0;
+        let node: HTMLElement | null = el;
+        while (node) { top += node.offsetTop; node = node.offsetParent as HTMLElement | null; }
+        geometry.set(el, { top, height: el.offsetHeight });
+      }
+      geometryDirty = false;
+    }
 
     function measure() {
+      if (geometryDirty) refreshGeometry();
       const vh = window.innerHeight;
-      root.style.setProperty("--hero", clamp(window.scrollY / (vh * 0.9)).toFixed(4));
+      const y = window.scrollY;
+      heroParts.forEach(el => setValue(el, "--hero", clamp(y / (vh * 0.9)).toFixed(4)));
       for (const el of tracked) {
-        const r = el.getBoundingClientRect();
+        const box = geometry.get(el)!;
+        const top = box.top - y;
+        const bottom = top + box.height;
         const pass = passes.get(el);
-        const te = clamp((vh - r.top) / (vh * 0.42));
-        const tx = clamp((vh * 0.16 - r.bottom) / (vh * 0.4));
-        const tp = clamp((vh - r.top) / (vh + r.height));
+        const te = clamp((vh - top) / (vh * 0.42));
+        const tx = clamp((vh * 0.16 - bottom) / (vh * 0.4));
+        const tp = clamp((vh - top) / (vh + box.height));
         if (!pass) passes.set(el, { e: te, x: tx, p: tp, te, tx, tp });
         else Object.assign(pass, { te, tx, tp });
-      }
-      const route = document.querySelector<HTMLElement>("[data-route]");
-      if (route) {
-        const rr = route.getBoundingClientRect();
-        routeTarget = clamp((vh * 0.7 - rr.top) / Math.max(rr.height, vh * 0.4));
       }
     }
 
@@ -95,43 +109,51 @@ export function useNightMapMotion() {
         s.x += (s.tx - s.x) * k;
         s.p += (s.tp - s.p) * k;
         if (Math.abs(s.te - s.e) + Math.abs(s.tx - s.x) + Math.abs(s.tp - s.p) > 0.002) moving = true;
-        el.style.setProperty("--e", s.e.toFixed(4));
-        el.style.setProperty("--x", s.x.toFixed(4));
-        el.style.setProperty("--p", s.p.toFixed(4));
+        setValue(el, "--e", s.e.toFixed(3));
+        setValue(el, "--x", s.x.toFixed(3));
       });
-      routeFill += (routeTarget - routeFill) * 0.12;
-      if (Math.abs(routeTarget - routeFill) > 0.002) moving = true;
-      document.querySelector<HTMLElement>("[data-route]")?.style.setProperty("--fill", routeFill.toFixed(4));
-      if (moving) requestAnimationFrame(frame);
+      if (moving) frameId = requestAnimationFrame(frame);
       else running = false;
     }
 
     function kick() {
       dirty = true;
       chrome();
-      if (!running) { running = true; requestAnimationFrame(frame); }
+      if (!running) { running = true; frameId = requestAnimationFrame(frame); }
     }
 
     // Content changes (language switch, opened details) add or move elements.
-    const mutations = new MutationObserver(() => { tracked = elements(); kick(); });
+    const sizes = new ResizeObserver(() => { geometryDirty = true; kick(); });
+    sizes.observe(document.body);
+    const resized = () => { geometryDirty = true; kick(); };
+    const mutations = new MutationObserver(() => {
+      tracked = elements();
+      const live = new Set(tracked);
+      for (const el of passes.keys()) if (!live.has(el)) { passes.delete(el); geometry.delete(el); }
+      geometryDirty = true;
+      kick();
+    });
     mutations.observe(document.body, { childList: true, subtree: true });
     window.addEventListener("scroll", kick, { passive: true });
-    window.addEventListener("resize", kick);
+    window.addEventListener("resize", resized);
     kick();
     cleanups.push(() => {
+      cancelAnimationFrame(frameId);
+      sizes.disconnect();
       mutations.disconnect();
       window.removeEventListener("scroll", kick);
-      window.removeEventListener("resize", kick);
+      window.removeEventListener("resize", resized);
     });
 
     // Pointer effects only for precise pointers; touch gets press feedback in CSS.
     if (window.matchMedia("(pointer: fine)").matches) {
+      let previousCard: HTMLElement | null = null;
+      let previousMagnet: HTMLElement | null = null;
       const move = (event: PointerEvent) => {
         const target = event.target instanceof Element ? event.target : null;
         const card = target?.closest<HTMLElement>("[data-tilt]");
-        document.querySelectorAll<HTMLElement>("[data-tilt]").forEach(other => {
-          if (other !== card) resetTilt(other);
-        });
+        if (previousCard && previousCard !== card) resetTilt(previousCard);
+        previousCard = card ?? null;
         if (card) {
           const r = card.getBoundingClientRect();
           const px = (event.clientX - r.left) / r.width - 0.5;
@@ -141,9 +163,8 @@ export function useNightMapMotion() {
           card.style.setProperty("--lift", "-6px");
         }
         const magnet = target?.closest<HTMLElement>("[data-magnet]");
-        document.querySelectorAll<HTMLElement>("[data-magnet]").forEach(other => {
-          if (other !== magnet) { other.style.setProperty("--mx", "0px"); other.style.setProperty("--my", "0px"); }
-        });
+        if (previousMagnet && previousMagnet !== magnet) { previousMagnet.style.setProperty("--mx", "0px"); previousMagnet.style.setProperty("--my", "0px"); }
+        previousMagnet = magnet ?? null;
         if (magnet) {
           const r = magnet.getBoundingClientRect();
           magnet.style.setProperty("--mx", `${((event.clientX - r.left - r.width / 2) * 0.16).toFixed(1)}px`);

@@ -165,7 +165,7 @@ export function ProductPortfolio() {
       <section className={styles.hero} id="profile" aria-labelledby="hero-title">
         <TopoCanvas className={styles.topo} />
         <div className={styles.heroInner}>
-          <div className={styles.heroCopy}>
+          <div className={styles.heroCopy} data-hero-motion>
             <p className={styles.heroMeta}><span className={styles.live}>{ui.hero.status}</span><span>{ui.hero.place}</span></p>
             <h1 id="hero-title"><span>{firstName}</span> <span>{lastNames.join(" ")}<span className={styles.dot}>.</span></span></h1>
             <p className={styles.claim}>{profile.tagline}</p>
@@ -177,7 +177,7 @@ export function ProductPortfolio() {
             </div>
             <dl className={styles.hud}>{copy.hero.metrics.map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}<span>{metric.detail}</span></dd></div>)}</dl>
           </div>
-          <div className={styles.heroPortrait}>
+          <div className={styles.heroPortrait} data-hero-motion>
             <PortraitPlayground copy={{ label: ui.hero.portraitLabel, hint: ui.hero.portraitHint, keyboard: ui.hero.portraitKeyboard }} />
           </div>
         </div>

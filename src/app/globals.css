@@ -57,7 +57,7 @@
 html {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-padding-top: 86px;
   scroll-behavior: smooth;
   background: var(--bg);
@@ -68,7 +68,7 @@ body {
   max-width: 100%;
   min-width: 320px;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--night);
   color: var(--text);
 }
@@ -147,3 +147,10 @@ a {
     transition-duration: 1ms !important;
   }
 }
+
+/* Scroll values stay local to their animated element, avoiding inherited style work. */
+@property --e { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --x { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --hero { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --scroll { syntax: "<number>"; inherits: false; initial-value: 0; }
