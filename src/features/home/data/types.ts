@@ -132,6 +132,20 @@ export type ContactCopy = {
     submitting: string;
     sending: string;
     genericError: string;
+    errorTitle: string;
+    validation: {
+      summary: string;
+      nameRequired: string;
+      nameShort: string;
+      nameLong: string;
+      emailRequired: string;
+      emailInvalid: string;
+      emailLong: string;
+      companyLong: string;
+      messageRequired: string;
+      messageShort: string;
+      messageLong: string;
+    };
     dryRunSuccess: string;
     success: string;
   };

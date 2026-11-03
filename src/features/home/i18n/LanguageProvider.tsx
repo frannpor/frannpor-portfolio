@@ -18,8 +18,7 @@ type LanguageContextValue = {
 const STORAGE_KEY = "franpor-portfolio-locale";
 let memoryLocale: Locale = defaultLocale;
 const LOCALE_EVENT = "franpor-portfolio-locale-change";
-let localeTransition: ViewTransition | undefined;
-let pendingLocale: Locale | undefined;
+let languageAnimation: Animation | undefined;
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
@@ -62,24 +61,14 @@ function setStoredLocale(locale: Locale) {
 }
 
 function changeLocale(locale: Locale) {
-  if (locale === (pendingLocale ?? getStoredLocale())) return;
-  localeTransition?.skipTransition();
-  pendingLocale = locale;
-  const apply = () => {
-    if (pendingLocale === locale) flushSync(() => setStoredLocale(locale));
-  };
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduced || typeof document.startViewTransition !== "function") {
-    apply();
-    pendingLocale = undefined;
-    localeTransition = undefined;
-    if (!reduced) document.querySelector("main")?.animate([{ opacity: .55, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 260, easing: "ease-out" });
-    return;
-  }
-  const transition = document.startViewTransition(apply);
-  localeTransition = transition;
-  void transition.finished.catch(() => {}).finally(() => {
-    if (localeTransition === transition) { localeTransition = undefined; pendingLocale = undefined; }
+  if (locale === getStoredLocale()) return;
+  languageAnimation?.cancel();
+  flushSync(() => setStoredLocale(locale));
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || new URLSearchParams(window.location.search).get("motion") === "off") return;
+  const tokens = getComputedStyle(document.documentElement);
+  languageAnimation = document.querySelector("main")?.animate([{ opacity: .65, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], {
+    duration: parseFloat(tokens.getPropertyValue("--t-open")) || 260,
+    easing: tokens.getPropertyValue("--ease").trim() || "ease-out",
   });
 }
 

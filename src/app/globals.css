@@ -1,27 +1,27 @@
 :root {
   color-scheme: dark;
-  /* Night route map: petrol night, contour greens, lime route, amber annotations. */
-  --night: #08161a;
-  --deep: #0d2026;
-  --panel: #10262d;
-  --panel-2: #143039;
+  /* Night route map: petrol surfaces, soft teal routes and warm paper annotations. */
+  --night: #17282d;
+  --deep: #1b2e34;
+  --panel: #20343a;
+  --panel-2: #273e44;
   --line: rgba(166, 214, 203, 0.13);
   --line-2: rgba(166, 214, 203, 0.24);
-  --text: #e9f0e8;
-  --muted: #a3b9b3;
-  --faint: #7d9893;
-  --lime: #c8f250;
-  --amber: #ffb84d;
-  --signal: #ff6b4f;
-  --ice: #9fe4ff;
+  --text: #f2f0e8;
+  --muted: #d1d7d2;
+  --faint: #cbd3cd;
+  --lime: #9edfd5;
+  --amber: #edd091;
+  --signal: #f3c4ad;
+  --ice: #b2d4f1;
   --bg: var(--night);
   /* Motion tokens shared by disclosures, notes, tabs, panels, the gallery and the header. */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-spring: var(--ease);
   --ease-exit: cubic-bezier(.4, 0, .7, .2);
-  --t-open: 440ms;
-  --t-close: 260ms;
-  --t-quick: 180ms;
+  --t-open: 260ms;
+  --t-close: 180ms;
+  --t-quick: 140ms;
   --rise: 8px;
   --stagger: 60ms;
   interpolate-size: allow-keywords;

@@ -140,8 +140,7 @@ export function PortraitPlayground({ copy }: { copy: PortraitCopy }) {
         }} onBlur={() => tilt(0, 0)}>
         <span className={styles.plane} ref={plane} aria-hidden="true">
           <span className={styles.floatLayer}>
-            <span className={styles.glow} />
-            <Image src="/brand/franpor-electric.webp" alt="" width={1000} height={1000} sizes="(max-width: 980px) 320px, 460px" className={styles.portrait} priority draggable={false} />
+            <Image src="/brand/frannpor-clean.webp" alt="" width={1254} height={1254} quality={95} sizes="(max-width: 980px) 320px, 460px" className={styles.portrait} priority draggable={false} />
           </span>
         </span>
       </button>
