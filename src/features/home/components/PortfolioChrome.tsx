@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowUpRight, GitBranch, Menu, X } from "@/shared/icons";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import { motionAllowed } from "@/features/home/motion/motion";
+import { SlidingIndicator } from "./ui/SelectionMotion";
 import styles from "./product-portfolio.module.css";
 
 let navigation: AbortController | undefined;
@@ -106,9 +107,11 @@ export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
           <span>{copy.profile.handle}<span className={styles.brandDot}>.</span></span>
         </a>
         <nav id="portfolio-navigation" aria-label={ui.navigationLabel} className={styles.nav}>
+          <SlidingIndicator value={active} />
           {copy.navigation.map(item => <a key={item.href} href={`${homePrefix}${item.href}`} aria-current={!homePrefix && active === item.href.slice(1) ? "location" : undefined} onClick={event => { setMenuOpen(false); if (!homePrefix) jumpToSection(event, item.href); }}>{item.label}</a>)}
         </nav>
         <div className={styles.languages} role="group" aria-label={copy.languageSwitch.label}>
+          <SlidingIndicator value={locale} tone="accent" />
           {(["es", "en"] as const).map(value => <button key={value} type="button" lang={value} aria-label={ui.languageNames[value]} aria-pressed={value === locale} onClick={() => { setLocale(value); setMenuOpen(false); }}>{copy.languageSwitch[value]}</button>)}
         </div>
         <button ref={menuButton} aria-controls="portfolio-navigation" className={styles.menuToggle} type="button" aria-expanded={menuOpen} aria-label={menuOpen ? ui.menuClose : ui.menuOpen} onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
 import type { Experience, InterfaceCopy } from "@/features/home/data/portfolio";
 import { motionAllowed } from "@/features/home/motion/motion";
+import { AnimatedPanel } from "./ui/SelectionMotion";
 import styles from "./experience-route.module.css";
 
 type Props = {
@@ -39,21 +40,11 @@ export function ExperienceRoute({ items, copy }: Props) {
   const current = stops.length - 1;
   const [selected, setSelected] = useState(-1);
   const [detailIndex, setDetailIndex] = useState(current);
-  const [panelHeight, setPanelHeight] = useState(0);
-  const panel = useRef<HTMLDivElement>(null);
   const route = useRef<HTMLDivElement>(null);
   const fill = useRef<HTMLSpanElement>(null);
   const wide = useSyncExternalStore(subscribeWide, isWide, () => true);
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
   const chosen = stops[detailIndex] ?? stops[current];
-
-  useLayoutEffect(() => {
-    const element = panel.current;
-    if (!element) return;
-    const observer = new ResizeObserver(() => setPanelHeight(element.offsetHeight));
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [wide]);
 
   useEffect(() => {
     const element = route.current;
@@ -127,8 +118,8 @@ export function ExperienceRoute({ items, copy }: Props) {
         <span className={styles.company}>{item.company}</span>
       </button>)}
     </div>
-    <div className={styles.panelReveal} data-open={selected >= 0} inert={selected < 0} style={{ height: selected >= 0 ? panelHeight : 0 }}>
-    <div ref={panel} id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${detailIndex}`} className={styles.panel} data-now={detailIndex === current}>
+    <AnimatedPanel value={selected} open={selected >= 0}>
+    <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${detailIndex}`} className={styles.panel} data-now={detailIndex === current}>
       <div key={`head-${detailIndex}`} className={styles.panelHead}>
         <p className={styles.role}>{chosen.role}</p>
         <h3>{chosen.company}</h3>
@@ -136,6 +127,6 @@ export function ExperienceRoute({ items, copy }: Props) {
       </div>
       <div key={`body-${detailIndex}`} className={styles.panelBody}><Details item={chosen} copy={copy} /></div>
     </div>
-    </div>
+    </AnimatedPanel>
   </div>;
 }

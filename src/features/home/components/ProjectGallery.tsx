@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "@/shared/icons";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ClientContext } from "@/features/home/data/types";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
+import { AnimatedPanel, SlidingIndicator } from "./ui/SelectionMotion";
 import styles from "./project-gallery.module.css";
 
 export function ProjectGallery({ items, initialIndex, onClose }: { items: ClientContext[]; initialIndex: number; onClose: () => void }) {
@@ -61,14 +62,14 @@ export function ProjectGallery({ items, initialIndex, onClose }: { items: Client
         <div className={styles.actions}><span>{String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span><button type="button" onClick={close} aria-label={ui.close}><X size={20} /></button></div>
       </header>
       <div className={styles.stage}>
-        <GalleryImage key={item.name} item={item} />
+        <AnimatedPanel value={index}><GalleryImage item={item} /></AnimatedPanel>
         <div className={styles.navigation}><button type="button" onClick={() => navigate(-1)} aria-label={ui.previous}><ArrowLeft size={20} /></button><button type="button" onClick={() => navigate(1)} aria-label={ui.next}><ArrowRight size={20} /></button></div>
       </div>
       <footer className={styles.footer}>
         <div><p>{item.type}</p><ul>{item.tags.map(tag => <li key={tag}>{tag}</li>)}</ul></div>
         {item.url && <a href={item.url} target="_blank" rel="noreferrer">{ui.visit}<ArrowUpRight size={16} /></a>}
       </footer>
-      <nav className={styles.projects} aria-label={ui.choose}>{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
+      <nav className={styles.projects} aria-label={ui.choose}><SlidingIndicator value={index} />{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
     </div>
   </dialog>;
 }

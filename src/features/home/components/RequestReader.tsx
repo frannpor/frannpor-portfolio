@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useId, useRef, useState, useSy
 import { createPortal } from "react-dom";
 import type { InterfaceCopy, ReaderMark } from "@/features/home/data/portfolio";
 import { motionAllowed } from "@/features/home/motion/motion";
+import { AnimatedPanel, SlidingIndicator } from "./ui/SelectionMotion";
 import styles from "./request-reader.module.css";
 
 type ReaderCopy = InterfaceCopy["reader"];
@@ -45,7 +46,19 @@ export function RequestReader({ copy }: { copy: ReaderCopy }) {
   }
 
   function choose(index: number) {
-    if (index !== active) { setNote(null); setWhy("closed"); }
+    if (index === active) return;
+    clearTimeout(closeTimer.current);
+    clearTimeout(hideTimer.current);
+    setNote(null); setWhy("closed");
+    const button = tabs.current[index];
+    const list = button?.parentElement;
+    if (button && list) {
+      const left = button.offsetLeft;
+      const right = left + button.offsetWidth;
+      const visibleLeft = list.scrollLeft;
+      const visibleRight = visibleLeft + list.clientWidth;
+      if (left < visibleLeft || right > visibleRight) list.scrollTo({ left: left < visibleLeft ? Math.max(0, left - 4) : right - list.clientWidth + 4, behavior: motionAllowed() ? "smooth" : "instant" });
+    }
     setActive(index);
     read();
   }
@@ -120,10 +133,12 @@ export function RequestReader({ copy }: { copy: ReaderCopy }) {
     <div className={styles.top}>
       <h3 className={styles.title}>{copy.title}</h3>
       <div className={styles.tabs} role="tablist" aria-label={copy.tabsLabel}>
+        <SlidingIndicator value={active} />
         {copy.cases.map((entry, index) => <button key={entry.tab} ref={node => { tabs.current[index] = node; }} type="button" role="tab" id={`${id}-tab-${index}`} aria-controls={`${id}-panel`} aria-selected={index === active} tabIndex={index === active ? 0 : -1} onClick={() => choose(index)} onKeyDown={event => onTabKey(event, index)}>{entry.tab}</button>)}
       </div>
     </div>
-    <div key={active} id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} className={styles.panel}>
+    <AnimatedPanel value={active}>
+    <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} className={styles.panel}>
       <p className={styles.ask}>{item.ask.map((part, index) => part.mark
         ? <button key={index} ref={node => { terms.current[index] = node; }} type="button" className={styles.term} data-kind={part.mark} data-lit={lit.includes(part.mark)} data-open={note?.index === index}
             aria-describedby={part.note && note?.index === index ? noteId(index) : undefined} aria-expanded={part.note ? note?.index === index : undefined}
@@ -145,6 +160,7 @@ export function RequestReader({ copy }: { copy: ReaderCopy }) {
         </div>
       </div>
     </div>
+    </AnimatedPanel>
     <p className={styles.srOnly} aria-live="polite">{step >= 0 && step < DONE ? blockLabels[step] : ""}</p>
     {animates && <div className={styles.footnote}><button type="button" onClick={read}>{copy.replay}</button></div>}
   </div>;

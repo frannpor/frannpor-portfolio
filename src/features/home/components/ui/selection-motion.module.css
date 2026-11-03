@@ -1,0 +1,13 @@
+.indicator { position: absolute; left: 0; top: 0; z-index: 0; border-radius: 999px; background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--line-2); pointer-events: none; opacity: 0; transform-origin: 0 0; transition: opacity var(--t-close) var(--ease-exit); }
+.indicator[data-visible="true"] { opacity: 1; }
+.indicator[data-tone="accent"] { background: var(--lime); box-shadow: none; }
+
+.viewport { position: relative; overflow: hidden; transition: height var(--t-open) var(--ease); }
+.viewport[data-open="false"] { height: 0; transition-duration: var(--t-close); transition-timing-function: var(--ease-exit); }
+.content { position: relative; min-width: 0; transition: opacity var(--t-open) var(--ease), transform var(--t-open) var(--ease); }
+.viewport[data-open="false"] > .content { opacity: 0; transform: translateY(var(--rise)); }
+.outgoing { position: absolute; inset: 0 0 auto; width: 100%; pointer-events: none; }
+.viewport[data-animate="false"] { transition: none; }
+@media (prefers-reduced-motion: reduce) { .indicator, .viewport, .content { transition: none !important; } }
+
+.outgoing, .outgoing * { animation: none !important; transition: none !important; }
