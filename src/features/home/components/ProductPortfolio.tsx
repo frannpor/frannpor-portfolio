@@ -12,6 +12,7 @@ import { PortfolioFooter, PortfolioHeader, SectionMap } from "./PortfolioChrome"
 import { RequestReader } from "./RequestReader";
 import { TopoCanvas } from "./TopoCanvas";
 import { ContactForm } from "./ContactForm";
+import { ExperienceRoute } from "./ExperienceRoute";
 import styles from "./product-portfolio.module.css";
 
 const accentStyle = (accent: string) => ({ "--c": accent }) as CSSProperties;
@@ -88,22 +89,7 @@ function MethodSection({ copy }: { copy: PortfolioContent }) {
 function ExperienceSection({ copy }: { copy: PortfolioContent }) {
   return <section className={styles.section} id="work" aria-labelledby="work-title">
     <SectionHeading section={copy.sections.experience} id="work-title" />
-    <ol className={styles.route} data-route>
-      {copy.experience.map((item, index) => <li key={`${item.company}-${item.role}`} data-now={index === 0} data-reveal="route">
-        <span className={styles.routeDot} data-route-dot aria-hidden="true" />
-        <p className={styles.when}>{item.period}</p>
-        <div className={styles.routeBody}>
-          <h3>{item.company}</h3>
-          <p className={styles.role}>{item.role}</p>
-          <p className={styles.description}>{item.context}</p>
-          <details>
-            <summary>{copy.ui.experience.contribution}<span aria-hidden="true" /></summary>
-            <ul>{item.highlights.map(line => <li key={line}>{line}</li>)}</ul>
-            <ul className={styles.chips}>{item.stack.map(tag => <li key={tag}>{tag}</li>)}</ul>
-          </details>
-        </div>
-      </li>)}
-    </ol>
+    <div data-reveal><ExperienceRoute items={copy.experience} copy={copy.ui.experience} /></div>
   </section>;
 }
 
@@ -180,7 +166,7 @@ export function ProductPortfolio() {
         <TopoCanvas className={styles.topo} />
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <p className={styles.heroMeta}><span className={styles.live}>{ui.hero.status}</span><span>{ui.hero.coordinates} · {ui.hero.place}</span></p>
+            <p className={styles.heroMeta}><span className={styles.live}>{ui.hero.status}</span><span>{ui.hero.place}</span></p>
             <h1 id="hero-title"><span>{firstName}</span> <span>{lastNames.join(" ")}<span className={styles.dot}>.</span></span></h1>
             <p className={styles.claim}>{profile.tagline}</p>
             <p className={styles.intro}>{profile.intro}</p>

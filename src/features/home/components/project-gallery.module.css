@@ -1,8 +1,8 @@
 
 .dialog { position: fixed; inset: 0; width: min(1220px,calc(100vw - 64px)); max-height: calc(100svh - 48px); margin: auto; padding: 0; border: 1px solid var(--line-2); border-radius: 22px; color: var(--text); background: var(--panel); box-shadow: 0 35px 100px #0008; overflow: auto; overscroll-behavior: contain; }
 .dialog::backdrop { background: color-mix(in srgb, var(--night) 85%, transparent); backdrop-filter: blur(16px); animation: backdropIn 280ms ease both; }
-.dialog[open] { animation: galleryIn 360ms cubic-bezier(.16,1,.3,1) both; }
-.dialog[data-closing=true] { animation: galleryOut 180ms ease-in both; }
+.dialog[open] { animation: galleryIn var(--t-open) var(--ease) both; }
+.dialog[data-closing=true] { animation: galleryOut var(--t-close) var(--ease-exit) both; }
 .dialog[data-closing=true]::backdrop { animation: backdropOut 180ms ease-in both; }
 .sheet { padding: 25px; }
 .header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 0 3px 20px; }
@@ -12,8 +12,10 @@
 .actions button,.navigation button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 50%; background: var(--panel-2); color: var(--text); cursor: pointer; transition: background 160ms, transform 160ms; }
 .actions button:hover,.navigation button:hover { color: var(--night); background: var(--lime); transform: scale(1.05); }
 .stage { position: relative; padding: 22px; border-radius: 12px; background: radial-gradient(ellipse at top, var(--panel-2), var(--deep) 70%); overflow: hidden; }
-.imageFrame { display: grid; place-items: center; min-height: 180px; animation: imageIn 300ms cubic-bezier(.16,1,.3,1) both; }
-.imageFrame img { display: block; width: auto; height: auto; max-width: 100%; max-height: 56svh; object-fit: contain; border-radius: 6px; box-shadow: 0 10px 45px #0007; }
+.imageFrame { position: relative; width: min(100%, calc(56svh * var(--aspect))); aspect-ratio: var(--ratio); margin: 0 auto; overflow: hidden; border-radius: 8px; background: var(--deep); box-shadow: 0 10px 45px #0007; animation: imageIn var(--t-open) var(--ease) both; }
+.preview { object-fit: contain; filter: blur(14px); transform: scale(1.04); }
+.full { object-fit: contain; opacity: 0; transition: opacity var(--t-open) var(--ease); }
+.imageFrame[data-loaded=true] .full { opacity: 1; }
 .navigation { position: absolute; bottom: 32px; right: 32px; display: flex; gap: 8px; }
 .navigation button { background: color-mix(in srgb, var(--night) 85%, transparent); backdrop-filter: blur(8px); }
 .footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 3px; }
@@ -25,10 +27,10 @@
 .projects button { min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--muted); font-size: .9rem; cursor: pointer; transition: color 160ms,background 160ms; }
 .projects button[aria-pressed=true] { border-color: color-mix(in srgb, var(--lime) 40%, transparent); background: color-mix(in srgb, var(--lime) 10%, transparent); color: var(--lime); }
 .dialog :is(a,button):focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
-@keyframes galleryIn { from { opacity: 0; transform: translateY(28px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes galleryIn { from { opacity: 0; transform: translateY(calc(var(--rise) * 2)) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes galleryOut { to { opacity: 0; transform: translateY(12px) scale(.98); } }
 @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes backdropOut { to { opacity: 0; } }
-@keyframes imageIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
-@media(max-width:760px) { .dialog { width: calc(100vw - 24px); max-height: calc(100svh - 24px); border-radius: 16px; } .sheet { padding: 16px; } .stage { padding: 12px 12px 65px; } .imageFrame img { max-height: 44svh; } .identity h2 { font-size: 25px; } .actions { gap: 10px; } .actions > span { display: none; } .navigation { bottom: 12px; right: 12px; } .footer { align-items: flex-start; flex-direction: column; gap: 10px; padding-bottom: 12px; } .projects button { padding: 0 11px; } }
+@keyframes imageIn { from { opacity: 0; transform: translateY(var(--rise)); } to { opacity: 1; transform: none; } }
+@media(max-width:760px) { .dialog { width: calc(100vw - 24px); max-height: calc(100svh - 24px); border-radius: 16px; } .sheet { padding: 16px; } .stage { padding: 12px 12px 65px; } .imageFrame { width: min(100%, calc(44svh * var(--aspect))); } .identity h2 { font-size: 25px; } .actions { gap: 10px; } .actions > span { display: none; } .navigation { bottom: 12px; right: 12px; } .footer { align-items: flex-start; flex-direction: column; gap: 10px; padding-bottom: 12px; } .projects button { padding: 0 11px; } }
 @media(prefers-reduced-motion:reduce) { .dialog[open],.dialog[data-closing=true],.dialog::backdrop,.dialog[data-closing=true]::backdrop,.imageFrame { animation: none; } .dialog * { transition: none; } }

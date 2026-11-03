@@ -15,6 +15,16 @@
   --signal: #ff6b4f;
   --ice: #9fe4ff;
   --bg: var(--night);
+  /* Motion tokens shared by disclosures, notes, tabs, panels, the gallery and the header. */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-exit: cubic-bezier(.4, 0, .7, .2);
+  --t-open: 440ms;
+  --t-close: 260ms;
+  --t-quick: 180ms;
+  --rise: 8px;
+  --stagger: 60ms;
+  interpolate-size: allow-keywords;
   /* Earlier palette, still read by the /lab experiments. */
   --bg-raised: #0d1117;
   --panel-strong: #111821;
@@ -120,6 +130,14 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-open: 1ms;
+    --t-close: 1ms;
+    --t-quick: 1ms;
+    --rise: 0px;
+    --stagger: 0ms;
+  }
+
   *,
   *::before,
   *::after {

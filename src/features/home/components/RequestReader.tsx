@@ -1,84 +1,114 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
 import type { InterfaceCopy, ReaderMark } from "@/features/home/data/portfolio";
 import { motionAllowed } from "@/features/home/motion/motion";
 import styles from "./request-reader.module.css";
 
 type ReaderCopy = InterfaceCopy["reader"];
 
-// Which highlights are lit at each reading step: actors, then states, then rules.
+// Reading steps: 0 actors, 1 states, 2 rules, 3 question; DONE is the resting state.
+const DONE = 4;
+const STEP_MS = 1150;
 const LIT: ReaderMark[][] = [["actor"], ["actor", "state"], ["actor", "state", "rule"], ["actor", "state", "rule"]];
-const LAST_STEP = 3;
 const subscribeNever = () => () => {};
+const stagger = (index: number) => ({ "--i": index }) as CSSProperties;
 
-/** Reads an example request and pulls out actors, states, rules and the missing question. */
+/** Reads an example request into actors, states, rules and the question nobody asked. */
 export function RequestReader({ copy }: { copy: ReaderCopy }) {
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
   const timers = useRef<Array<ReturnType<typeof setTimeout>>>([]);
-  const seen = useRef(false);
   const [active, setActive] = useState(0);
-  const [step, setStep] = useState(LAST_STEP);
-  const item = copy.cases[active] ?? copy.cases[0];
+  const [step, setStep] = useState(DONE);
+  const [note, setNote] = useState<{ index: number; pinned: boolean } | null>(null);
+  const [why, setWhy] = useState<"closed" | "hover" | "pinned">("closed");
+  const whyOpen = why !== "closed";
   const animates = useSyncExternalStore(subscribeNever, motionAllowed, () => false);
+  const item = copy.cases[active] ?? copy.cases[0];
+  const blockLabels = [copy.blocks.actors, copy.blocks.states, copy.blocks.rules, copy.blocks.question];
 
-  function play(index: number) {
+  function read() {
     timers.current.forEach(clearTimeout);
     timers.current = [];
-    setActive(index);
-    if (!motionAllowed()) { setStep(LAST_STEP); return; }
+    if (!motionAllowed()) { setStep(DONE); return; }
     setStep(-1);
-    for (let s = 0; s <= LAST_STEP; s++) timers.current.push(setTimeout(() => setStep(s), 300 + s * 900));
+    for (let s = 0; s <= DONE; s++) timers.current.push(setTimeout(() => setStep(s), 350 + s * STEP_MS));
+  }
+
+  function choose(index: number) {
+    if (index !== active) { setNote(null); setWhy("closed"); }
+    setActive(index);
+    read();
   }
 
   // Read the first example once, when the reader comes into view.
   useEffect(() => {
     const element = root.current;
     if (!element || !motionAllowed()) return;
+    const pending = timers.current;
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !seen.current) { seen.current = true; play(0); observer.disconnect(); }
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      setStep(-1);
+      for (let s = 0; s <= DONE; s++) pending.push(setTimeout(() => setStep(s), 350 + s * STEP_MS));
     }, { rootMargin: "0px 0px -30% 0px" });
     observer.observe(element);
-    const pending = timers.current;
     return () => { observer.disconnect(); pending.forEach(clearTimeout); };
   }, []);
 
   function onTabKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const total = copy.cases.length;
-    let next = -1;
-    if (event.key === "ArrowRight") next = (index + 1) % total;
-    if (event.key === "ArrowLeft") next = (index - 1 + total) % total;
-    if (event.key === "Home") next = 0;
-    if (event.key === "End") next = total - 1;
+    const next = event.key === "ArrowRight" ? (index + 1) % total
+      : event.key === "ArrowLeft" ? (index - 1 + total) % total
+      : event.key === "Home" ? 0
+      : event.key === "End" ? total - 1 : -1;
     if (next < 0) return;
     event.preventDefault();
     tabs.current[next]?.focus();
-    play(next);
+    choose(next);
   }
 
-  const lit = step >= 0 ? LIT[step] : [];
-  const on = (block: number) => step >= block;
+  const lit = step < 0 ? [] : step >= DONE ? LIT[3] : LIT[step];
+  const blockState = (block: number) => step >= DONE || step > block ? "done" : step === block ? "current" : "next";
+  const noteId = (index: number) => `${id}-note-${active}-${index}`;
+  const show = (index: number) => setNote(current => current?.pinned ? current : { index, pinned: false });
+  const hide = () => setNote(current => current?.pinned ? current : null);
 
-  return <div ref={root} className={styles.reader}>
+  return <div ref={root} className={styles.reader} onKeyDown={event => { if (event.key === "Escape") { setNote(null); setWhy("closed"); } }}>
     <div className={styles.top}>
       <h3 className={styles.title}>{copy.title}</h3>
       <div className={styles.tabs} role="tablist" aria-label={copy.tabsLabel}>
-        {copy.cases.map((entry, index) => <button key={entry.tab} ref={node => { tabs.current[index] = node; }} type="button" role="tab" id={`${id}-tab-${index}`} aria-controls={`${id}-panel`} aria-selected={index === active} tabIndex={index === active ? 0 : -1} onClick={() => play(index)} onKeyDown={event => onTabKey(event, index)}>{entry.tab}</button>)}
+        {copy.cases.map((entry, index) => <button key={entry.tab} ref={node => { tabs.current[index] = node; }} type="button" role="tab" id={`${id}-tab-${index}`} aria-controls={`${id}-panel`} aria-selected={index === active} tabIndex={index === active ? 0 : -1} onClick={() => choose(index)} onKeyDown={event => onTabKey(event, index)}>{entry.tab}</button>)}
       </div>
     </div>
-    <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} className={styles.panel}>
+    <div key={active} id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} className={styles.panel}>
       <p className={styles.ask}>{item.ask.map((part, index) => part.mark
-        ? <mark key={index} data-kind={part.mark} data-lit={lit.includes(part.mark)}>{part.text}</mark>
+        ? <button key={index} type="button" className={styles.term} data-kind={part.mark} data-lit={lit.includes(part.mark)} data-open={note?.index === index}
+            aria-describedby={part.note ? noteId(index) : undefined} aria-expanded={part.note ? note?.index === index : undefined}
+            onMouseEnter={() => show(index)} onMouseLeave={hide} onFocus={() => show(index)} onBlur={hide}
+            onClick={() => setNote(current => current?.index === index && current.pinned ? null : { index, pinned: true })}>{part.text}</button>
         : <span key={index}>{part.text}</span>)}</p>
+      <div className={styles.noteSlot}>
+        <p className={styles.hint} data-visible={note === null}>{copy.hint}</p>
+        {item.ask.map((part, index) => part.note && <p key={index} id={noteId(index)} className={styles.termNote} data-kind={part.mark} data-visible={note?.index === index}>
+          <span className={styles.noteTerm}>{part.text}</span>{part.note}
+        </p>)}
+      </div>
       <div className={styles.out}>
-        <div className={styles.block} data-on={on(0)}><h4>{copy.blocks.actors}</h4><ul className={styles.actors}>{item.actors.map(actor => <li key={actor}>{actor}</li>)}</ul></div>
-        <div className={styles.block} data-on={on(1)}><h4>{copy.blocks.states}</h4><ol className={styles.states}>{item.states.map(state => <li key={state}><i aria-hidden="true" /><span>{state}</span></li>)}</ol></div>
-        <div className={styles.block} data-on={on(2)}><h4>{copy.blocks.rules}</h4><ul className={styles.rules}>{item.rules.map(rule => <li key={rule}>{rule}</li>)}</ul></div>
-        <div className={`${styles.block} ${styles.question}`} data-on={on(3)}><h4>{copy.blocks.question}</h4><p>{item.question}</p></div>
+        <div className={styles.block} data-state={blockState(0)}><h4>{blockLabels[0]}</h4><ul className={styles.actors}>{item.actors.map((actor, i) => <li key={actor} style={stagger(i)}>{actor}</li>)}</ul></div>
+        <div className={styles.block} data-state={blockState(1)}><h4>{blockLabels[1]}</h4><ol className={styles.states}>{item.states.map((state, i) => <li key={state} style={stagger(i)}><i aria-hidden="true" /><span>{state}</span></li>)}</ol></div>
+        <div className={styles.block} data-state={blockState(2)}><h4>{blockLabels[2]}</h4><ul className={styles.rules}>{item.rules.map((rule, i) => <li key={rule} style={stagger(i)}>{rule}</li>)}</ul></div>
+        <div className={`${styles.block} ${styles.question}`} data-state={blockState(3)} onMouseEnter={() => setWhy(w => w === "pinned" ? w : "hover")} onMouseLeave={() => setWhy(w => w === "pinned" ? w : "closed")}>
+          <h4>{blockLabels[3]}</h4>
+          <p>{item.question}</p>
+          <button type="button" className={styles.why} aria-expanded={whyOpen} aria-controls={`${id}-why`} onFocus={() => setWhy(w => w === "pinned" ? w : "hover")} onBlur={() => setWhy(w => w === "pinned" ? w : "closed")} onClick={() => setWhy(w => w === "pinned" ? "closed" : "pinned")}>{copy.why}<span aria-hidden="true" /></button>
+          <div id={`${id}-why`} className={styles.whyBody} data-open={whyOpen} inert={!whyOpen}><div><p>{item.questionNote}</p></div></div>
+        </div>
       </div>
     </div>
-    <p className={styles.note}>{copy.note}{animates && <> <button type="button" onClick={() => play(active)}>{copy.replay}</button></>}</p>
+    <p className={styles.srOnly} aria-live="polite">{step >= 0 && step < DONE ? blockLabels[step] : ""}</p>
+    <p className={styles.footnote}>{copy.note}{animates && <> <button type="button" onClick={read}>{copy.replay}</button></>}</p>
   </div>;
 }
