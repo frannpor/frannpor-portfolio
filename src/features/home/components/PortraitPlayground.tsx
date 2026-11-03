@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MoveUpRight } from "lucide-react";
+import { MoveUpRight } from "@/shared/icons";
 import { useEffect, useId, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import styles from "./portrait-playground.module.css";
 

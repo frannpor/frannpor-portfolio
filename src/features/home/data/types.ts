@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { Icon } from "@/shared/icons";
 
 export type Locale = "es" | "en";
 
@@ -16,7 +16,7 @@ export type Metric = {
 export type Principle = {
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: Icon;
 };
 
 export type Experience = {
@@ -24,7 +24,7 @@ export type Experience = {
   company: string;
   period: string;
   context: string;
-  icon: LucideIcon;
+  icon: Icon;
   logo?: {
     src: string;
     alt: string;
@@ -38,7 +38,7 @@ export type ClientContext = {
   url?: string;
   type: string;
   description: string;
-  icon: LucideIcon;
+  icon: Icon;
   tags: string[];
   linkLabel?: string;
   logo?: {
@@ -67,7 +67,7 @@ export type Project = {
     src: string;
     alt: string;
   };
-  icon: LucideIcon;
+  icon: Icon;
   stack: string[];
   links: Array<{
     label: string;
@@ -78,7 +78,7 @@ export type Project = {
 
 export type StackGroup = {
   label: string;
-  icon: LucideIcon;
+  icon: Icon;
   items: string[];
 };
 
@@ -98,7 +98,7 @@ export type SectionCopy = {
   eyebrow: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: Icon;
 };
 
 export type ContactCopy = {

@@ -15,7 +15,7 @@ import {
   ShoppingCart,
   Truck,
   Workflow,
-} from "lucide-react";
+} from "@/shared/icons";
 import { sharedProfile } from "@/features/home/data/shared";
 import type { PortfolioContent } from "@/features/home/data/types";
 

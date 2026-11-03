@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "@/shared/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ClientContext } from "@/features/home/data/types";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";

@@ -1,4 +1,4 @@
-import { Download, GitBranch, Link2, Mail, TerminalSquare } from "lucide-react";
+import { Download, GitBranch, Link2, Mail, TerminalSquare } from "@/shared/icons";
 import { ExternalLink } from "@/features/home/components/ui/ExternalLink";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";

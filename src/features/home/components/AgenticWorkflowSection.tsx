@@ -1,4 +1,4 @@
-import { Bot, Workflow } from "lucide-react";
+import { Bot, Workflow } from "@/shared/icons";
 import type { CSSProperties } from "react";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";

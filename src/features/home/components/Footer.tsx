@@ -1,4 +1,4 @@
-import { GitBranch, Link2, Mail } from "lucide-react";
+import { GitBranch, Link2, Mail } from "@/shared/icons";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";
 

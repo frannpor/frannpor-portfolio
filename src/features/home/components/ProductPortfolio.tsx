@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Download, Link2, ZoomIn } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, Download, Link2, ZoomIn } from "@/shared/icons";
 import { useState } from "react";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import { ProjectGallery } from "./ProjectGallery";

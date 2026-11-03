@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "@/shared/icons";
 import { siteConfig } from "@/shared/config/site";
 import { LanguageProvider, usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import type { Locale } from "@/features/home/data/portfolio";

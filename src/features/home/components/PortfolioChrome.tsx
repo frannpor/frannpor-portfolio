@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { ArrowUpRight, GitBranch, Languages, Menu, X } from "lucide-react";
+import { ArrowUpRight, GitBranch, Languages, Menu, X } from "@/shared/icons";
 import { useEffect, useRef, useState } from "react";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import styles from "./product-portfolio.module.css";

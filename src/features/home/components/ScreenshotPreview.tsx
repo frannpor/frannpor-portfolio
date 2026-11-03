@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn } from "@/shared/icons";
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "@/features/home/home.module.css";

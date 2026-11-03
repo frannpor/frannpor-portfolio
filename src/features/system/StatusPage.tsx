@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Home, RotateCcw } from "lucide-react";
+import { ArrowUpRight, Home, RotateCcw } from "@/shared/icons";
 import { LanguageProvider, usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import type { Locale } from "@/features/home/data/portfolio";
 import { SystemHeader } from "@/features/system/SystemHeader";

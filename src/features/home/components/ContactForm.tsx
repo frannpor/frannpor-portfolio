@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send } from "lucide-react";
+import { Send } from "@/shared/icons";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import styles from "./contact-form.module.css";
