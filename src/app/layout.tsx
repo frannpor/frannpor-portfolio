@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Anybody, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--f-display", display: "swap" });
-const body = Instrument_Sans({ subsets: ["latin"], variable: "--f-body", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--f-mono", display: "swap" });
+// Anybody carries the width axis: expanded for headings, condensed italic for annotations.
+const display = Anybody({ subsets: ["latin"], axes: ["wdth"], style: ["normal", "italic"], variable: "--f-display", display: "swap" });
+const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.frannpor-dev.com"),
@@ -37,6 +37,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#08161a",
 };
 
 export default function RootLayout({
@@ -45,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="es" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
