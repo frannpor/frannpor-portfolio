@@ -190,6 +190,7 @@ export type InterfaceCopy = {
   experience: {
     contribution: string;
     stopsLabel: string;
+    chooseStop: string;
     now: string;
   };
   projects: {

@@ -26,9 +26,9 @@ function SectionHeading({ section, id }: { section: SectionCopy; id: string }) {
 
 function Screen({ item, label, onOpen, sizes }: { item: ClientContext; label: string; onOpen: () => void; sizes: string }) {
   if (!item.visual) return null;
-  return <button className={styles.screen} type="button" aria-label={`${label} ${item.name}`} onClick={onOpen} data-tilt-target>
+  return <button className={styles.screen} style={{ "--shot-ratio": `${item.visual.width} / ${item.visual.height}` } as CSSProperties} type="button" aria-label={`${label} ${item.name}`} onClick={onOpen} data-tilt-target>
     <span className={styles.chrome} aria-hidden="true"><i /><i /><i /></span>
-    <span className={styles.shot}><Image src={item.visual.src} alt={item.visual.alt} fill sizes={sizes} /></span>
+    <span className={styles.shot}><Image src={item.visual.src} alt={item.visual.alt} fill sizes={sizes} quality={95} /></span>
     <span className={styles.zoom} aria-hidden="true"><ZoomIn size={18} /></span>
   </button>;
 }
@@ -40,13 +40,12 @@ function WorkSection({ copy, onOpen }: { copy: PortfolioContent; onOpen: (name: 
   return <section className={styles.section} id="contexts" aria-labelledby="contexts-title">
     <SectionHeading section={copy.sections.contexts} id="contexts-title" />
     {featured.map((item, index) => <article key={item.name} className={styles.stop} data-flip={index % 2 === 1} data-tilt data-reveal style={accentStyle(item.accent)}>
-      <div className={styles.view}><Screen item={item} label={label} onOpen={() => onOpen(item.name)} sizes="(max-width: 900px) 92vw, 680px" /></div>
+      <div className={styles.view}><Screen item={item} label={label} onOpen={() => onOpen(item.name)} sizes="(max-width: 900px) 100vw, 60vw" /></div>
       <div className={styles.info}>
         <div className={styles.infoTop}>
           <p className={styles.kind}>{item.type}</p>
-          {item.logo && <span className={styles.logo}><Image src={item.logo.src} alt={item.logo.alt} width={item.logo.width} height={item.logo.height} sizes="160px" /></span>}
         </div>
-        <h3>{item.name}</h3>
+        <h3>{item.logo ? <span className={styles.logo}><Image src={item.logo.src} alt={item.name} width={item.logo.width} height={item.logo.height} sizes="220px" quality={95} /></span> : item.name}</h3>
         <p className={styles.description}>{item.description}</p>
         {item.points && <ul className={styles.points}>{item.points.map(point => <li key={point}>{point}</li>)}</ul>}
         {item.stack && <ul className={styles.chips}>{item.stack.map(tag => <li key={tag}>{tag}</li>)}</ul>}
@@ -89,7 +88,7 @@ function MethodSection({ copy }: { copy: PortfolioContent }) {
 function ExperienceSection({ copy }: { copy: PortfolioContent }) {
   return <section className={styles.section} id="work" aria-labelledby="work-title">
     <SectionHeading section={copy.sections.experience} id="work-title" />
-    <div data-reveal><ExperienceRoute items={copy.experience} copy={copy.ui.experience} /></div>
+    <div className={styles.experienceRunway}><ExperienceRoute items={copy.experience} copy={copy.ui.experience} /></div>
   </section>;
 }
 

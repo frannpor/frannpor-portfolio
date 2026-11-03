@@ -14,7 +14,7 @@ export default async function ShareImage() {
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", padding: "48px 56px 38px", background: "#10150f", color: "#eef2e8", fontFamily: "sans-serif" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", fontSize: 27, fontWeight: 700, letterSpacing: -1 }}>
-          franpor<span style={{ color: "#cefa69" }}>.</span>
+          frannpor<span style={{ color: "#cefa69" }}>.</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", border: "1px solid #4d5b3a", borderRadius: 30, padding: "10px 18px", color: "#d2deb9", fontSize: 15, letterSpacing: 2 }}>
           FULL STACK DEVELOPER

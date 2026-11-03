@@ -126,6 +126,7 @@ export const es: PortfolioContent = {
     },
     experience: {
       contribution: "Mi aporte",
+      chooseStop: "Elegí una parada para conocer mi trabajo en ese equipo.",
       stopsLabel: "Paradas del recorrido",
       now: "hoy",
     },
@@ -418,7 +419,7 @@ export const es: PortfolioContent = {
       tags: ["SaaS", "Multi-tenant", "Full stack"],
       linkLabel: "Sitio público",
       logo: { src: "/showcase/ply-logo.svg", alt: "PLY", width: 1382, height: 489 },
-      visual: { src: "/screenshots/ply.webp", alt: "Página pública de PLY, plataforma SaaS logística.", width: 1600, height: 767 },
+      visual: { src: "/screenshots/ply.jpg", alt: "Página pública de PLY, plataforma SaaS logística.", width: 1736, height: 832 },
     },
     {
       name: "Firenze",
@@ -436,7 +437,7 @@ export const es: PortfolioContent = {
       tags: ["UI/UX", "Backend", "AWS"],
       linkLabel: "Ver tienda",
       logo: { src: "/showcase/firenze-logo.webp", alt: "Firenze", width: 640, height: 236 },
-      visual: { src: "/screenshots/firenze.webp", alt: "Tienda online de Firenze.", width: 1600, height: 866 },
+      visual: { src: "/screenshots/firenze.jpg", alt: "Tienda online de Firenze.", width: 1600, height: 866 },
     },
     {
       name: "Avateen",
@@ -449,7 +450,7 @@ export const es: PortfolioContent = {
         "Check-in diario con un semáforo emocional.",
         "IA sobre datos anonimizados y registro de auditoría de cada acceso.",
       ],
-      stack: ["Next.js", "NestJS", "TypeORM", "PostgreSQL", "AWS"],
+      stack: ["Next.js", "NestJS", "TypeORM", "PostgreSQL", "AWS", "Cognito"],
       tags: ["Frontend", "Backend", "Permisos por rol"],
       logo: { src: "/showcase/avateen-logo.webp", alt: "Avateen", width: 640, height: 170 },
       visual: { src: "/screenshots/avateen-login.webp", alt: "Pantalla de ingreso de Avateen.", width: 1600, height: 1021 },
