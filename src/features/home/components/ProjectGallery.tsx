@@ -69,7 +69,7 @@ export function ProjectGallery({ items, initialIndex, onClose }: { items: Client
         <div><p>{item.type}</p><ul>{item.tags.map(tag => <li key={tag}>{tag}</li>)}</ul></div>
         {item.url && <a href={item.url} target="_blank" rel="noreferrer">{ui.visit}<ArrowUpRight size={16} /></a>}
       </footer>
-      <nav className={styles.projects} aria-label={ui.choose}><SlidingIndicator value={index} />{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
+      <nav className={styles.projects} aria-label={ui.choose}><SlidingIndicator value={index} follow />{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
     </div>
   </dialog>;
 }

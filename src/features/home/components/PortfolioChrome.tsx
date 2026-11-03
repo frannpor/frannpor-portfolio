@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowUpRight, GitBranch, Menu, X } from "@/shared/icons";
+import { portfolioContent } from "@/features/home/data/portfolio";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import { motionAllowed } from "@/features/home/motion/motion";
+import { Glass } from "./ui/Glass";
 import { SlidingIndicator } from "./ui/SelectionMotion";
 import styles from "./product-portfolio.module.css";
 
@@ -88,6 +90,8 @@ export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
   const menuButton = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const active = useActiveSection(copy.navigation.map(item => item.href.slice(1)));
+  // Each link reserves the width of its longest translation, so switching language never moves the bar.
+  const otherNavigation = portfolioContent[locale === "es" ? "en" : "es"].navigation;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -101,14 +105,15 @@ export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
   return <>
     <a className={styles.skip} href={`${homePrefix}#profile`}>{ui.skipToContent}</a>
     <header className={styles.header} data-open={menuOpen}>
+      <Glass blur={3} background="color-mix(in srgb, var(--night) 62%, transparent)" width="100%" radius={0} className={styles.barGlass} contentClassName={styles.bar}>
       <div className={styles.headerInner}>
         <a href={`${homePrefix}#profile`} className={styles.brand} onClick={() => setMenuOpen(false)}>
           <Image src="/brand/frannpor-clean.webp" alt="" width={36} height={36} priority />
           <span>{copy.profile.handle}<span className={styles.brandDot}>.</span></span>
         </a>
         <nav id="portfolio-navigation" aria-label={ui.navigationLabel} className={styles.nav}>
-          <SlidingIndicator value={active} />
-          {copy.navigation.map(item => <a key={item.href} href={`${homePrefix}${item.href}`} aria-current={!homePrefix && active === item.href.slice(1) ? "location" : undefined} onClick={event => { setMenuOpen(false); if (!homePrefix) jumpToSection(event, item.href); }}>{item.label}</a>)}
+          <SlidingIndicator value={active} follow />
+          {copy.navigation.map((item, index) => <a key={item.href} href={`${homePrefix}${item.href}`} aria-current={!homePrefix && active === item.href.slice(1) ? "location" : undefined} onClick={event => { setMenuOpen(false); if (!homePrefix) jumpToSection(event, item.href); }}><span className={styles.navLabel}><span key={item.label} className={styles.navText}>{item.label}</span><span className={styles.navReserve} aria-hidden="true">{otherNavigation[index]?.label}</span></span></a>)}
         </nav>
         <div className={styles.languages} role="group" aria-label={copy.languageSwitch.label}>
           <SlidingIndicator value={locale} tone="accent" />
@@ -116,6 +121,7 @@ export function PortfolioHeader({ homePrefix = "" }: { homePrefix?: string }) {
         </div>
         <button ref={menuButton} aria-controls="portfolio-navigation" className={styles.menuToggle} type="button" aria-expanded={menuOpen} aria-label={menuOpen ? ui.menuClose : ui.menuOpen} onClick={() => setMenuOpen(open => !open)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
       </div>
+      </Glass>
       <span className={styles.progress} data-scroll-progress aria-hidden="true" />
     </header>
   </>;

@@ -133,7 +133,7 @@ export function RequestReader({ copy }: { copy: ReaderCopy }) {
     <div className={styles.top}>
       <h3 className={styles.title}>{copy.title}</h3>
       <div className={styles.tabs} role="tablist" aria-label={copy.tabsLabel}>
-        <SlidingIndicator value={active} />
+        <SlidingIndicator value={active} follow />
         {copy.cases.map((entry, index) => <button key={entry.tab} ref={node => { tabs.current[index] = node; }} type="button" role="tab" id={`${id}-tab-${index}`} aria-controls={`${id}-panel`} aria-selected={index === active} tabIndex={index === active ? 0 : -1} onClick={() => choose(index)} onKeyDown={event => onTabKey(event, index)}>{entry.tab}</button>)}
       </div>
     </div>

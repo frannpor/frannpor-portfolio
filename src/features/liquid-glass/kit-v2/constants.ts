@@ -1,0 +1,11 @@
+export const DEFAULT_WIDTH = 300;
+export const DEFAULT_HEIGHT = 56;
+export const DEFAULT_RADIUS = 28;
+export const DEFAULT_DISPLACEMENT = 55;
+export const DEFAULT_BLUR = 1;
+export const DEFAULT_SATURATION = 1.5;
+export const DEFAULT_SPECULAR_BLUR = 1;
+export const DEFAULT_BRIGHTNESS = 1;
+export const DEFAULT_BACKGROUND = "rgba(255, 255, 255, 0.1)";
+export const DEFAULT_TEXT_COLOR = "rgba(255, 255, 255, 0.94)";
+export const DEFAULT_SHADOW = "0 18px 52px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18)";

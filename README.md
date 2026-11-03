@@ -20,6 +20,7 @@ src/app                  Next App Router pages, layout and API routes
 src/features/home        Portfolio feature: sections, content, i18n and styling
 src/features/home/data   Typed content split by locale and shared profile data
 src/features/home/i18n   Language provider and persisted ES/EN switch
+src/features/liquid-glass/kit-v2  Liquid glass surface (SVG refraction over backdrop-filter)
 src/lib/contact          Contact validation, rate limit and email adapter
 src/shared/config        Small shared app configuration
 src/types                Local type declarations
@@ -39,7 +40,8 @@ See `.env.example`.
 
 ## Interaction and content
 
-- The language switch preserves form input and respects reduced-motion preferences.
+- The language switch preserves form input and respects reduced-motion preferences. The choice is stored in a `portfolio-locale` cookie, so the server renders it from the first paint; this makes the pages server-rendered on demand.
+- The header, secondary actions and tab lenses use liquid glass. `src/features/home/components/ui/Glass.tsx` draws displacement and specular maps for each element's real size and uses the kit's light bezel filter; chromatic aberration is limited to fine-pointer desktops because it triples the filter work. Glass needs an opaque, unfiltered ancestor chain, so blocks holding glass reveal with motion only.
 - The portrait supports pointer dragging, tap effects and keyboard interaction.
 - On desktop, scrolling advances the experience route inside a sticky panel; each stop also works with pointer and keyboard. Mobile uses expandable stops. Reduced motion disables scroll-driven selection.
 - Project galleries lock background scrolling, support Escape and restore focus on close.

@@ -38,6 +38,8 @@ export type ImageRef = {
   alt: string;
   width: number;
   height: number;
+  /** Logos drawn in light colors sit on a dark plate. */
+  plate?: "dark";
 };
 
 export type ClientContext = {
@@ -65,10 +67,7 @@ export type Project = {
   signalLabel: string;
   signal: string;
   initials: string;
-  logo?: {
-    src: string;
-    alt: string;
-  };
+  logo?: ImageRef;
   image?: ImageRef;
   icon: Icon;
   accent: string;
@@ -78,7 +77,6 @@ export type Project = {
   };
   /** Logo used as artwork when there is no screenshot. */
   art?: ImageRef;
-  mark?: ImageRef;
   stack: string[];
   links: Array<{
     label: string;
@@ -130,6 +128,10 @@ export type ContactCopy = {
     message: string;
     submit: string;
     submitting: string;
+    /** Button label once the message went out. */
+    sent: string;
+    /** Button label after a failed send. */
+    retry: string;
     sending: string;
     genericError: string;
     errorTitle: string;

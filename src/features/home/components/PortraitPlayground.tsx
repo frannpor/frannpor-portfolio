@@ -74,6 +74,8 @@ export function PortraitPlayground({ copy }: { copy: PortraitCopy }) {
 
   function start(event: PointerEvent<HTMLButtonElement>) {
     if (!event.isPrimary || event.button !== 0) return;
+    // Pressing to drag should neither focus the control nor start a text selection; keyboard focus keeps its ring.
+    event.preventDefault();
     const rect = event.currentTarget.getBoundingClientRect();
     drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, width: rect.width, height: rect.height, moved: false };
     tapPoint.current = { x: event.clientX - rect.left, y: event.clientY - rect.top };
