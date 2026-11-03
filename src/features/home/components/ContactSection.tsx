@@ -1,4 +1,4 @@
-import { Mail, Route, ShieldCheck } from "lucide-react";
+import { Mail, Route, ShieldCheck } from "@/shared/icons";
 import { ContactForm } from "@/features/home/components/ContactForm";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";

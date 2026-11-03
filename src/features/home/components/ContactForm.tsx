@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send } from "lucide-react";
+import { Send } from "@/shared/icons";
 import type { PortfolioContent } from "@/features/home/data/portfolio";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import styles from "./contact-form.module.css";
@@ -16,8 +16,8 @@ type ContactFormProps = {
 };
 
 export function ContactForm({ form: copy }: ContactFormProps) {
-  const { locale, copy: content } = usePortfolioContent();
-  const es = locale === "es";
+  const { copy: content } = usePortfolioContent();
+  const ui = content.ui.contact;
   const [state, setState] = useState<FormState>({ status: "idle", message: "" });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -40,7 +40,7 @@ export function ContactForm({ form: copy }: ContactFormProps) {
     }
 
     if (!response.ok || !result.ok) {
-      setState({ status: "error", message: response.status === 429 ? (es ? "Llegaron varios mensajes seguidos. Esperá un minuto y probá de nuevo." : "Several messages arrived in a row. Wait a minute and try again.") : copy.genericError });
+      setState({ status: "error", message: response.status === 429 ? ui.rateLimited : copy.genericError });
       return;
     }
 
@@ -67,21 +67,21 @@ export function ContactForm({ form: copy }: ContactFormProps) {
         <input name="email" type="email" autoComplete="email" maxLength={120} placeholder=" " required />
       </label>
       <label className={styles.formGroup}>
-        <span>{copy.company} <small>{es ? "(opcional)" : "(optional)"}</small></span>
+        <span>{copy.company} <small>{ui.optional}</small></span>
         <input name="company" type="text" autoComplete="organization" maxLength={100} placeholder=" " />
       </label>
       <label className={styles.formGroup}>
         <span>{copy.message}</span>
         <textarea name="message" rows={6} minLength={20} maxLength={1600} placeholder=" " required />
       </label>
-      <p className={styles.privacy}>{es ? "Usaré estos datos para responderte." : "I’ll use these details to reply."}</p>
+      <p className={styles.privacy}>{ui.privacy}</p>
       <button type="submit" disabled={state.status === "submitting"}>
         <Send size={17} />
         {state.status === "submitting" ? copy.submitting : copy.submit}
       </button>
       <p className={state.status === "error" ? styles.formError : styles.formMessage} data-status={state.status} aria-live="polite">
         {state.message}
-        {state.status === "error" && <> {" "}<a href={`mailto:${content.profile.email}`}>{es ? "Escribime por email" : "Email me instead"}</a></>}
+        {state.status === "error" && <> {" "}<a href={`mailto:${content.profile.email}`}>{ui.emailInstead}</a></>}
       </p>
     </form>
   );

@@ -1,6 +1,6 @@
 export const sharedProfile = {
   name: "Francisco Porciel",
-  handle: "franpor",
+  handle: "frannpor",
   title: "Full Stack Developer",
   location: "Lobos, Buenos Aires",
   email: "porcielfranciscoramon@gmail.com",

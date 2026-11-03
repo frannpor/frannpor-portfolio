@@ -40,7 +40,8 @@ See `.env.example`.
 ## Interaction and content
 
 - The language switch preserves form input and respects reduced-motion preferences.
-- The portrait supports pointer dragging, tap effects and keyboard interaction. Floating text stays within the portrait area.
+- The portrait supports pointer dragging, tap effects and keyboard interaction.
+- On desktop, scrolling advances the experience route inside a sticky panel; each stop also works with pointer and keyboard. Mobile uses expandable stops. Reduced motion disables scroll-driven selection.
 - Project galleries lock background scrolling, support Escape and restore focus on close.
 - Privacy and terms content remains in source. Public access is disabled by `publicLegalPages` in `src/features/legal/visibility.ts`; those routes return 404.
 - Current CVs are stored in `public/` as PDF and DOCX files for both languages.

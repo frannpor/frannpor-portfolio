@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X } from "@/shared/icons";
 import { useEffect, useState } from "react";
 import type { Locale, NavItem, PortfolioContent } from "@/features/home/data/portfolio";
 import styles from "@/features/home/home.module.css";

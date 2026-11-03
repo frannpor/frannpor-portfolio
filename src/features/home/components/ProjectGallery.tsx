@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "@/shared/icons";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ClientContext } from "@/features/home/data/types";
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import styles from "./project-gallery.module.css";
@@ -11,14 +11,14 @@ export function ProjectGallery({ items, initialIndex, onClose }: { items: Client
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [index, setIndex] = useState(initialIndex);
   const [closing, setClosing] = useState(false);
-  const { locale } = usePortfolioContent();
-  const es = locale === "es";
+  const { copy } = usePortfolioContent();
+  const ui = copy.ui.gallery;
   const item = items[index];
   const navigate = useCallback((step: number) => setIndex(current => (current + step + items.length) % items.length), [items.length]);
   const close = useCallback(() => {
     if (timer.current) return;
     setClosing(true);
-    timer.current = setTimeout(onClose, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180);
+    timer.current = setTimeout(onClose, parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--t-close")) || 0);
   }, [onClose]);
 
   useEffect(() => {
@@ -57,20 +57,29 @@ export function ProjectGallery({ items, initialIndex, onClose }: { items: Client
   }}>
     <div className={styles.sheet}>
       <header className={styles.header}>
-        <div className={styles.identity}><span className={styles.eyebrow}>{es ? "Una mirada al producto" : "A look at the product"}</span><h2 id="gallery-title" aria-live="polite">{item.name}</h2></div>
-        <div className={styles.actions}><span>{String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span><button type="button" onClick={close} aria-label={es ? "Cerrar galería" : "Close gallery"}><X size={20} /></button></div>
+        <div className={styles.identity}><span className={styles.eyebrow}>{ui.eyebrow}</span><h2 id="gallery-title" aria-live="polite">{item.name}</h2></div>
+        <div className={styles.actions}><span>{String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span><button type="button" onClick={close} aria-label={ui.close}><X size={20} /></button></div>
       </header>
       <div className={styles.stage}>
-        <div key={item.name} className={styles.imageFrame}>
-          {item.visual && <Image src={item.visual.src} alt={item.visual.alt} width={1600} height={1000} sizes="(max-width: 760px) 94vw, 85vw" priority />}
-        </div>
-        <div className={styles.navigation}><button type="button" onClick={() => navigate(-1)} aria-label={es ? "Captura anterior" : "Previous screenshot"}><ArrowLeft size={20} /></button><button type="button" onClick={() => navigate(1)} aria-label={es ? "Siguiente captura" : "Next screenshot"}><ArrowRight size={20} /></button></div>
+        <GalleryImage key={item.name} item={item} />
+        <div className={styles.navigation}><button type="button" onClick={() => navigate(-1)} aria-label={ui.previous}><ArrowLeft size={20} /></button><button type="button" onClick={() => navigate(1)} aria-label={ui.next}><ArrowRight size={20} /></button></div>
       </div>
       <footer className={styles.footer}>
         <div><p>{item.type}</p><ul>{item.tags.map(tag => <li key={tag}>{tag}</li>)}</ul></div>
-        {item.url && <a href={item.url} target="_blank" rel="noreferrer">{es ? "Visitar sitio" : "Visit website"}<ArrowUpRight size={16} /></a>}
+        {item.url && <a href={item.url} target="_blank" rel="noreferrer">{ui.visit}<ArrowUpRight size={16} /></a>}
       </footer>
-      <nav className={styles.projects} aria-label={es ? "Elegir proyecto" : "Choose project"}>{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
+      <nav className={styles.projects} aria-label={ui.choose}>{items.map((entry, position) => <button key={entry.name} type="button" aria-pressed={position === index} onClick={() => setIndex(position)}>{entry.name}</button>)}</nav>
     </div>
   </dialog>;
+}
+
+/** Full-resolution screenshot over a blurred preview; the frame keeps its size while it loads. */
+function GalleryImage({ item }: { item: ClientContext }) {
+  const [loaded, setLoaded] = useState(false);
+  if (!item.visual) return null;
+  const { src, alt, width, height } = item.visual;
+  return <div className={styles.imageFrame} data-loaded={loaded} style={{ "--ratio": `${width} / ${height}`, "--aspect": width / height } as CSSProperties}>
+    <Image className={styles.preview} src={src} alt="" aria-hidden="true" fill sizes="64px" quality={40} />
+    <Image className={styles.full} src={src} alt={alt} fill sizes="100vw" quality={92} priority onLoad={() => setLoaded(true)} />
+  </div>;
 }

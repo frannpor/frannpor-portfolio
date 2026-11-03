@@ -1,11 +1,11 @@
 
 .shell { width: min(1200px, calc(100% - 80px)); margin: auto; min-height: calc(100svh - 190px); display: grid; align-items: center; padding: 65px 0; }
 .panel { display: grid; grid-template-columns: 1fr 1.4fr; gap: 70px; align-items: center; }
-.code { font-size: clamp(110px,16vw,220px); font-weight: 500; letter-spacing: -.09em; color: var(--accent); }
-.kicker { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
-.copy h1 { font-size: clamp(32px,4vw,52px); font-weight: 500; line-height: 1.12; letter-spacing: -.045em; }
+.code { font-family: var(--font-display); font-size: clamp(110px,16vw,220px); font-stretch: 125%; font-weight: 800; letter-spacing: -.05em; line-height: .9; color: var(--accent); }
+.kicker { color: var(--amber); font-family: var(--font-display); font-style: italic; font-stretch: 76%; font-weight: 600; font-size: 1.15rem; }
+.copy h1 { margin: 12px 0 16px; font-size: clamp(32px,4vw,52px); font-stretch: 118%; line-height: 1; letter-spacing: -.03em; }
 .copy > p:not(.kicker) { font-size: 15px; line-height: 1.8; color: var(--quiet); }
-.quickLinks { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 25px; color: var(--quiet); font-size: 12px; }
+.quickLinks { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 25px; color: var(--quiet); font-size: .95rem; }
 .quickLinks a { min-height: 44px; display: inline-flex; align-items: center; }
 .quickLinks a:hover { color: var(--accent); }
 @media(max-width:760px) { .shell { width: calc(100% - 40px); padding: 40px 0; } .panel { grid-template-columns: 1fr; gap: 15px; } .code { font-size: 100px; } }

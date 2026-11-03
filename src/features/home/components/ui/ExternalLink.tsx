@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "@/shared/icons";
 import styles from "@/features/home/home.module.css";
 
 type ExternalLinkProps = {

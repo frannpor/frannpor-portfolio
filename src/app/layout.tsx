@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { Anybody, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
+
+// Anybody carries the width axis: expanded for headings, condensed italic for annotations.
+const display = Anybody({ subsets: ["latin"], axes: ["wdth"], style: ["normal", "italic"], variable: "--f-display", display: "block", preload: true });
+const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "block", preload: true });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.frannpor-dev.com"),
@@ -32,6 +37,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#08161a",
 };
 
 export default function RootLayout({
@@ -40,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

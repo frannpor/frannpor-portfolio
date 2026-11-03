@@ -1,11 +1,11 @@
-import type { LucideIcon } from "lucide-react";
+import type { Icon } from "@/shared/icons";
 import styles from "@/features/home/home.module.css";
 
 type SectionHeaderProps = {
   eyebrow: string;
   title: string;
   description?: string;
-  icon: LucideIcon;
+  icon: Icon;
 };
 
 export function SectionHeader({ eyebrow, title, description, icon: Icon }: SectionHeaderProps) {

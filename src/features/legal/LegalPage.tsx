@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "@/shared/icons";
 import { siteConfig } from "@/shared/config/site";
 import { LanguageProvider, usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import type { Locale } from "@/features/home/data/portfolio";
 import { SystemHeader } from "@/features/system/SystemHeader";
 import styles from "./legal.module.css";
 import pageStyles from "@/features/home/components/product-portfolio.module.css";
-import { PortfolioFooter, PortfolioMotion } from "@/features/home/components/PortfolioChrome";
+import { PortfolioFooter } from "@/features/home/components/PortfolioChrome";
 
 type LegalSection = {
   title: string;
@@ -50,7 +50,6 @@ function LegalPageContent({ content }: LegalPageProps) {
 
   return (
     <div className={pageStyles.page}>
-      <PortfolioMotion />
       <SystemHeader />
       <main className={styles.shell}>
       <section className={styles.hero}>
