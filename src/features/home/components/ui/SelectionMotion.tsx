@@ -5,8 +5,9 @@ import { motionAllowed } from "@/features/home/motion/motion";
 import styles from "./selection-motion.module.css";
 
 /** One measured indicator, shared by tabs and segmented controls. Semantics stay with the caller. */
-export function SlidingIndicator({ value, tone = "neutral" }: { value: string | number; tone?: "neutral" | "accent" }) {
+export function SlidingIndicator({ value, tone = "neutral", follow = false }: { value: string | number; tone?: "neutral" | "accent"; follow?: boolean }) {
   const indicator = useRef<HTMLSpanElement>(null);
+  const hovered = useRef<HTMLElement | null>(null);
   const animation = useRef<Animation | null>(null);
   const destination = useRef<{ x: number; y: number; width: number; height: number } | null>(null);
   useLayoutEffect(() => {
@@ -15,7 +16,9 @@ export function SlidingIndicator({ value, tone = "neutral" }: { value: string | 
     if (!marker || !host) return;
     const update = () => {
       const selected = host.querySelector<HTMLElement>('[aria-selected="true"], [aria-pressed="true"], [aria-current="location"]');
-      const target = selected;
+      // With a mouse, the lens previews the option under the pointer and returns to the selection on leave.
+      const target = hovered.current ?? selected;
+      marker.dataset.preview = String(Boolean(hovered.current && hovered.current !== selected));
       if (!target || !host.offsetWidth || !host.offsetHeight) { marker.dataset.visible = "false"; return; }
       const bounds = host.getBoundingClientRect();
       const r = target.getBoundingClientRect();
@@ -51,13 +54,16 @@ export function SlidingIndicator({ value, tone = "neutral" }: { value: string | 
       marker.dataset.visible = "true";
       if (enabled && visible && from.width && from.height) {
         const tokens = getComputedStyle(document.documentElement);
-        const stretch = Math.min(12, Math.abs(next.x - from.x) * .08);
+        // The accent pill is a single drop of colour, so it stretches and thins more as it travels.
+        const liquid = tone === "accent";
+        const stretch = Math.min(liquid ? 24 : 12, Math.abs(next.x - from.x) * (liquid ? .32 : .08));
         const middle = {
           x: from.x + (next.x - from.x) * .65 - (next.x < from.x ? stretch : 0),
           y: from.y + (next.y - from.y) * .65,
           width: from.width + (next.width - from.width) * .65 + stretch,
-          height: from.height + (next.height - from.height) * .65,
+          height: (from.height + (next.height - from.height) * .65) * (liquid ? .86 : 1),
         };
+        if (liquid) middle.y += (from.height - middle.height) / 2;
         animation.current = marker.animate([
           { transform: transform(from), offset: 0 },
           { transform: transform(middle), offset: .55 },
@@ -71,8 +77,27 @@ export function SlidingIndicator({ value, tone = "neutral" }: { value: string | 
     host.querySelectorAll("button, a").forEach(button => sizes.observe(button));
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     reduced.addEventListener("change", update);
-    return () => { sizes.disconnect(); reduced.removeEventListener("change", update); };
-  }, [value]);
+    const over = (event: PointerEvent) => {
+      if (!follow || event.pointerType !== "mouse") return;
+      const item = (event.target as Element | null)?.closest<HTMLElement>("button, a");
+      if (!item || !host.contains(item) || item === hovered.current) return;
+      hovered.current = item;
+      update();
+    };
+    const leave = () => {
+      if (!hovered.current) return;
+      hovered.current = null;
+      update();
+    };
+    host.addEventListener("pointerover", over);
+    host.addEventListener("pointerleave", leave);
+    return () => {
+      sizes.disconnect();
+      reduced.removeEventListener("change", update);
+      host.removeEventListener("pointerover", over);
+      host.removeEventListener("pointerleave", leave);
+    };
+  }, [value, follow, tone]);
   useEffect(() => () => { animation.current?.cancel(); }, []);
   return <span ref={indicator} className={styles.indicator} data-tone={tone} data-shape="pill" aria-hidden="true" />;
 }

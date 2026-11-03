@@ -16,6 +16,8 @@ type LanguageContextValue = {
 };
 
 const STORAGE_KEY = "franpor-portfolio-locale";
+/** Mirrors the choice for the server, so a reload renders the chosen language from the first paint. */
+export const LOCALE_COOKIE = "portfolio-locale";
 let memoryLocale: Locale = defaultLocale;
 const LOCALE_EVENT = "franpor-portfolio-locale-change";
 let languageAnimation: Animation | undefined;
@@ -49,8 +51,13 @@ function subscribeToLocale(listener: () => void) {
   };
 }
 
+function writeLocaleCookie(locale: Locale) {
+  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
+}
+
 function setStoredLocale(locale: Locale) {
   memoryLocale = locale;
+  writeLocaleCookie(locale);
   try {
     window.localStorage.setItem(STORAGE_KEY, locale);
   } catch {
@@ -72,8 +79,13 @@ function changeLocale(locale: Locale) {
   });
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const locale = useSyncExternalStore(subscribeToLocale, getStoredLocale, () => defaultLocale);
+export function LanguageProvider({ children, initialLocale = defaultLocale }: { children: ReactNode; initialLocale?: Locale }) {
+  const locale = useSyncExternalStore(subscribeToLocale, getStoredLocale, () => initialLocale);
+
+  // Visitors who chose a language before the cookie existed get it written once.
+  useEffect(() => {
+    if (!document.cookie.includes(`${LOCALE_COOKIE}=${locale}`)) writeLocaleCookie(locale);
+  }, [locale]);
 
   useEffect(() => {
     document.documentElement.lang = locale;

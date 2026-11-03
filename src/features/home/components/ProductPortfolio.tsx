@@ -6,6 +6,7 @@ import { ArrowDown, ArrowUpRight, Check, Download, GitBranch, Link2, ZoomIn } fr
 import { usePortfolioContent } from "@/features/home/i18n/LanguageProvider";
 import { useNightMapMotion } from "@/features/home/motion/motion";
 import type { ClientContext, PortfolioContent, SectionCopy } from "@/features/home/data/portfolio";
+import type { ImageRef } from "@/features/home/data/types";
 import { ProjectGallery } from "./ProjectGallery";
 import { PortraitPlayground } from "./PortraitPlayground";
 import { PortfolioFooter, PortfolioHeader, SectionMap } from "./PortfolioChrome";
@@ -13,6 +14,7 @@ import { RequestReader } from "./RequestReader";
 import { TopoCanvas } from "./TopoCanvas";
 import { ContactForm } from "./ContactForm";
 import { ExperienceRoute } from "./ExperienceRoute";
+import { GlassAction } from "./ui/GlassAction";
 import styles from "./product-portfolio.module.css";
 
 const accentStyle = (accent: string) => ({ "--c": `color-mix(in srgb, ${accent} 32%, var(--text))` }) as CSSProperties;
@@ -22,6 +24,12 @@ function SectionHeading({ section, id }: { section: SectionCopy; id: string }) {
     <h2 id={id}>{section.title}{section.accent && <> <em>{section.accent}</em></>}</h2>
     <p>{section.description}</p>
   </div>;
+}
+
+/** Every project card names its brand with the same plate; without a logo the plate carries the name. */
+function Brand({ logo, name }: { logo?: ImageRef; name: string }) {
+  if (!logo) return <span className={styles.logo} data-plate="text">{name}</span>;
+  return <span className={styles.logo} data-plate={logo.plate}><Image src={logo.src} alt={name} width={logo.width} height={logo.height} sizes="220px" quality={95} /></span>;
 }
 
 function Screen({ item, label, onOpen, sizes }: { item: ClientContext; label: string; onOpen: () => void; sizes: string }) {
@@ -45,7 +53,7 @@ function WorkSection({ copy, onOpen }: { copy: PortfolioContent; onOpen: (name: 
         <div className={styles.infoTop}>
           <p className={styles.kind}>{item.type}</p>
         </div>
-        <h3>{item.logo ? <span className={styles.logo}><Image src={item.logo.src} alt={item.name} width={item.logo.width} height={item.logo.height} sizes="220px" quality={95} /></span> : item.name}</h3>
+        <h3><Brand logo={item.logo} name={item.name} /></h3>
         <p className={styles.description}>{item.description}</p>
         {item.points && <ul className={styles.points}>{item.points.map(point => <li key={point}>{point}</li>)}</ul>}
         {item.stack && <ul className={styles.chips}>{item.stack.map(tag => <li key={tag}>{tag}</li>)}</ul>}
@@ -57,7 +65,7 @@ function WorkSection({ copy, onOpen }: { copy: PortfolioContent; onOpen: (name: 
         <Screen item={item} label={label} onOpen={() => onOpen(item.name)} sizes="(max-width: 760px) 92vw, 620px" />
         <div className={styles.miniInfo}>
           <p className={styles.kind}>{item.type}</p>
-          <h3>{item.name}</h3>
+          <h3><Brand logo={item.logo} name={item.name} /></h3>
           <p className={styles.description}>{item.description}</p>
           {item.url && <a className={styles.visit} href={item.url} target="_blank" rel="noreferrer">{item.linkLabel ?? item.name}<ArrowUpRight size={16} /></a>}
         </div>
@@ -102,7 +110,7 @@ function ProjectsSection({ copy }: { copy: PortfolioContent }) {
           : item.art && <figure className={styles.art}><Image src={item.art.src} alt={item.art.alt} width={item.art.width} height={item.art.height} sizes="(max-width: 860px) 70vw, 380px" /></figure>}
         <div className={styles.miniInfo}>
           <p className={styles.status} data-tone={item.status.tone}>{item.status.label}</p>
-          <h3>{item.mark && <Image className={styles.mark} src={item.mark.src} alt={item.mark.alt} width={44} height={44} />}{item.name}</h3>
+          <h3><Brand logo={item.logo} name={item.name} /></h3>
           <p className={styles.description}>{item.summary}</p>
           <details>
             <summary>{copy.ui.projects.howBuilt}<span aria-hidden="true" /></summary>
@@ -124,20 +132,20 @@ function ContactSection({ copy }: { copy: PortfolioContent }) {
     catch { setCopied("failed"); }
   }
   return <section className={`${styles.section} ${styles.contact}`} id="contact" aria-labelledby="contact-title">
-    <div className={styles.contactIntro} data-reveal>
+    <div className={styles.contactIntro} data-reveal="glass">
       <span className={styles.xmark} aria-hidden="true" />
       <h2 id="contact-title">{ui.contact.heading} <em>{copy.contact.title}</em></h2>
       <p className={styles.description}>{copy.contact.description}</p>
       <div className={styles.mail}>
         <p className={styles.kind}>{ui.contact.inbox}</p>
         <a href={`mailto:${profile.email}`}>{profile.email.split("@")[0]}<wbr />@{profile.email.split("@")[1]}</a>
-        <button type="button" className={styles.ghost} onClick={copyEmail} aria-live="polite">{copied === "done" ? <Check size={16} /> : <Link2 size={16} />}{copied === "done" ? ui.contact.copied : copied === "failed" ? ui.contact.copyFailed : ui.contact.copy}</button>
+        <GlassAction><button type="button" className={styles.ghost} onClick={copyEmail} aria-live="polite">{copied === "done" ? <Check size={16} /> : <Link2 size={16} />}{copied === "done" ? ui.contact.copied : copied === "failed" ? ui.contact.copyFailed : ui.contact.copy}</button></GlassAction>
       </div>
       <div className={styles.contactLinks}>
-        <a className={styles.ghost} href={profile.cv} download><Download size={17} />{ui.contact.cvPdf}</a>
-        <a className={styles.ghost} href={profile.cv.replace(/\.pdf$/, ".docx")} download><Download size={17} />{ui.contact.cvWord}</a>
-        <a className={styles.ghost} href={profile.linkedin} target="_blank" rel="noreferrer">{copy.hero.actions.linkedin}<ArrowUpRight size={16} /></a>
-        <a className={styles.ghost} href={profile.github} target="_blank" rel="noreferrer">{copy.hero.actions.github}<ArrowUpRight size={16} /></a>
+        <GlassAction><a className={styles.ghost} href={profile.cv} download><Download size={17} />{ui.contact.cvPdf}</a></GlassAction>
+        <GlassAction><a className={styles.ghost} href={profile.cv.replace(/\.pdf$/, ".docx")} download><Download size={17} />{ui.contact.cvWord}</a></GlassAction>
+        <GlassAction><a className={styles.ghost} href={profile.linkedin} target="_blank" rel="noreferrer">{copy.hero.actions.linkedin}<ArrowUpRight size={16} /></a></GlassAction>
+        <GlassAction><a className={styles.ghost} href={profile.github} target="_blank" rel="noreferrer">{copy.hero.actions.github}<ArrowUpRight size={16} /></a></GlassAction>
       </div>
     </div>
     <div className={styles.formCard} data-reveal>
@@ -171,8 +179,8 @@ export function ProductPortfolio() {
             <p className={styles.intro}>{profile.intro}</p>
             <div className={styles.actions}>
               <a className={styles.primary} href="#contexts" data-magnet>{ui.hero.explore}<ArrowDown size={18} /></a>
-              <a className={styles.secondary} href={profile.cv} download><Download size={17} />{ui.hero.downloadCv}</a>
-              <a className={styles.iconButton} href={profile.github} target="_blank" rel="noreferrer" aria-label={copy.hero.actions.github}><GitBranch size={20} /></a>
+              <GlassAction><a className={styles.secondary} href={profile.cv} download><Download size={17} />{ui.hero.downloadCv}</a></GlassAction>
+              <GlassAction><a className={styles.iconButton} href={profile.github} target="_blank" rel="noreferrer" aria-label={copy.hero.actions.github}><GitBranch size={20} /></a></GlassAction>
             </div>
             <dl className={styles.hud}>{copy.hero.metrics.map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}<span>{metric.detail}</span></dd></div>)}</dl>
           </div>

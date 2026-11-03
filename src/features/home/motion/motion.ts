@@ -41,11 +41,14 @@ export function useNightMapMotion() {
     };
 
     // Progress bar and header visibility work with or without motion.
+    // Layout changes (language switch, opened details) let the browser re-anchor the scroll; that is not the reader scrolling.
+    let anchoringUntil = 0;
     function chrome() {
       const y = window.scrollY;
       const max = root.scrollHeight - window.innerHeight;
       if (progressBar) setValue(progressBar, "--scroll", max > 0 ? clamp(y / max).toFixed(4) : "0");
       if (!enabled) return;
+      if (performance.now() < anchoringUntil) { lastY = y; return; }
       if (Math.abs(y - lastY) > 6) {
         const hide = y > lastY && y > window.innerHeight * 0.6;
         if (hide) root.dataset.header = "hidden";
@@ -109,6 +112,8 @@ export function useNightMapMotion() {
         s.x += (s.tx - s.x) * k;
         s.p += (s.tp - s.p) * k;
         if (Math.abs(s.te - s.e) + Math.abs(s.tx - s.x) + Math.abs(s.tp - s.p) > 0.002) moving = true;
+        // Land exactly on the target: a residual 0.999 opacity would cut liquid glass off from its backdrop.
+        else { s.e = s.te; s.x = s.tx; s.p = s.tp; }
         setValue(el, "--e", s.e.toFixed(3));
         setValue(el, "--x", s.x.toFixed(3));
       });
@@ -123,10 +128,11 @@ export function useNightMapMotion() {
     }
 
     // Content changes (language switch, opened details) add or move elements.
-    const sizes = new ResizeObserver(() => { geometryDirty = true; kick(); });
+    const sizes = new ResizeObserver(() => { geometryDirty = true; anchoringUntil = performance.now() + 450; kick(); });
     sizes.observe(document.body);
     const resized = () => { geometryDirty = true; kick(); };
     const mutations = new MutationObserver(() => {
+      anchoringUntil = performance.now() + 450;
       tracked = elements();
       const live = new Set(tracked);
       for (const el of passes.keys()) if (!live.has(el)) { passes.delete(el); geometry.delete(el); }

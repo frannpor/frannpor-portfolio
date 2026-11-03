@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Anybody, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -40,13 +41,14 @@ export const viewport: Viewport = {
   themeColor: "#08161a",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lang = (await cookies()).get("portfolio-locale")?.value === "en" ? "en" : "es";
   return (
-    <html lang="es" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
