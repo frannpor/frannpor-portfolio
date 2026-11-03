@@ -13,6 +13,8 @@ type PortraitCopy = {
 
 type Mark = { id: number; x: number; y: number };
 
+const MARK_MS = 1600;
+
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 /*
@@ -102,18 +104,20 @@ export function PortraitPlayground({ copy }: { copy: PortraitCopy }) {
     if (suppressClick.current) { suppressClick.current = false; return; }
     const rect = button.current?.getBoundingClientRect();
     if (!rect) return;
-    if (!point) { pointTo(heading + 90); return; }
-    pointTo(Math.atan2(point.x - rect.width / 2, rect.height / 2 - point.y) * 180 / Math.PI);
-    const mark = { id: ++sequence.current, x: point.x / rect.width * 100, y: point.y / rect.height * 100 };
+    if (!point) pointTo(heading + 90);
+    const x = point?.x ?? rect.width / 2;
+    const y = point?.y ?? rect.height / 2;
+    if (point) pointTo(Math.atan2(x - rect.width / 2, rect.height / 2 - y) * 180 / Math.PI);
+    const mark = { id: ++sequence.current, x: x / rect.width * 100, y: y / rect.height * 100 };
     setMarks(previous => [...previous.slice(-2), mark]);
     const timer = setTimeout(() => {
       setMarks(previous => previous.filter(item => item.id !== mark.id));
       timers.current.delete(timer);
-    }, 1400);
+    }, MARK_MS);
     timers.current.add(timer);
   }
 
-  return <div className={styles.playground}>
+  return <div className={styles.playground} style={{ "--mark-duration": `${MARK_MS}ms` } as CSSProperties}>
     <div className={styles.compass}>
       <svg className={styles.ring} viewBox="0 0 200 200" fill="none" aria-hidden="true">
         <circle cx="100" cy="100" r="97" stroke="currentColor" />
@@ -142,7 +146,7 @@ export function PortraitPlayground({ copy }: { copy: PortraitCopy }) {
         </span>
       </button>
       <div className={styles.marks} aria-hidden="true">
-        {marks.map(mark => <span key={mark.id} className={styles.mark} style={{ left: `${mark.x}%`, top: `${mark.y}%` }} />)}
+        {marks.map(mark => <span key={mark.id} className={styles.mark} style={{ left: `${mark.x}%`, top: `${mark.y}%` }}><svg viewBox="-40 -40 80 80"><circle className={styles.wave} r="20" /><path className={styles.cross} d="M-8-8 8 8M8-8-8 8" /><path className={styles.ticks} d="M0-29v5M29 0h-5M0 29v-5M-29 0h5" /></svg></span>)}
       </div>
     </div>
     <p id={helpId} className={styles.hint}>{copy.hint}<span className={styles.srOnly}> {copy.keyboard}</span></p>
